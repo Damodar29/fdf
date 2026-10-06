@@ -1,0 +1,32 @@
+diff --git a/node_modules/@capacitor/android/capacitor/src/main/java/com/getcapacitor/BridgeWebChromeClient.java b/node_modules/@capacitor/android/capacitor/src/main/java/com/getcapacitor/BridgeWebChromeClient.java
+index 4b4153a..202b4dd 100644
+--- a/node_modules/@capacitor/android/capacitor/src/main/java/com/getcapacitor/BridgeWebChromeClient.java
++++ b/node_modules/@capacitor/android/capacitor/src/main/java/com/getcapacitor/BridgeWebChromeClient.java
+@@ -110,11 +110,23 @@ public class BridgeWebChromeClient extends WebChromeClient {
+         }
+         if (!permissionList.isEmpty()) {
+             String[] permissions = permissionList.toArray(new String[0]);
++            // One-shot: permissionListener is shared, so when a second WebView
++            // permission request (e.g. a rapid second mic tap) launches before the
++            // first result arrives, both launcher results invoke the same listener
++            // and grant() runs twice on one PermissionRequest, crashing with
++            // IllegalStateException "Either grant() or deny() has been already called."
++            final boolean[] handled = { false };
+             permissionListener = (isGranted) -> {
+-                if (isGranted) {
+-                    request.grant(request.getResources());
+-                } else {
+-                    request.deny();
++                if (handled[0]) return;
++                handled[0] = true;
++                try {
++                    if (isGranted) {
++                        request.grant(request.getResources());
++                    } else {
++                        request.deny();
++                    }
++                } catch (IllegalStateException e) {
++                    Logger.warn("onPermissionRequest: request already answered: " + e.getMessage());
+                 }
+             };
+             permissionLauncher.launch(permissions);

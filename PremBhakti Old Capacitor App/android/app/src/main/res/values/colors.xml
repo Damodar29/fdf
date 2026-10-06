@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="splash_background">#311B92</color>
+
+    <!-- App theme colors — matches the golden/cream web UI -->
+    <!-- Status bar color (colorPrimaryDark controls the status bar on older Android) -->
+    <color name="colorPrimary">#FFF8F0</color>
+    <color name="colorPrimaryDark">#FFF8F0</color>
+    <color name="colorAccent">#bc8d31</color>
+
+    <!-- Navigation bar color — matches app background so no white strip at bottom -->
+    <color name="navigationBarColor">@android:color/transparent</color>
+</resources>

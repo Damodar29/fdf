@@ -1,0 +1,527 @@
+diff --git a/node_modules/@capgo/capacitor-media-session/android/src/main/java/com/capgo/mediasession/MediaSessionPlugin.java b/node_modules/@capgo/capacitor-media-session/android/src/main/java/com/capgo/mediasession/MediaSessionPlugin.java
+index 5a4b966..32c74e4 100644
+--- a/node_modules/@capgo/capacitor-media-session/android/src/main/java/com/capgo/mediasession/MediaSessionPlugin.java
++++ b/node_modules/@capgo/capacitor-media-session/android/src/main/java/com/capgo/mediasession/MediaSessionPlugin.java
+@@ -101,7 +101,14 @@ public class MediaSessionPlugin extends Plugin {
+         }
+ 
+         Intent intent = new Intent(context, MediaSessionService.class);
+-        ContextCompat.startForegroundService(context, intent);
++        try {
++            // Android 12+ background startForegroundService guard:
++            // throws ForegroundServiceStartNotAllowedException when called
++            // from a background context (e.g. notification action button).
++            ContextCompat.startForegroundService(context, intent);
++        } catch (Exception e) {
++            Log.w(TAG, "startForegroundService failed (Android 12+ background restriction): " + e.getMessage());
++        }
+         context.bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
+     }
+ 
+@@ -116,6 +123,16 @@ public class MediaSessionPlugin extends Plugin {
+         } catch (IllegalArgumentException ex) {
+             Log.w(TAG, "Service already unbound", ex);
+         }
++        // Also explicitly stop the service so Android removes the foreground
++        // notification. unbindService() alone is insufficient for a service that
++        // was started via startForegroundService() — the service keeps running
++        // (and the notification stays visible) until stopService() is called.
++        // Major media apps (Spotify, YT Music) follow this two-step teardown.
++        try {
++            context.stopService(new Intent(context, MediaSessionService.class));
++        } catch (Exception ex) {
++            Log.w(TAG, "stopService failed: " + ex.getMessage());
++        }
+         service = null;
+     }
+ 
+@@ -176,6 +193,11 @@ public class MediaSessionPlugin extends Plugin {
+         if (httpUrl) {
+             HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+             connection.setDoInput(true);
++            // Prevent indefinite blocking on slow/offline connections. Without these
++            // timeouts, this method blocks the Capacitor plugin thread forever,
++            // exhausting the bridge thread pool and triggering CountDownLatch.await crashes.
++            connection.setConnectTimeout(10_000); // 10s connect timeout
++            connection.setReadTimeout(10_000);    // 10s read timeout
+             connection.connect();
+             try (InputStream inputStream = connection.getInputStream()) {
+                 return BitmapFactory.decodeStream(inputStream);
+diff --git a/node_modules/@capgo/capacitor-media-session/android/src/main/java/com/capgo/mediasession/MediaSessionService.java b/node_modules/@capgo/capacitor-media-session/android/src/main/java/com/capgo/mediasession/MediaSessionService.java
+index e2c1f05..e1c8ce2 100644
+--- a/node_modules/@capgo/capacitor-media-session/android/src/main/java/com/capgo/mediasession/MediaSessionService.java
++++ b/node_modules/@capgo/capacitor-media-session/android/src/main/java/com/capgo/mediasession/MediaSessionService.java
+@@ -40,18 +40,17 @@ public class MediaSessionService extends Service {
+     private final Map<String, NotificationCompat.Action> notificationActions = new HashMap<>();
+     private final Map<String, Long> playbackStateActions = new HashMap<>();
+     private final String[] possibleActions = {
+-        "previoustrack",
+-        "seekbackward",
+-        "play",
+-        "pause",
+-        "seekforward",
+-        "nexttrack",
+-        "seekto",
+-        "stop"
++            "previoustrack",
++            "seekbackward",
++            "play",
++            "pause",
++            "seekforward",
++            "nexttrack",
++            "seekto",
++            "stop"
+     };
+     private final Set<String> possibleCompactViewActions = new HashSet<>(
+-        Arrays.asList("previoustrack", "play", "pause", "nexttrack", "stop")
+-    );
++            Arrays.asList("previoustrack", "play", "pause", "nexttrack", "stop"));
+ 
+     private int playbackState = PlaybackStateCompat.STATE_NONE;
+     private String title = "";
+@@ -83,13 +82,90 @@ public class MediaSessionService extends Service {
+         return binder;
+     }
+ 
++    @Override
++    public void onCreate() {
++        super.onCreate();
++        // Promote to foreground IMMEDIATELY and synchronously, before any binding
++        // or plugin callback. Android requires startForeground() to be called
++        // within ~5s of startForegroundService(). The previous code only called
++        // startForeground() later, inside connectAndInitialize() (after the plugin
++        // bound). On Samsung / low-end devices that binding was delayed past the
++        // deadline, so the system killed the service with
++        // ForegroundServiceDidNotStartInTimeException — which surfaced as the app
++        // dropping to the lock screen immediately after launch. Promoting here
++        // guarantees we meet the deadline on every device.
++        promoteToForeground();
++    }
++
++    /**
++     * Builds a minimal valid media-playback notification and calls
++     * startForeground()
++     * right away. Uses the package launcher intent (never a live Activity) so it
++     * never depends on getActivity() being non-null.
++     */
++    private void promoteToForeground() {
++        try {
++            NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
++            if (nm == null)
++                return;
++
++            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
++                NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "Playback",
++                        NotificationManager.IMPORTANCE_LOW);
++                nm.createNotificationChannel(channel);
++            }
++
++            Intent launchIntent = getPackageManager().getLaunchIntentForPackage(getPackageName());
++            if (launchIntent == null)
++                launchIntent = new Intent();
++
++            int appIconResId = getResources().getIdentifier("ic_launcher", "mipmap", getPackageName());
++            if (appIconResId == 0) appIconResId = getApplicationInfo().icon;
++            
++            NotificationCompat.Builder placeholder = new NotificationCompat.Builder(this, CHANNEL_ID)
++                    .setSmallIcon(appIconResId)
++                    .setContentTitle("Prem Bhakti")
++                    .setContentText("Preparing audio\u2026")
++                    .setContentIntent(
++                            PendingIntent.getActivity(
++                                    getApplicationContext(),
++                                    0,
++                                    launchIntent,
++                                    PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT))
++                    .setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
++
++            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
++                startForeground(NOTIFICATION_ID, placeholder.build(),
++                        ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK);
++            } else {
++                startForeground(NOTIFICATION_ID, placeholder.build());
++            }
++        } catch (Exception e) {
++            // If we genuinely cannot start foreground (e.g. strict background
++            // restriction), stop cleanly rather than hang and trigger the async
++            // ForegroundServiceDidNotStartInTimeException.
++            Log.w(TAG, "promoteToForeground failed: " + e.getMessage());
++            stopSelf();
++        }
++    }
++
+     @Override
+     public boolean onUnbind(Intent intent) {
+-        destroy();
++        // Do NOT destroy on unbind. Pressing Home unbinds the service as part of
++        // Activity.onStop(); destroying here would kill the foreground notification
++        // and stop background audio. The service is stopped explicitly when
++        // playbackState becomes 'none'.
+         return super.onUnbind(intent);
+     }
+ 
+-    public void connectAndInitialize(MediaSessionPlugin plugin, Intent intent) {
++    // All state mutation + update() is synchronized: connectAndInitialize() and the
++    // update*() calls from onServiceConnected run on the main thread, while plugin
++    // methods (setMetadata/setPlaybackState/...) run on the Capacitor plugin thread.
++    // Unsynchronized, the two threads mutated notificationBuilder.mActions and the
++    // metadata Bundle concurrently, crashing in update() with
++    // ConcurrentModificationException, "Duplicate key in ArrayMap: ALBUM_ART" and
++    // a null NotificationCompat.Action (NPE in getIconCompat()).
++    public synchronized void connectAndInitialize(MediaSessionPlugin plugin, Intent intent) {
+         this.plugin = plugin;
+ 
+         mediaSession = new MediaSessionCompat(this, "CapgoMediaSession");
+@@ -97,11 +173,12 @@ public class MediaSessionService extends Service {
+         mediaSession.setActive(true);
+ 
+         playbackStateBuilder = new PlaybackStateCompat.Builder()
+-            .setActions(PlaybackStateCompat.ACTION_PLAY)
+-            .setState(PlaybackStateCompat.STATE_PAUSED, position, playbackSpeed);
++                .setActions(PlaybackStateCompat.ACTION_PLAY)
++                .setState(PlaybackStateCompat.STATE_PAUSED, position, playbackSpeed);
+         mediaSession.setPlaybackState(playbackStateBuilder.build());
+ 
+-        mediaMetadataBuilder = new MediaMetadataCompat.Builder().putLong(MediaMetadataCompat.METADATA_KEY_DURATION, duration);
++        mediaMetadataBuilder = new MediaMetadataCompat.Builder().putLong(MediaMetadataCompat.METADATA_KEY_DURATION,
++                duration);
+         mediaSession.setMetadata(mediaMetadataBuilder.build());
+ 
+         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+@@ -111,92 +188,95 @@ public class MediaSessionService extends Service {
+         }
+ 
+         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "Playback", NotificationManager.IMPORTANCE_LOW);
++            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "Playback",
++                    NotificationManager.IMPORTANCE_LOW);
+             notificationManager.createNotificationChannel(channel);
+         }
+ 
++        // Content intent: reuse the launch intent passed by the plugin, but fall
++        // back to the package launcher intent so we never depend on a live Activity
++        // (getActivity() can be null during bind, which previously skipped promotion).
++        Intent contentIntent = intent;
++        if (contentIntent == null) {
++            contentIntent = getPackageManager().getLaunchIntentForPackage(getPackageName());
++        }
++        if (contentIntent == null) {
++            contentIntent = new Intent();
++        }
++
+         notificationStyle = new MediaStyle().setMediaSession(mediaSession.getSessionToken());
++        int appIconResId = getResources().getIdentifier("ic_launcher", "mipmap", getPackageName());
++        if (appIconResId == 0) appIconResId = getApplicationInfo().icon;
++
+         notificationBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
+-            .setStyle(notificationStyle)
+-            .setSmallIcon(R.drawable.ic_baseline_volume_up_24)
+-            .setContentIntent(
+-                PendingIntent.getActivity(
+-                    getApplicationContext(),
+-                    0,
+-                    intent,
+-                    PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT
+-                )
+-            )
+-            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
+-
+-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+-            startForeground(NOTIFICATION_ID, notificationBuilder.build(), ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK);
+-        } else {
+-            startForeground(NOTIFICATION_ID, notificationBuilder.build());
++                .setStyle(notificationStyle)
++                .setSmallIcon(appIconResId)
++                .setContentIntent(
++                        PendingIntent.getActivity(
++                                getApplicationContext(),
++                                0,
++                                contentIntent,
++                                PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT))
++                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
++
++        // The service was already promoted to foreground in onCreate(). Here we
++        // only refresh the notification with the full media style + actions.
++        // Using notify() (not startForeground()) avoids re-arming the deadline.
++        try {
++            notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build());
++        } catch (Exception e) {
++            Log.w(TAG, "Initial notification update failed: " + e.getMessage());
+         }
+ 
+         notificationActions.put(
+-            "play",
+-            new NotificationCompat.Action(
+-                R.drawable.ic_baseline_play_arrow_24,
+-                "Play",
+-                MediaButtonReceiver.buildMediaButtonPendingIntent(
+-                    this,
+-                    PlaybackStateCompat.ACTION_PLAY_PAUSE | PlaybackStateCompat.ACTION_PLAY
+-                )
+-            )
+-        );
++                "play",
++                new NotificationCompat.Action(
++                        R.drawable.ic_baseline_play_arrow_24,
++                        "Play",
++                        MediaButtonReceiver.buildMediaButtonPendingIntent(
++                                this,
++                                PlaybackStateCompat.ACTION_PLAY_PAUSE | PlaybackStateCompat.ACTION_PLAY)));
+         notificationActions.put(
+-            "pause",
+-            new NotificationCompat.Action(
+-                R.drawable.ic_baseline_pause_24,
+-                "Pause",
+-                MediaButtonReceiver.buildMediaButtonPendingIntent(
+-                    this,
+-                    PlaybackStateCompat.ACTION_PLAY_PAUSE | PlaybackStateCompat.ACTION_PAUSE
+-                )
+-            )
+-        );
++                "pause",
++                new NotificationCompat.Action(
++                        R.drawable.ic_baseline_pause_24,
++                        "Pause",
++                        MediaButtonReceiver.buildMediaButtonPendingIntent(
++                                this,
++                                PlaybackStateCompat.ACTION_PLAY_PAUSE | PlaybackStateCompat.ACTION_PAUSE)));
+         notificationActions.put(
+-            "seekbackward",
+-            new NotificationCompat.Action(
+-                R.drawable.ic_baseline_replay_30_24,
+-                "Seek backward",
+-                MediaButtonReceiver.buildMediaButtonPendingIntent(this, PlaybackStateCompat.ACTION_REWIND)
+-            )
+-        );
++                "seekbackward",
++                new NotificationCompat.Action(
++                        R.drawable.ic_baseline_replay_30_24,
++                        "Seek backward",
++                        MediaButtonReceiver.buildMediaButtonPendingIntent(this, PlaybackStateCompat.ACTION_REWIND)));
+         notificationActions.put(
+-            "seekforward",
+-            new NotificationCompat.Action(
+-                R.drawable.ic_baseline_forward_30_24,
+-                "Seek forward",
+-                MediaButtonReceiver.buildMediaButtonPendingIntent(this, PlaybackStateCompat.ACTION_FAST_FORWARD)
+-            )
+-        );
++                "seekforward",
++                new NotificationCompat.Action(
++                        R.drawable.ic_baseline_forward_30_24,
++                        "Seek forward",
++                        MediaButtonReceiver.buildMediaButtonPendingIntent(this,
++                                PlaybackStateCompat.ACTION_FAST_FORWARD)));
+         notificationActions.put(
+-            "previoustrack",
+-            new NotificationCompat.Action(
+-                R.drawable.ic_baseline_skip_previous_24,
+-                "Previous track",
+-                MediaButtonReceiver.buildMediaButtonPendingIntent(this, PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS)
+-            )
+-        );
++                "previoustrack",
++                new NotificationCompat.Action(
++                        R.drawable.ic_baseline_skip_previous_24,
++                        "Previous track",
++                        MediaButtonReceiver.buildMediaButtonPendingIntent(this,
++                                PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS)));
+         notificationActions.put(
+-            "nexttrack",
+-            new NotificationCompat.Action(
+-                R.drawable.ic_baseline_skip_next_24,
+-                "Next track",
+-                MediaButtonReceiver.buildMediaButtonPendingIntent(this, PlaybackStateCompat.ACTION_SKIP_TO_NEXT)
+-            )
+-        );
++                "nexttrack",
++                new NotificationCompat.Action(
++                        R.drawable.ic_baseline_skip_next_24,
++                        "Next track",
++                        MediaButtonReceiver.buildMediaButtonPendingIntent(this,
++                                PlaybackStateCompat.ACTION_SKIP_TO_NEXT)));
+         notificationActions.put(
+-            "stop",
+-            new NotificationCompat.Action(
+-                R.drawable.ic_baseline_stop_24,
+-                "Stop",
+-                MediaButtonReceiver.buildMediaButtonPendingIntent(this, PlaybackStateCompat.ACTION_STOP)
+-            )
+-        );
++                "stop",
++                new NotificationCompat.Action(
++                        R.drawable.ic_baseline_stop_24,
++                        "Stop",
++                        MediaButtonReceiver.buildMediaButtonPendingIntent(this, PlaybackStateCompat.ACTION_STOP)));
+ 
+         playbackStateActions.put("previoustrack", PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS);
+         playbackStateActions.put("seekbackward", PlaybackStateCompat.ACTION_REWIND);
+@@ -208,6 +288,18 @@ public class MediaSessionService extends Service {
+         playbackStateActions.put("stop", PlaybackStateCompat.ACTION_STOP);
+     }
+ 
++    @Override
++    public void onTaskRemoved(Intent rootIntent) {
++        super.onTaskRemoved(rootIntent);
++        // Cleanly stop the service and notification when the user swipes the app away
++        // from Recents.
++        try {
++            destroy();
++        } catch (Exception e) {
++            Log.e(TAG, "Error stopping service on task removed: " + e.getMessage());
++        }
++    }
++
+     public void destroy() {
+         stopForeground(true);
+         stopSelf();
+@@ -215,13 +307,26 @@ public class MediaSessionService extends Service {
+ 
+     @Override
+     public int onStartCommand(Intent intent, int flags, int startId) {
++        // If the service was restarted by Android (intent == null), there is no
++        // live WebView or audio session to recover — stop cleanly to avoid a
++        // ghost notification. Major media apps (Spotify, YT Music) follow this
++        // pattern: let the JS layer re-initiate when the user returns to the app.
++        if (intent == null) {
++            Log.d(TAG, "onStartCommand: null intent (OS restart) — stopping ghost service");
++            destroy();
++            return START_NOT_STICKY;
++        }
+         if (mediaSession != null) {
+             MediaButtonReceiver.handleIntent(mediaSession, intent);
+         }
+-        return super.onStartCommand(intent, flags, startId);
++        // START_NOT_STICKY: do NOT auto-restart if Android kills this service.
++        // In playback-only mode the foreground service only exists while the
++        // WebView is alive. An OS-killed service has no audio to resume, so
++        // restarting it would only produce a stale notification.
++        return START_NOT_STICKY;
+     }
+ 
+-    public void setPlaybackState(int newPlaybackState) {
++    public synchronized void setPlaybackState(int newPlaybackState) {
+         if (playbackState != newPlaybackState) {
+             playbackState = newPlaybackState;
+             playbackStateUpdate = true;
+@@ -229,7 +334,7 @@ public class MediaSessionService extends Service {
+         }
+     }
+ 
+-    public void setTitle(String newTitle) {
++    public synchronized void setTitle(String newTitle) {
+         if (!title.equals(newTitle)) {
+             title = newTitle != null ? newTitle : "";
+             mediaMetadataUpdate = true;
+@@ -237,7 +342,7 @@ public class MediaSessionService extends Service {
+         }
+     }
+ 
+-    public void setArtist(String newArtist) {
++    public synchronized void setArtist(String newArtist) {
+         if (!artist.equals(newArtist)) {
+             artist = newArtist != null ? newArtist : "";
+             mediaMetadataUpdate = true;
+@@ -245,7 +350,7 @@ public class MediaSessionService extends Service {
+         }
+     }
+ 
+-    public void setAlbum(String newAlbum) {
++    public synchronized void setAlbum(String newAlbum) {
+         if (!album.equals(newAlbum)) {
+             album = newAlbum != null ? newAlbum : "";
+             mediaMetadataUpdate = true;
+@@ -253,13 +358,13 @@ public class MediaSessionService extends Service {
+         }
+     }
+ 
+-    public void setArtwork(Bitmap newArtwork) {
++    public synchronized void setArtwork(Bitmap newArtwork) {
+         artwork = newArtwork;
+         mediaMetadataUpdate = true;
+         notificationUpdate = true;
+     }
+ 
+-    public void setDuration(long newDuration) {
++    public synchronized void setDuration(long newDuration) {
+         if (duration != newDuration) {
+             duration = newDuration;
+             mediaMetadataUpdate = true;
+@@ -267,14 +372,14 @@ public class MediaSessionService extends Service {
+         }
+     }
+ 
+-    public void setPosition(long newPosition) {
++    public synchronized void setPosition(long newPosition) {
+         if (position != newPosition) {
+             position = newPosition;
+             playbackStateUpdate = true;
+         }
+     }
+ 
+-    public void setPlaybackSpeed(float newPlaybackSpeed) {
++    public synchronized void setPlaybackSpeed(float newPlaybackSpeed) {
+         if (playbackSpeed != newPlaybackSpeed) {
+             playbackSpeed = newPlaybackSpeed;
+             playbackStateUpdate = true;
+@@ -282,7 +387,7 @@ public class MediaSessionService extends Service {
+     }
+ 
+     @SuppressLint("RestrictedApi")
+-    public void update() {
++    public synchronized void update() {
+         if (possibleActionsUpdate) {
+             if (notificationBuilder != null) {
+                 notificationBuilder.mActions.clear();
+@@ -306,9 +411,11 @@ public class MediaSessionService extends Service {
+                         activePlaybackStateActions = activePlaybackStateActions | playbackStateActions.get(actionName);
+                     }
+ 
+-                    if (notificationActions.containsKey(actionName) && notificationBuilder != null) {
+-                        notificationBuilder.addAction(notificationActions.get(actionName));
+-                        if (possibleCompactViewActions.contains(actionName) && compactNotificationActionIndicesIndex < 3) {
++                    NotificationCompat.Action notificationAction = notificationActions.get(actionName);
++                    if (notificationAction != null && notificationBuilder != null) {
++                        notificationBuilder.addAction(notificationAction);
++                        if (possibleCompactViewActions.contains(actionName)
++                                && compactNotificationActionIndicesIndex < 3) {
+                             activeCompactViewActionIndices[compactNotificationActionIndicesIndex] = notificationActionIndex;
+                             compactNotificationActionIndicesIndex++;
+                         }
+@@ -323,8 +430,8 @@ public class MediaSessionService extends Service {
+             if (notificationStyle != null) {
+                 if (compactNotificationActionIndicesIndex > 0) {
+                     notificationStyle.setShowActionsInCompactView(
+-                        Arrays.copyOfRange(activeCompactViewActionIndices, 0, compactNotificationActionIndicesIndex)
+-                    );
++                            Arrays.copyOfRange(activeCompactViewActionIndices, 0,
++                                    compactNotificationActionIndicesIndex));
+                 } else {
+                     notificationStyle.setShowActionsInCompactView();
+                 }
+@@ -343,11 +450,11 @@ public class MediaSessionService extends Service {
+ 
+         if (mediaMetadataUpdate && mediaMetadataBuilder != null) {
+             mediaMetadataBuilder
+-                .putString(MediaMetadataCompat.METADATA_KEY_TITLE, title)
+-                .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, artist)
+-                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, album)
+-                .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, artwork)
+-                .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, duration);
++                    .putString(MediaMetadataCompat.METADATA_KEY_TITLE, title)
++                    .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, artist)
++                    .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, album)
++                    .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, artwork)
++                    .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, duration);
+             mediaSession.setMetadata(mediaMetadataBuilder.build());
+             mediaMetadataUpdate = false;
+         }
+@@ -359,7 +466,7 @@ public class MediaSessionService extends Service {
+         }
+     }
+ 
+-    public void updatePossibleActions() {
++    public synchronized void updatePossibleActions() {
+         possibleActionsUpdate = true;
+         update();
+     }

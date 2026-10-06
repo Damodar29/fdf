@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prem Bhakti RN — Phone par Expo Guide</title>
+<style>
+  :root {
+    --page: #f7f3ea;
+    --card: #ffffff;
+    --sunken: #f1ece0;
+    --text: #1e2433;
+    --muted: #5b6475;
+    --line: #e4dccb;
+    --royal: #0b2e6b;
+    --royal-2: #103a8c;
+    --gold: #c9971c;
+    --gold-soft: #fbf1d6;
+    --accent: #0e7490;
+    --accent-soft: #e0f4f8;
+    --ok: #15803d;
+    --ok-soft: #e3f5e8;
+    --warn: #b45309;
+    --warn-soft: #fdf0dc;
+    --bad: #b91c1c;
+    --bad-soft: #fde8e8;
+    --code-bg: #1b2236;
+    --code-text: #e8ecf5;
+    --shadow: 0 1px 2px rgba(20, 30, 60, .06), 0 6px 20px rgba(20, 30, 60, .06);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --page: #0f1422;
+      --card: #171e30;
+      --sunken: #121828;
+      --text: #e7eaf2;
+      --muted: #9aa3b7;
+      --line: #273049;
+      --royal: #9fbaf0;
+      --royal-2: #7fa2e8;
+      --gold: #e5b843;
+      --gold-soft: #2c2512;
+      --accent: #5fc4dc;
+      --accent-soft: #10303a;
+      --ok: #5ccf86;
+      --ok-soft: #10301d;
+      --warn: #f0b05a;
+      --warn-soft: #33240e;
+      --bad: #f28b8b;
+      --bad-soft: #3a1717;
+      --code-bg: #0a0e19;
+      --code-text: #e8ecf5;
+      --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 6px 20px rgba(0, 0, 0, .25);
+    }
+  }
+  :root[data-theme="dark"] {
+    --page: #0f1422;
+    --card: #171e30;
+    --sunken: #121828;
+    --text: #e7eaf2;
+    --muted: #9aa3b7;
+    --line: #273049;
+    --royal: #9fbaf0;
+    --royal-2: #7fa2e8;
+    --gold: #e5b843;
+    --gold-soft: #2c2512;
+    --accent: #5fc4dc;
+    --accent-soft: #10303a;
+    --ok: #5ccf86;
+    --ok-soft: #10301d;
+    --warn: #f0b05a;
+    --warn-soft: #33240e;
+    --bad: #f28b8b;
+    --bad-soft: #3a1717;
+    --code-bg: #0a0e19;
+    --code-text: #e8ecf5;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 6px 20px rgba(0, 0, 0, .25);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 16px; }
+  body {
+    margin: 0;
+    background: var(--page);
+    color: var(--text);
+    font: 16px/1.65 system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", "Nirmala UI", sans-serif;
+  }
+  a { color: var(--accent); }
+  code, kbd, .path {
+    font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+    font-size: .9em;
+  }
+  code { background: var(--sunken); border: 1px solid var(--line); padding: 1px 6px; border-radius: 6px; word-break: break-word; }
+  kbd {
+    background: var(--card); border: 1px solid var(--line); border-bottom-width: 2px;
+    padding: 1px 7px; border-radius: 6px; white-space: nowrap;
+  }
+  .menu { font-weight: 600; color: var(--royal); }
+
+  /* ---------- hero ---------- */
+  .hero {
+    background: linear-gradient(160deg, #103a8c 0%, #0b2e6b 55%, #071c40 100%);
+    color: #fff;
+    padding: 40px 16px 32px;
+    border-bottom: 3px solid #c9971c;
+  }
+  .hero-inner { max-width: 980px; margin: 0 auto; }
+  .eyebrow { color: #f3d27a; letter-spacing: .14em; text-transform: uppercase; font-size: .78rem; font-weight: 700; }
+  .hero h1 { margin: 6px 0 10px; font-size: clamp(1.6rem, 4vw, 2.3rem); line-height: 1.2; }
+  .hero p { margin: 0; color: #d6e0f5; max-width: 680px; }
+  .facts { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+  .fact {
+    background: rgba(255, 255, 255, .08); border: 1px solid rgba(243, 210, 122, .35);
+    border-radius: 12px; padding: 8px 12px; min-width: 0;
+  }
+  .fact small { display: block; color: #f3d27a; font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; }
+  .fact span { font-family: ui-monospace, Consolas, monospace; font-size: .9rem; word-break: break-all; }
+
+  /* ---------- layout ---------- */
+  .layout { max-width: 980px; margin: 0 auto; padding: 24px 16px 64px; display: grid; gap: 28px; }
+  .layout > *, ol.steps > li, .grid-2 > *, .grid-3 > *, section, details { min-width: 0; }
+  @media (min-width: 1100px) {
+    .layout { max-width: 1180px; grid-template-columns: 220px minmax(0, 1fr); align-items: start; }
+    nav.toc { position: sticky; top: 16px; }
+  }
+  nav.toc {
+    background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px;
+    box-shadow: var(--shadow);
+  }
+  nav.toc strong { display: block; font-size: .78rem; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin-bottom: 6px; }
+  nav.toc ol { margin: 0; padding-left: 20px; }
+  nav.toc li { margin: 3px 0; }
+  nav.toc a { color: var(--text); text-decoration: none; font-size: .93rem; }
+  nav.toc a:hover { color: var(--accent); text-decoration: underline; }
+
+  section { margin-bottom: 40px; }
+  h2 {
+    font-size: 1.45rem; margin: 0 0 6px; color: var(--royal);
+    display: flex; align-items: center; gap: 10px;
+  }
+  h2 .num {
+    flex: none; width: 32px; height: 32px; border-radius: 50%;
+    display: inline-grid; place-items: center; font-size: .95rem;
+    background: var(--gold-soft); color: var(--gold); border: 1.5px solid var(--gold);
+  }
+  .lead { color: var(--muted); margin: 0 0 18px; }
+  h3 { font-size: 1.08rem; margin: 22px 0 8px; }
+
+  .card {
+    background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+    padding: 18px 20px; box-shadow: var(--shadow);
+  }
+  .grid-3 { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  .grid-2 { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+  .card h4 { margin: 0 0 6px; font-size: 1rem; }
+  .card p { margin: 0; color: var(--muted); }
+  .icon { font-size: 1.5rem; line-height: 1; display: block; margin-bottom: 8px; }
+
+  /* ---------- steps ---------- */
+  ol.steps { list-style: none; counter-reset: step; padding: 0; margin: 0; display: grid; gap: 12px; }
+  ol.steps > li {
+    counter-increment: step; position: relative;
+    background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+    padding: 16px 18px 16px 62px; box-shadow: var(--shadow);
+  }
+  ol.steps > li::before {
+    content: counter(step); position: absolute; left: 16px; top: 15px;
+    width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center;
+    background: var(--royal-2); color: #fff; font-weight: 700; font-size: .95rem;
+  }
+  :root[data-theme="dark"] ol.steps > li::before { color: #0f1422; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) ol.steps > li::before { color: #0f1422; } }
+  ol.steps > li > b:first-child { display: block; font-size: 1.02rem; margin-bottom: 4px; }
+  ol.steps p { margin: 6px 0 0; }
+  ol.steps ul { margin: 6px 0 0; padding-left: 20px; }
+  .why { margin-top: 8px; font-size: .92rem; color: var(--muted); border-left: 3px solid var(--line); padding-left: 10px; }
+  .why b { color: var(--text); }
+
+  /* ---------- callouts ---------- */
+  .callout { border-radius: 12px; padding: 14px 16px; margin: 16px 0; border: 1px solid; display: flex; gap: 12px; }
+  .callout .ci { flex: none; font-size: 1.25rem; line-height: 1.4; }
+  .callout p { margin: 0; }
+  .callout p + p { margin-top: 6px; }
+  .callout.ok { background: var(--ok-soft); border-color: color-mix(in srgb, var(--ok) 40%, transparent); }
+  .callout.warn { background: var(--warn-soft); border-color: color-mix(in srgb, var(--warn) 40%, transparent); }
+  .callout.bad { background: var(--bad-soft); border-color: color-mix(in srgb, var(--bad) 40%, transparent); }
+  .callout.info { background: var(--accent-soft); border-color: color-mix(in srgb, var(--accent) 40%, transparent); }
+  .callout b.t { display: block; margin-bottom: 2px; }
+
+  /* ---------- copyable code ---------- */
+  .cmd {
+    position: relative; background: var(--code-bg); color: var(--code-text);
+    border-radius: 10px; padding: 12px 84px 12px 14px; margin: 10px 0 4px;
+    font-family: ui-monospace, "Cascadia Code", Consolas, monospace; font-size: .88rem;
+    overflow-x: auto; white-space: pre;
+  }
+  .cmd .copy {
+    position: absolute; right: 8px; top: 8px;
+    background: rgba(255, 255, 255, .1); color: #fff; border: 1px solid rgba(255, 255, 255, .2);
+    border-radius: 7px; padding: 3px 10px; font: 600 .75rem system-ui, sans-serif; cursor: pointer;
+  }
+  .cmd .copy:hover { background: rgba(255, 255, 255, .2); }
+  .cmd .copy.done { background: #15803d; border-color: #15803d; }
+  .label { font-size: .82rem; color: var(--muted); margin-top: 12px; }
+
+  /* ---------- tables ---------- */
+  .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 14px; background: var(--card); box-shadow: var(--shadow); }
+  table { width: 100%; border-collapse: collapse; min-width: 560px; }
+  th, td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { background: var(--sunken); font-size: .82rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+  tr:last-child td { border-bottom: 0; }
+  td:first-child { font-weight: 600; }
+  .yes { color: var(--ok); font-weight: 600; }
+  .no { color: var(--bad); font-weight: 600; }
+
+  /* ---------- troubleshooting ---------- */
+  details {
+    background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+    margin-bottom: 10px; box-shadow: var(--shadow);
+  }
+  summary {
+    cursor: pointer; padding: 14px 16px; font-weight: 600; list-style: none;
+    display: flex; gap: 10px; align-items: flex-start;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary::before { content: "▸"; color: var(--gold); transition: transform .15s; flex: none; }
+  details[open] summary::before { transform: rotate(90deg); }
+  summary code { font-weight: 500; }
+  .det { padding: 0 16px 16px 38px; }
+  .det p { margin: 6px 0; }
+  .det .k { font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-top: 10px; }
+
+  .flow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 10px 0; }
+  .flow span.box { background: var(--sunken); border: 1px solid var(--line); border-radius: 9px; padding: 6px 10px; font-size: .9rem; }
+  .flow span.arr { color: var(--gold); font-weight: 700; }
+
+  footer { text-align: center; color: var(--muted); font-size: .85rem; padding: 0 16px 40px; }
+
+  .theme-btn {
+    position: fixed; right: 16px; bottom: 16px; z-index: 5;
+    background: var(--card); color: var(--text); border: 1px solid var(--line);
+    border-radius: 999px; padding: 8px 14px; font: 600 .85rem system-ui, sans-serif;
+    box-shadow: var(--shadow); cursor: pointer;
+  }
+  @media print { .theme-btn, .copy, nav.toc { display: none !important; } .hero { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">Shree Chaitanya Prem Bhakti Sangh · React Native App</div>
+    <h1>Android phone par Expo (dev build) se app dekhne ki guide</h1>
+    <p>Ek baar debug app phone par daalo, phir har UI/code badlav 1–2 second mein phone par — bina har baar 25 minute ka APK build kiye. Saath mein: kab dobara build karna padta hai aur build jaldi kaise ho.</p>
+    <div class="facts">
+      <div class="fact"><small>Project folder</small><span>C:\rn\mobile</span></div>
+      <div class="fact"><small>Test app ka package</small><span>com.cpbs.bhajans.rntest</span></div>
+      <div class="fact"><small>Phone par naam</small><span>Prem Bhakti RN</span></div>
+      <div class="fact"><small>Metro (JS server)</small><span>port 8081</span></div>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <nav class="toc" aria-label="Is guide mein">
+    <strong>Is guide mein</strong>
+    <ol>
+      <li><a href="#what">Ye kaise kaam karta hai</a></li>
+      <li><a href="#rules">Zaroori niyam</a></li>
+      <li><a href="#first">Pehli baar: debug app daalna</a></li>
+      <li><a href="#daily">Roz ka kaam</a></li>
+      <li><a href="#wifi">Bina cable (WiFi)</a></li>
+      <li><a href="#rebuild">Kab dobara build?</a></li>
+      <li><a href="#speed">Build jaldi kaise ho</a></li>
+      <li><a href="#release">Release APK kab</a></li>
+      <li><a href="#trouble">Atak jaye to</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <section id="what">
+      <h2><span class="num">1</span>Ye kaise kaam karta hai</h2>
+      <p class="lead">App ke do hisse hain: <b>native</b> (Java/Kotlin/C++ — Firebase, audio, notifications, WebView) aur <b>JavaScript</b> (saari screens, design, logic). Native hissa build karne mein time lagta hai; JavaScript ko build ki zaroorat hi nahi.</p>
+      <p><b>Debug app</b> (Expo "dev build") mein native hissa phone par install hota hai, aur JavaScript PC par chal rahe <b>Metro</b> se aata hai. Isliye <code>src/</code> mein koi file save karo — phone par turant badlav.</p>
+      <div class="flow"><span class="box">Code save</span><span class="arr">→</span><span class="box">Metro (PC, 8081)</span><span class="arr">→</span><span class="box">USB / WiFi</span><span class="arr">→</span><span class="box">Phone par app reload</span></div>
+      <div class="callout ok"><span class="ci">✅</span><div><p><b class="t">Build time ki asli bachat yahi hai</b>Debug app sirf ek baar (aur native badlav par) banti hai. Roz ke UI kaam ke liye APK banana hi nahi padta.</p></div></div>
+    </section>
+
+    <section id="rules">
+      <h2><span class="num">2</span>Zaroori niyam</h2>
+      <div class="callout bad"><span class="ci">🚫</span><div><p><b class="t">Asli app ko kabhi mat chhuna</b>Sirf <code>com.cpbs.bhajans.rntest</code> ("Prem Bhakti RN") install / uninstall karna. <code>com.cpbs.bhajans</code> asli Play Store app hai — uska data chala jaayega.</p></div></div>
+      <div class="callout warn"><span class="ci">⚠️</span><div><p><b class="t">PC par APK double-click mat karna</b>Is computer par <code>.apk</code> BlueStacks se khulti hai. APK sirf phone mein jaati hai (Android Studio Run, ya <code>scripts\install-release-on-phone.cmd</code>).</p></div></div>
+      <div class="callout info"><span class="ci">ℹ️</span><div><p>Gradle <b>9.3.1</b> aur JDK <b>17</b> hi rehne do. Android Studio upgrade ka popup dikhaye to mana kar do.</p></div></div>
+    </section>
+
+    <section id="first">
+      <h2><span class="num">3</span>Pehli baar: debug app phone par daalna</h2>
+      <ol class="steps">
+        <li><b>Phone USB se jodo</b> (Developer options → USB debugging ON). Check:
+          <div class="cmd">"%LOCALAPPDATA%\Android\Sdk\platform-tools\adb.exe" devices<button class="copy">Copy</button></div>
+          <div class="why">List mein phone ka serial aur <code>device</code> likha aaye to theek. <code>unauthorized</code> aaye to phone par "Allow USB debugging" dabao.</div>
+        </li>
+        <li><b>Android project taaza karo</b> (sirf jab native cheez badli ho, ya pehli baar):
+          <div class="cmd">cd /d C:\rn\mobile &amp;&amp; npx expo prebuild --platform android<button class="copy">Copy</button></div>
+        </li>
+        <li><b>Debug app build + install — tareeka A (Android Studio):</b>
+          <code>C:\rn\mobile\android</code> kholo → <span class="menu">Build Variants</span> → <code>:app</code> → <b>debug</b> → upar device mein apna phone → hara <kbd>▶ Run</kbd>.
+        </li>
+        <li><b>Tareeka B (bina Studio, ek command):</b> sirf ek phone juda ho tab:
+          <div class="cmd">cd /d C:\rn\mobile\android &amp;&amp; gradlew.bat installDebug<button class="copy">Copy</button></div>
+          <div class="why"><b>Kitna time?</b> Pehli baar 20–30 minute (C++ hissa banta hai). Uske baad native badlav par kuch hi minute, kyunki Gradle ka cache kaam aata hai.</div>
+        </li>
+      </ol>
+    </section>
+
+    <section id="daily">
+      <h2><span class="num">4</span>Roz ka kaam</h2>
+      <ol class="steps">
+        <li><b>Metro chalao</b> — ye file double-click karo aur window khuli rehne do:
+          <div class="cmd">C:\rn\mobile\scripts\start-metro.cmd<button class="copy">Copy</button></div>
+          <div class="why"><b>Ye kya karta hai?</b> <code>adb reverse tcp:8081 tcp:8081</code> (phone ka localhost:8081 PC tak pahunchta hai), phir <code>npx expo start --dev-client</code>.</div>
+        </li>
+        <li><b>Phone par "Prem Bhakti RN" kholo.</b> Wo khud Metro se jud jaati hai. Pehli baar bundle banne mein ~1 minute.</li>
+        <li><b>Code badlo</b> — <code>src/</code> mein file save karte hi phone par update (Fast Refresh).</li>
+        <li><b>Pura reload:</b> Metro window mein <kbd>r</kbd>. <b>Dev menu:</b> phone hilao, ya Metro window mein <kbd>m</kbd>.</li>
+      </ol>
+      <div class="callout info"><span class="ci">💡</span><div><p>Debug app thodi dheemi chalti hai (JS debug mode mein hota hai). Animation ya speed ka asli feel dekhna ho to release APK banao (section 8).</p></div></div>
+    </section>
+
+    <section id="wifi">
+      <h2><span class="num">5</span>Bina cable (same WiFi par)</h2>
+      <ol class="steps">
+        <li>PC aur phone ek hi WiFi par hon. Metro chalao:
+          <div class="cmd">cd /d C:\rn\mobile &amp;&amp; npx expo start --dev-client<button class="copy">Copy</button></div>
+        </li>
+        <li>Phone par app kholo → "Enter URL manually" → Metro window mein dikha <code>http://192.168.x.x:8081</code> daalo.</li>
+        <li>Windows Firewall poochhe to <b>Private network</b> par Allow karo.</li>
+      </ol>
+    </section>
+
+    <section id="rebuild">
+      <h2><span class="num">6</span>Kab dobara build karna padta hai?</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Kya badla</th><th>Example</th><th>Kya karna hai</th></tr></thead>
+          <tbody>
+            <tr><td>Screen / design / logic</td><td><code>src/**/*.tsx</code>, <code>.ts</code></td><td class="yes">Kuch nahi — apne-aap reload</td></tr>
+            <tr><td>JS-only npm package</td><td>koi utility library</td><td><code>npm install</code> → Metro restart</td></tr>
+            <tr><td>Web screens</td><td>OG app (aaaacursor) ka naya commit</td><td><code>npm run web:build</code> → <code>npx expo prebuild</code> → debug app dobara install</td></tr>
+            <tr><td>Native cheez</td><td><code>app.json</code>, icon, permission, <code>plugins/</code>, <code>modules/</code>, native package</td><td><code>npx expo prebuild</code> → debug app dobara install (section 3)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="speed">
+      <h2><span class="num">7</span>Build jaldi kaise ho</h2>
+      <p class="lead">Project mein ab ye settings pehle se lagi hain (<code>plugins/withBuildSettings.js</code>, <code>plugins/withTestBuild.js</code>):</p>
+      <div class="grid-2">
+        <div class="card"><h4>📱 Sirf ek CPU type</h4><p>Test build sirf <b>arm64-v8a</b> (aapka Galaxy M55) ke liye banta hai. Pehle 4 type bante the — C++ ka kaam ~4 guna tha.</p></div>
+        <div class="card"><h4>🗃️ Gradle cache + 4 GB</h4><p>Pichhle build ka kaam dobara use hota hai; Gradle ko zyada memory milti hai.</p></div>
+        <div class="card"><h4>🧹 <code>--clean</code> kam chalao</h4><p><code>npx expo prebuild --clean</code> sab naya banwata hai. Bina <code>--clean</code> wala kaafi hai jab tak koi ajeeb error na aaye.</p></div>
+        <div class="card"><h4>🖥️ PC ko halka rakho</h4><p>Build ke time Chrome ke bahut tabs / doosre heavy apps band rakho (16 GB RAM, 4-core CPU par fark padta hai).</p></div>
+      </div>
+      <div class="callout info"><span class="ci">ℹ️</span><div><p>Sabse badi bachat: roz ke UI kaam ke liye <b>build hi mat karo</b> — debug app + Metro (section 4), ya browser preview (<a href="WEB-PREVIEW-GUIDE.html">WEB-PREVIEW-GUIDE.html</a>).</p></div></div>
+    </section>
+
+    <section id="release">
+      <h2><span class="num">8</span>Release APK kab banana hai</h2>
+      <p class="lead">Release APK mein JS andar hi hota hai — Metro ki zaroorat nahi, aur speed asli app jaisi. Isse banao jab: poora test round ho, ya kisi aur ko app deni ho.</p>
+      <div class="cmd">cd /d C:\rn\mobile\android &amp;&amp; gradlew.bat assembleRelease<button class="copy">Copy</button></div>
+      <div class="why">APK yahan banti hai: <code>android\app\build\outputs\apk\release\app-release.apk</code>. Phone par daalne ke liye <code>scripts\install-release-on-phone.cmd</code>. Release build ab code ko chhota (R8) bhi karta hai, isliye APK pehle se kaafi chhoti hai.</div>
+      <p>Poori APK guide: <a href="ANDROID-BUILD-GUIDE.html">ANDROID-BUILD-GUIDE.html</a>.</p>
+    </section>
+
+    <section id="trouble">
+      <h2><span class="num">9</span>Atak jaye to</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Dikkat</th><th>Kya karein</th></tr></thead>
+          <tbody>
+            <tr><td>App khulte hi "Unable to load script" / laal screen</td><td>Metro chal raha hai? <code>start-metro.cmd</code> dobara chalao (wo adb reverse bhi karta hai).</td></tr>
+            <tr><td>Badlav phone par nahi dikh raha</td><td>Metro window mein <kbd>r</kbd>. Phir bhi nahi to Metro band karke <code>npx expo start --dev-client --clear</code>.</td></tr>
+            <tr><td>"Native module ... not found"</td><td>Native cheez badli hai — section 3 se debug app dobara install karo.</td></tr>
+            <tr><td>Phone list mein nahi</td><td>Cable badlo, USB mode "File transfer", USB debugging off-on.</td></tr>
+            <tr><td>Install par "signatures do not match"</td><td>Sirf test app hatao: <code>adb uninstall com.cpbs.bhajans.rntest</code> (<b>.rntest</b> zaroor ho!) phir dobara install.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+</div>
+
+<button class="theme-btn" id="themeBtn" type="button">🌓 Theme</button>
+
+<script>
+  document.querySelectorAll('.cmd .copy').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var text = btn.parentElement.firstChild.textContent.trim();
+      function done() {
+        btn.textContent = 'Copied ✓';
+        btn.classList.add('done');
+        setTimeout(function () { btn.textContent = 'Copy'; btn.classList.remove('done'); }, 1500);
+      }
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(done, fallback);
+      } else {
+        fallback();
+      }
+      function fallback() {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); done(); } catch (e) {}
+        document.body.removeChild(ta);
+      }
+    });
+  });
+
+  (function () {
+    var root = document.documentElement;
+    try {
+      var saved = localStorage.getItem('guide-theme');
+      if (saved) root.setAttribute('data-theme', saved);
+    } catch (e) {}
+    document.getElementById('themeBtn').addEventListener('click', function () {
+      var current = root.getAttribute('data-theme') ||
+        (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      var next = current === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try { localStorage.setItem('guide-theme', next); } catch (e) {}
+    });
+  })();
+</script>
+</body>
+</html>

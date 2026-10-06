@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         BASE STYLES — MinSdk 26 (Android 8.0, Oreo)
+         statusBarColor (API 21+) aur windowLightStatusBar (API 23+)
+         dono minSdk 26 se neeche nahi jaate, toh yahan safe hain.
+         windowLightNavigationBar API 27 se hai → values-v27/styles.xml
+         enforceNavigationBarContrast API 29 se hai → values-v29/styles.xml
+         windowOptOutEdgeToEdgeEnforcement API 35 se hai → values-v35/styles.xml
+         ═══════════════════════════════════════════════════════════════ -->
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:background">@null</item>
+        <item name="android:overScrollMode">never</item>
+        <!-- Status bar: cream background, dark icons (wifi/battery/time) -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <!-- Navigation bar: cream, matches app bottom bar -->
+        <item name="android:navigationBarColor">@color/navigationBarColor</item>
+        <!-- Note: windowLightNavigationBar only in values-v27 (needs API 27) -->
+    </style>
+
+    <style name="AppTheme.NoActionBarLaunch" parent="Theme.SplashScreen">
+        <!-- Legacy Splash Screen (Pre-Android 12) -->
+        <item name="android:background">@drawable/splash_layer</item>
+        <!-- Modern Splash Screen (Android 12+) -->
+        <item name="windowSplashScreenBackground">@color/splash_background</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+        <item name="postSplashScreenTheme">@style/AppTheme.NoActionBar</item>
+    </style>
+
+</resources>

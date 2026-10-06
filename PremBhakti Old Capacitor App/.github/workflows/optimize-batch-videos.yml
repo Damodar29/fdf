@@ -1,0 +1,117 @@
+name: Optimize Batch Media (Cron & Manual)
+
+on:
+  schedule:
+    - cron: '30 21 * * 6' # 3:00 AM IST on Sunday (21:30 UTC Saturday)
+  workflow_dispatch: # Allows manual triggering from GitHub UI
+
+jobs:
+  optimize-batch:
+    runs-on: ubuntu-latest
+    if: false # Paused to conserve GitHub Action limits as requested
+    steps:
+      - name: Install Dependencies
+        run: |
+          pip install b2
+          sudo apt-get update && sudo apt-get install -y ffmpeg
+
+      - name: Scan and Optimize Videos
+        env:
+          B2_KEY_ID: ${{ secrets.B2_KEY_ID }}
+          B2_APP_KEY: ${{ secrets.B2_APP_KEY }}
+          B2_BUCKET: ${{ secrets.B2_BUCKET }}
+        run: |
+          echo "Authorizing B2..."
+          b2 account authorize $B2_KEY_ID $B2_APP_KEY
+
+          # List all files and filter for mp4 videos and m4a audios
+          echo "Fetching list of all .mp4 and .m4a files..."
+          b2 ls --recursive b2://$B2_BUCKET/ | grep -iE "\.(mp4|m4a)$" | grep -v "hhbsm-2026-glorification-audios" > files.txt || true
+
+          if [ ! -s files.txt ]; then
+            echo "No video files found."
+            exit 0
+          fi
+          
+          OPTIMIZED=0
+          SKIPPED=0
+          FAILED=0
+
+          while IFS= read -r FILE_NAME; do
+              
+              if [ -z "$FILE_NAME" ]; then
+                  continue
+              fi
+              
+                  if [[ "$FILE_NAME" == *".m4a" ]]; then
+                      CDN_HOST="audios.chaitanyaprembhakti.org"
+                  else
+                      CDN_HOST="videos.chaitanyaprembhakti.org"
+                  fi
+                  
+                  ENCODED_URL=$(python3 -c "import urllib.parse; print(urllib.parse.quote('''$FILE_NAME''', safe='/'))")
+                  PROXY_URL="https://$CDN_HOST/$ENCODED_URL"
+                  
+                  echo "Checking $FILE_NAME..."
+                  
+                  # Fast atom-order check via Cloudflare to prevent direct B2 egress charges
+                  FIRST_ATOM=$(ffprobe -v trace "$PROXY_URL" 2>&1 | grep -m 1 -E "type:'mdat'|type:'moov'") || true
+                  
+                  if [[ "$FIRST_ATOM" == *"mdat"* ]]; then
+                      echo "Needs optimization: $FILE_NAME"
+                      
+                  EXT="${FILE_NAME##*.}"
+                  
+                  HTTP_STATUS=$(curl -sL "$PROXY_URL" -o "unoptimized.$EXT" --write-out "%{http_code}")
+
+                  if [ "$HTTP_STATUS" != "200" ]; then
+                      echo "ERROR: Failed to download $FILE_NAME (HTTP $HTTP_STATUS). Skipping."
+                      FAILED=$((FAILED+1))
+                      continue
+                  fi
+
+                  ffmpeg -y -nostdin -i "unoptimized.$EXT" -movflags +faststart -c copy "optimized.$EXT"
+                  
+                  echo "Uploading optimized version..."
+                  if b2 file upload $B2_BUCKET "optimized.$EXT" "$FILE_NAME"; then
+                      rm -f "unoptimized.$EXT" "optimized.$EXT"
+                      echo "Successfully optimized: $FILE_NAME"
+                      OPTIMIZED=$((OPTIMIZED+1))
+                  else
+                      echo "Failed to upload optimized version for: $FILE_NAME"
+                      rm -f "unoptimized.$EXT" "optimized.$EXT"
+                      FAILED=$((FAILED+1))
+                  fi
+              else
+                  echo "Already optimized, skipping: $FILE_NAME"
+                  SKIPPED=$((SKIPPED+1))
+              fi
+          done < files.txt
+          
+          echo "OPTIMIZED=$OPTIMIZED" >> $GITHUB_ENV
+          echo "SKIPPED=$SKIPPED" >> $GITHUB_ENV
+          echo "FAILED=$FAILED" >> $GITHUB_ENV
+
+      - name: Send Telegram Notification
+        if: success()
+        env:
+          BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          MESSAGE="🚀 *Batch Media Optimization Complete*%0A✅ Optimized: ${OPTIMIZED:-0} files%0A⏭️ Skipped: ${SKIPPED:-0} files%0A❌ Failed: ${FAILED:-0} files"
+          curl -s -X POST "https://api.telegram.org/bot${BOT_TOKEN}/sendMessage" \
+            -d chat_id="${CHAT_ID}" \
+            -d parse_mode=Markdown \
+            -d text="$MESSAGE"
+
+      - name: Send Failure Notification
+        if: failure()
+        env:
+          BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          MESSAGE="❌ *Batch Media Optimization Failed*%0AThe GitHub Action crashed or failed to run. Please check the Actions logs on GitHub for details."
+          curl -s -X POST "https://api.telegram.org/bot${BOT_TOKEN}/sendMessage" \
+            -d chat_id="${CHAT_ID}" \
+            -d parse_mode=Markdown \
+            -d text="$MESSAGE"

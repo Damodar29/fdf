@@ -1,0 +1,22 @@
+{
+	"indexes": [
+		{
+			"collectionGroup": "scheduled_notifications",
+			"queryScope": "COLLECTION",
+			"fields": [
+				{ "fieldPath": "sent", "order": "ASCENDING" },
+				{ "fieldPath": "scheduledAt", "order": "ASCENDING" }
+			]
+		},
+		{
+			"collectionGroup": "scheduled_notifications",
+			"queryScope": "COLLECTION",
+			"fields": [
+				{ "fieldPath": "mandalId", "order": "ASCENDING" },
+				{ "fieldPath": "actionType", "order": "ASCENDING" },
+				{ "fieldPath": "sent", "order": "ASCENDING" }
+			]
+		}
+	],
+	"fieldOverrides": []
+}

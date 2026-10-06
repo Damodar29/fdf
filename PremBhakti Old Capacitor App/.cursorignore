@@ -1,0 +1,34 @@
+# Exclude from AI context and @ mentions
+graphify-out/
+.artifacts/
+node_modules/
+dist/
+build/
+.next/
+.cache/
+coverage/
+.gemini/
+.claude/
+.idea/
+.wrangler/
+.firebase/
+.agents/
+.cursor/
+ruflo/
+.swarm/
+.claude-flow/
+
+# Data and Temp files
+test_dist/
+scratch/
+db_stats.json
+repo_tree.json
+temp_apr.json
+truly_unused_assets.json
+unused_assets_raw.json
+unused_*.md
+fb_page.html
+
+# Folder-local CLI logins (Cloudflare / gcloud tokens) — never index or read
+.wrangler-auth/
+.gcloud/

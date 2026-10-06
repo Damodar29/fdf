@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prem Bhakti RN — Browser Preview Guide</title>
+<style>
+  :root {
+    --page: #f7f3ea;
+    --card: #ffffff;
+    --sunken: #f1ece0;
+    --text: #1e2433;
+    --muted: #5b6475;
+    --line: #e4dccb;
+    --royal: #0b2e6b;
+    --royal-2: #103a8c;
+    --gold: #c9971c;
+    --gold-soft: #fbf1d6;
+    --accent: #0e7490;
+    --accent-soft: #e0f4f8;
+    --ok: #15803d;
+    --ok-soft: #e3f5e8;
+    --warn: #b45309;
+    --warn-soft: #fdf0dc;
+    --bad: #b91c1c;
+    --bad-soft: #fde8e8;
+    --code-bg: #1b2236;
+    --code-text: #e8ecf5;
+    --shadow: 0 1px 2px rgba(20, 30, 60, .06), 0 6px 20px rgba(20, 30, 60, .06);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --page: #0f1422;
+      --card: #171e30;
+      --sunken: #121828;
+      --text: #e7eaf2;
+      --muted: #9aa3b7;
+      --line: #273049;
+      --royal: #9fbaf0;
+      --royal-2: #7fa2e8;
+      --gold: #e5b843;
+      --gold-soft: #2c2512;
+      --accent: #5fc4dc;
+      --accent-soft: #10303a;
+      --ok: #5ccf86;
+      --ok-soft: #10301d;
+      --warn: #f0b05a;
+      --warn-soft: #33240e;
+      --bad: #f28b8b;
+      --bad-soft: #3a1717;
+      --code-bg: #0a0e19;
+      --code-text: #e8ecf5;
+      --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 6px 20px rgba(0, 0, 0, .25);
+    }
+  }
+  :root[data-theme="dark"] {
+    --page: #0f1422;
+    --card: #171e30;
+    --sunken: #121828;
+    --text: #e7eaf2;
+    --muted: #9aa3b7;
+    --line: #273049;
+    --royal: #9fbaf0;
+    --royal-2: #7fa2e8;
+    --gold: #e5b843;
+    --gold-soft: #2c2512;
+    --accent: #5fc4dc;
+    --accent-soft: #10303a;
+    --ok: #5ccf86;
+    --ok-soft: #10301d;
+    --warn: #f0b05a;
+    --warn-soft: #33240e;
+    --bad: #f28b8b;
+    --bad-soft: #3a1717;
+    --code-bg: #0a0e19;
+    --code-text: #e8ecf5;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 6px 20px rgba(0, 0, 0, .25);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 16px; }
+  body {
+    margin: 0;
+    background: var(--page);
+    color: var(--text);
+    font: 16px/1.65 system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", "Nirmala UI", sans-serif;
+  }
+  a { color: var(--accent); }
+  code, kbd, .path {
+    font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+    font-size: .9em;
+  }
+  code { background: var(--sunken); border: 1px solid var(--line); padding: 1px 6px; border-radius: 6px; word-break: break-word; }
+  kbd {
+    background: var(--card); border: 1px solid var(--line); border-bottom-width: 2px;
+    padding: 1px 7px; border-radius: 6px; white-space: nowrap;
+  }
+  .menu { font-weight: 600; color: var(--royal); }
+
+  /* ---------- hero ---------- */
+  .hero {
+    background: linear-gradient(160deg, #103a8c 0%, #0b2e6b 55%, #071c40 100%);
+    color: #fff;
+    padding: 40px 16px 32px;
+    border-bottom: 3px solid #c9971c;
+  }
+  .hero-inner { max-width: 980px; margin: 0 auto; }
+  .eyebrow { color: #f3d27a; letter-spacing: .14em; text-transform: uppercase; font-size: .78rem; font-weight: 700; }
+  .hero h1 { margin: 6px 0 10px; font-size: clamp(1.6rem, 4vw, 2.3rem); line-height: 1.2; }
+  .hero p { margin: 0; color: #d6e0f5; max-width: 680px; }
+  .facts { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+  .fact {
+    background: rgba(255, 255, 255, .08); border: 1px solid rgba(243, 210, 122, .35);
+    border-radius: 12px; padding: 8px 12px; min-width: 0;
+  }
+  .fact small { display: block; color: #f3d27a; font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; }
+  .fact span { font-family: ui-monospace, Consolas, monospace; font-size: .9rem; word-break: break-all; }
+
+  /* ---------- layout ---------- */
+  .layout { max-width: 980px; margin: 0 auto; padding: 24px 16px 64px; display: grid; gap: 28px; }
+  .layout > *, ol.steps > li, .grid-2 > *, .grid-3 > *, section, details { min-width: 0; }
+  @media (min-width: 1100px) {
+    .layout { max-width: 1180px; grid-template-columns: 220px minmax(0, 1fr); align-items: start; }
+    nav.toc { position: sticky; top: 16px; }
+  }
+  nav.toc {
+    background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px;
+    box-shadow: var(--shadow);
+  }
+  nav.toc strong { display: block; font-size: .78rem; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin-bottom: 6px; }
+  nav.toc ol { margin: 0; padding-left: 20px; }
+  nav.toc li { margin: 3px 0; }
+  nav.toc a { color: var(--text); text-decoration: none; font-size: .93rem; }
+  nav.toc a:hover { color: var(--accent); text-decoration: underline; }
+
+  section { margin-bottom: 40px; }
+  h2 {
+    font-size: 1.45rem; margin: 0 0 6px; color: var(--royal);
+    display: flex; align-items: center; gap: 10px;
+  }
+  h2 .num {
+    flex: none; width: 32px; height: 32px; border-radius: 50%;
+    display: inline-grid; place-items: center; font-size: .95rem;
+    background: var(--gold-soft); color: var(--gold); border: 1.5px solid var(--gold);
+  }
+  .lead { color: var(--muted); margin: 0 0 18px; }
+  h3 { font-size: 1.08rem; margin: 22px 0 8px; }
+
+  .card {
+    background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+    padding: 18px 20px; box-shadow: var(--shadow);
+  }
+  .grid-3 { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  .grid-2 { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+  .card h4 { margin: 0 0 6px; font-size: 1rem; }
+  .card p { margin: 0; color: var(--muted); }
+  .icon { font-size: 1.5rem; line-height: 1; display: block; margin-bottom: 8px; }
+
+  /* ---------- steps ---------- */
+  ol.steps { list-style: none; counter-reset: step; padding: 0; margin: 0; display: grid; gap: 12px; }
+  ol.steps > li {
+    counter-increment: step; position: relative;
+    background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+    padding: 16px 18px 16px 62px; box-shadow: var(--shadow);
+  }
+  ol.steps > li::before {
+    content: counter(step); position: absolute; left: 16px; top: 15px;
+    width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center;
+    background: var(--royal-2); color: #fff; font-weight: 700; font-size: .95rem;
+  }
+  :root[data-theme="dark"] ol.steps > li::before { color: #0f1422; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) ol.steps > li::before { color: #0f1422; } }
+  ol.steps > li > b:first-child { display: block; font-size: 1.02rem; margin-bottom: 4px; }
+  ol.steps p { margin: 6px 0 0; }
+  ol.steps ul { margin: 6px 0 0; padding-left: 20px; }
+  .why { margin-top: 8px; font-size: .92rem; color: var(--muted); border-left: 3px solid var(--line); padding-left: 10px; }
+  .why b { color: var(--text); }
+
+  /* ---------- callouts ---------- */
+  .callout { border-radius: 12px; padding: 14px 16px; margin: 16px 0; border: 1px solid; display: flex; gap: 12px; }
+  .callout .ci { flex: none; font-size: 1.25rem; line-height: 1.4; }
+  .callout p { margin: 0; }
+  .callout p + p { margin-top: 6px; }
+  .callout.ok { background: var(--ok-soft); border-color: color-mix(in srgb, var(--ok) 40%, transparent); }
+  .callout.warn { background: var(--warn-soft); border-color: color-mix(in srgb, var(--warn) 40%, transparent); }
+  .callout.bad { background: var(--bad-soft); border-color: color-mix(in srgb, var(--bad) 40%, transparent); }
+  .callout.info { background: var(--accent-soft); border-color: color-mix(in srgb, var(--accent) 40%, transparent); }
+  .callout b.t { display: block; margin-bottom: 2px; }
+
+  /* ---------- copyable code ---------- */
+  .cmd {
+    position: relative; background: var(--code-bg); color: var(--code-text);
+    border-radius: 10px; padding: 12px 84px 12px 14px; margin: 10px 0 4px;
+    font-family: ui-monospace, "Cascadia Code", Consolas, monospace; font-size: .88rem;
+    overflow-x: auto; white-space: pre;
+  }
+  .cmd .copy {
+    position: absolute; right: 8px; top: 8px;
+    background: rgba(255, 255, 255, .1); color: #fff; border: 1px solid rgba(255, 255, 255, .2);
+    border-radius: 7px; padding: 3px 10px; font: 600 .75rem system-ui, sans-serif; cursor: pointer;
+  }
+  .cmd .copy:hover { background: rgba(255, 255, 255, .2); }
+  .cmd .copy.done { background: #15803d; border-color: #15803d; }
+  .label { font-size: .82rem; color: var(--muted); margin-top: 12px; }
+
+  /* ---------- tables ---------- */
+  .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 14px; background: var(--card); box-shadow: var(--shadow); }
+  table { width: 100%; border-collapse: collapse; min-width: 560px; }
+  th, td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { background: var(--sunken); font-size: .82rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+  tr:last-child td { border-bottom: 0; }
+  td:first-child { font-weight: 600; }
+  .yes { color: var(--ok); font-weight: 600; }
+  .no { color: var(--bad); font-weight: 600; }
+
+  /* ---------- troubleshooting ---------- */
+  details {
+    background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+    margin-bottom: 10px; box-shadow: var(--shadow);
+  }
+  summary {
+    cursor: pointer; padding: 14px 16px; font-weight: 600; list-style: none;
+    display: flex; gap: 10px; align-items: flex-start;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary::before { content: "▸"; color: var(--gold); transition: transform .15s; flex: none; }
+  details[open] summary::before { transform: rotate(90deg); }
+  summary code { font-weight: 500; }
+  .det { padding: 0 16px 16px 38px; }
+  .det p { margin: 6px 0; }
+  .det .k { font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-top: 10px; }
+
+  .flow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 10px 0; }
+  .flow span.box { background: var(--sunken); border: 1px solid var(--line); border-radius: 9px; padding: 6px 10px; font-size: .9rem; }
+  .flow span.arr { color: var(--gold); font-weight: 700; }
+
+  footer { text-align: center; color: var(--muted); font-size: .85rem; padding: 0 16px 40px; }
+
+  .theme-btn {
+    position: fixed; right: 16px; bottom: 16px; z-index: 5;
+    background: var(--card); color: var(--text); border: 1px solid var(--line);
+    border-radius: 999px; padding: 8px 14px; font: 600 .85rem system-ui, sans-serif;
+    box-shadow: var(--shadow); cursor: pointer;
+  }
+  @media print { .theme-btn, .copy, nav.toc { display: none !important; } .hero { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">Shree Chaitanya Prem Bhakti Sangh · React Native App</div>
+    <h1>Browser mein RN app ki UI dekhne ki guide</h1>
+    <p>Phone ya emulator ke bina, PC ke Chrome mein hi naye React Native app ki screens kholna, OG app se milana, aur badlav turant dekhna — step-by-step.</p>
+    <div class="facts">
+      <div class="fact"><small>Project folder</small><span>C:\rn\mobile</span></div>
+      <div class="fact"><small>App (browser mein)</small><span>http://localhost:8081</span></div>
+      <div class="fact"><small>Web screens / OG app</small><span>http://localhost:8090</span></div>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <nav class="toc" aria-label="Is guide mein">
+    <strong>Is guide mein</strong>
+    <ol>
+      <li><a href="#what">Ye kya hai</a></li>
+      <li><a href="#once">Ek baar ka setup</a></li>
+      <li><a href="#start">Roz chalana</a></li>
+      <li><a href="#phone-size">Phone jaisa size</a></li>
+      <li><a href="#compare">OG app se milana</a></li>
+      <li><a href="#tips">Kaam ki baatein</a></li>
+      <li><a href="#limits">Kya browser mein nahi chalta</a></li>
+      <li><a href="#trouble">Atak jaye to</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <section id="what">
+      <h2><span class="num">1</span>Ye kya hai</h2>
+      <p class="lead">React Native app ka JavaScript browser mein bhi chal sakta hai (<b>react-native-web</b>). Isse koi bhi screen ka design aur kaam PC par hi dekh sakte ho — APK banane ki zaroorat nahi, aur code save karte hi page badal jaata hai.</p>
+      <div class="flow"><span class="box">Code save (src/…)</span><span class="arr">→</span><span class="box">Metro (port 8081)</span><span class="arr">→</span><span class="box">Chrome mein app</span></div>
+      <div class="callout info"><span class="ci">ℹ️</span><div><p>Do server chalte hain: <b>8081</b> par app khud, aur <b>8090</b> par OG app ka web build. Jo screens abhi WebView mein hain (Darshan, Donate, Profile wagera) wo browser mein iframe ban kar 8090 se aati hain, aur Hindi font bhi wahi se aata hai.</p></div></div>
+    </section>
+
+    <section id="once">
+      <h2><span class="num">2</span>Ek baar ka setup</h2>
+      <ol class="steps">
+        <li><b>Packages install</b> (sirf pehli baar, ya jab <code>package.json</code> badle):
+          <div class="cmd">cd /d C:\rn\mobile<button class="copy">Copy</button></div>
+          <div class="cmd">npm install<button class="copy">Copy</button></div>
+        </li>
+        <li><b>Web screens ka build</b> — <code>web-bundle</code> folder pehle se bana ho to ye step chhod do. OG app ka naya commit aaye tab dobara chalao:
+          <div class="cmd">npm run web:build<button class="copy">Copy</button></div>
+          <div class="why"><b>Kyon?</b> WebView wali screens OG app ka hi web code hain. Ye command aaaacursor ke aakhri commit ki copy <code>C:\rn\web-src</code> mein banakar <code>web-bundle</code> mein rakhti hai (aaaacursor mein kuch nahi likhti).</div>
+        </li>
+      </ol>
+    </section>
+
+    <section id="start">
+      <h2><span class="num">3</span>Roz chalana — 2 terminal</h2>
+      <ol class="steps">
+        <li><b>Terminal 1 — web screens ka server.</b> Chalta chhod do:
+          <div class="cmd">cd /d C:\rn\mobile &amp;&amp; npm run web:preview<button class="copy">Copy</button></div>
+          <div class="why"><b>Ready kab?</b> Jab likha aaye <code>web-bundle preview on http://localhost:8090</code>.</div>
+        </li>
+        <li><b>Terminal 2 — app.</b> Chalta chhod do:
+          <div class="cmd">cd /d C:\rn\mobile &amp;&amp; npm run web<button class="copy">Copy</button></div>
+          <div class="why"><b>Ready kab?</b> "Waiting on http://localhost:8081" dikhe. Pehli baar 1–2 minute lagte hain (bundle banta hai), baad mein kuch second.</div>
+        </li>
+        <li><b>Chrome mein kholo:</b>
+          <div class="cmd">http://localhost:8081<button class="copy">Copy</button></div>
+        </li>
+        <li><b>Code badlo, result dekho.</b> <code>src/</code> mein koi file save karo — page apne-aap update. Pura reload: <kbd>F5</kbd>.</li>
+        <li><b>Band karna:</b> dono terminals mein <kbd>Ctrl</kbd>+<kbd>C</kbd>.</li>
+      </ol>
+    </section>
+
+    <section id="phone-size">
+      <h2><span class="num">4</span>Phone jaisa size</h2>
+      <ol class="steps">
+        <li>Chrome mein <kbd>F12</kbd> dabao (DevTools).</li>
+        <li><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>M</kbd> — upar device toolbar aa jaayega.</li>
+        <li>Device list se koi phone chuno (jaise <b>Pixel 7</b> ya <b>Samsung Galaxy S20</b>), phir <kbd>F5</kbd>.</li>
+      </ol>
+      <div class="callout info"><span class="ci">💡</span><div><p>Dark mode dekhna ho to app ki <b>Settings → ऐप का थीम → डार्क</b> chuno — bilkul phone jaisa.</p></div></div>
+    </section>
+
+    <section id="compare">
+      <h2><span class="num">5</span>OG app se milana</h2>
+      <p class="lead">Doosre tab mein OG app ka web version kholo aur dono ko saath rakh kar dekho.</p>
+      <div class="cmd">http://localhost:8090<button class="copy">Copy</button></div>
+      <ol class="steps">
+        <li>"Install app" popup aaye to <b>Not Now</b> dabao.</li>
+        <li>Dono tabs mein DevTools ka same phone size rakho.</li>
+        <li>Language aur theme dono mein ek jaisa rakho (OG mein bhi Settings se).</li>
+      </ol>
+    </section>
+
+    <section id="tips">
+      <h2><span class="num">6</span>Kaam ki baatein</h2>
+      <div class="grid-2">
+        <div class="card"><h4>🧹 Naye install jaisa</h4><p>Intro (onboarding) dobara dekhna ho: <kbd>F12</kbd> → Console mein <code>localStorage.clear()</code> likh kar Enter, phir <kbd>F5</kbd>.</p></div>
+        <div class="card"><h4>🗂️ Sirf ek app tab</h4><p>8081 wala page ek hi tab mein kholo. Do tab khule hon to dono ki web screens ek hi storage use karti hain aur testing gadbad ho jaati hai.</p></div>
+        <div class="card"><h4>🔒 Live data safe</h4><p>Preview asli Firebase se data <b>padhta</b> hai, lekin kuch <b>likhta nahi</b> — testing se live data nahi badalta.</p></div>
+        <div class="card"><h4>🎞️ Animations</h4><p>Home ki tiles ka "upar uthkar aana" wala animation browser mein band rakha hai (browser mein wo tiles ko ek-doosre par chadha deta tha). Phone par wo chalta hai.</p></div>
+      </div>
+    </section>
+
+    <section id="limits">
+      <h2><span class="num">7</span>Kya browser mein nahi chalta</h2>
+      <p class="lead">Ye cheezein sirf phone par test hoti hain (dekho <a href="EXPO-PHONE-GUIDE.html">EXPO-PHONE-GUIDE.html</a>):</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Cheez</th><th>Browser mein kya hota hai</th></tr></thead>
+          <tbody>
+            <tr><td>Notifications</td><td>Nahi aate; permission "granted" maan li jaati hai</td></tr>
+            <tr><td>Google / Phone OTP login</td><td>Nahi hota (native hai)</td></tr>
+            <tr><td>Audio/Book download, PDF</td><td>Nahi hota (phone ka storage chahiye)</td></tr>
+            <tr><td>App UI Size, lock-screen controls</td><td>Nahi hota</td></tr>
+            <tr><td>Fonts</td><td>Hindi Noto font phone jaisa; English ke liye Windows ka font, isliye halka farak ho sakta hai</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="trouble">
+      <h2><span class="num">8</span>Atak jaye to</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Dikkat</th><th>Kya karein</th></tr></thead>
+          <tbody>
+            <tr><td>Web screen (Darshan wagera) par sirf ghoomta loader</td><td>Terminal 1 (<code>npm run web:preview</code>) band ho gaya hoga — dobara chalao.</td></tr>
+            <tr><td>"Port 8081 is being used"</td><td>Purana Metro chal raha hai. Wahi use karo, ya us terminal ko band karke dobara chalao.</td></tr>
+            <tr><td>Page khali / laal error</td><td><kbd>F12</kbd> → Console ka error dekho; Terminal 2 mein bhi error dikhta hai. <kbd>F5</kbd> se reload.</td></tr>
+            <tr><td>Purana UI dikh raha</td><td>Terminal 2 mein <kbd>Ctrl</kbd>+<kbd>C</kbd>, phir <code>npx expo start --web --clear</code>.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout warn"><span class="ci">⚠️</span><div><p>Browser mein sab theek dikhe tab bhi, release se pehle ek baar phone par zaroor check karo — native cheezein (notifications, login, downloads) sirf wahin chalti hain.</p></div></div>
+    </section>
+  </main>
+</div>
+
+<button class="theme-btn" id="themeBtn" type="button">🌓 Theme</button>
+
+<script>
+  document.querySelectorAll('.cmd .copy').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var text = btn.parentElement.firstChild.textContent.trim();
+      function done() {
+        btn.textContent = 'Copied ✓';
+        btn.classList.add('done');
+        setTimeout(function () { btn.textContent = 'Copy'; btn.classList.remove('done'); }, 1500);
+      }
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(done, fallback);
+      } else {
+        fallback();
+      }
+      function fallback() {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); done(); } catch (e) {}
+        document.body.removeChild(ta);
+      }
+    });
+  });
+
+  (function () {
+    var root = document.documentElement;
+    try {
+      var saved = localStorage.getItem('guide-theme');
+      if (saved) root.setAttribute('data-theme', saved);
+    } catch (e) {}
+    document.getElementById('themeBtn').addEventListener('click', function () {
+      var current = root.getAttribute('data-theme') ||
+        (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      var next = current === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try { localStorage.setItem('guide-theme', next); } catch (e) {}
+    });
+  })();
+</script>
+</body>
+</html>

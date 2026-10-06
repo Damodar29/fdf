@@ -1,0 +1,267 @@
+{
+  "lastUpdated": 1786787479993,
+  "bundleUpdated": 1786787479993,
+  "total": 26,
+  "books": [
+    {
+      "id": "001",
+      "title": "नित्य लीला प्रविष्ट श्रील गुरुदेव \"भक्तिशास्त्री\" जी महाराज वन्दना एवं प्रणाम मंत्र",
+      "fileName": "PDF",
+      "url": "https://audios.chaitanyaprembhakti.org/Books%20PDFs_5/Guru.Maharaj.Vanadana.pdf",
+      "sizeBytes": 512000,
+      "displaySize": "500 KB",
+      "isHidden": false,
+      "contentHash": "cleaned"
+    },
+    {
+      "id": "002",
+      "title": "प्रेम भक्ति चंद्रिका",
+      "fileName": "PDF",
+      "url": "https://audios.chaitanyaprembhakti.org/Books%20PDFs_5/Shri.Prem.Bhakti.Chandrika.pdf",
+      "sizeBytes": 28835840,
+      "displaySize": "27.5 MB",
+      "isHidden": false,
+      "contentHash": "a8d7b3be104"
+    },
+    {
+      "id": "003",
+      "title": "गौरपार्षद एवं गौडीय वैष्णव-आचार्यों का संक्षिप्त जीवन चरित्र",
+      "fileName": "PDF",
+      "url": "https://audios.chaitanyaprembhakti.org/Books%20PDFs_5/Shri.Gaur-Parshad.and.Gaudiya.Vaishnava.Acharyas.pdf",
+      "sizeBytes": 67108864,
+      "displaySize": "64 MB",
+      "isHidden": false,
+      "contentHash": "cleaned"
+    },
+    {
+      "id": "004",
+      "title": "गौरपार्षद एवं गौडीय वैष्णव-आचार्यों का संक्षिप्त जीवन चरित्र भाग 2",
+      "fileName": "PDF",
+      "url": "https://audios.chaitanyaprembhakti.org/Books%20PDFs_5/Shri.Gaur.Parshad.-.Part.2.pdf",
+      "sizeBytes": 42467328,
+      "displaySize": "40.5 MB",
+      "isHidden": false,
+      "contentHash": "cleaned"
+    },
+    {
+      "id": "005",
+      "title": "उपदेशामृत",
+      "fileName": "PDF",
+      "url": "https://audios.chaitanyaprembhakti.org/Books%20PDFs_5/Upadeshamrit.pdf",
+      "sizeBytes": 40370176,
+      "displaySize": "38.5 MB",
+      "isHidden": false,
+      "contentHash": "cleaned"
+    },
+    {
+      "id": "006",
+      "title": "गीत रसामृत",
+      "fileName": "PDF",
+      "url": "https://audios.chaitanyaprembhakti.org/Books%20PDFs_5/Geet.Rasamrit.pdf",
+      "sizeBytes": 30408704,
+      "displaySize": "29 MB",
+      "isHidden": false,
+      "contentHash": "cleaned"
+    },
+    {
+      "id": "007",
+      "title": "गुरुदेव श्री विरही जी महाराज जीवन चरित्र",
+      "fileName": "PDF",
+      "url": "https://audios.chaitanyaprembhakti.org/Books%20PDFs_5/Gurudev.Shri.Virahi.Ji.Maharaj.-.Life.Biography.pdf",
+      "sizeBytes": 80740352,
+      "displaySize": "77 MB",
+      "isHidden": false,
+      "contentHash": "cleaned"
+    },
+    {
+      "id": "008",
+      "title": "गौरांग भजन माला",
+      "fileName": "PDF",
+      "url": "https://audios.chaitanyaprembhakti.org/Books%20PDFs_5/Gauranga.Bhajan.Mala.pdf",
+      "sizeBytes": 71303168,
+      "displaySize": "68 MB",
+      "isHidden": false,
+      "contentHash": "cleaned"
+    },
+    {
+      "id": "009",
+      "title": "गौरांग भजन माला भाग 3",
+      "fileName": "PDF",
+      "url": "https://audios.chaitanyaprembhakti.org/Books%20PDFs_5/Gauranga.Bhajan.Mala.-.Part.3.pdf",
+      "sizeBytes": 17301504,
+      "displaySize": "16.5 MB",
+      "isHidden": false,
+      "contentHash": "cleaned"
+    },
+    {
+      "id": "010",
+      "title": "गौड़ीय गीति गुच्छ",
+      "fileName": "PDF",
+      "url": "https://audios.chaitanyaprembhakti.org/Books%20PDFs_5/Gaudiya.Geeti.Guccha.pdf",
+      "sizeBytes": 716800,
+      "displaySize": "700 KB",
+      "isHidden": false,
+      "contentHash": "cleaned"
+    },
+    {
+      "id": "011",
+      "title": "दिगदर्शिका",
+      "fileName": "PDF",
+      "url": "https://audios.chaitanyaprembhakti.org/Books%20PDFs_5/Digdarshika.pdf",
+      "sizeBytes": 33554432,
+      "displaySize": "32 MB",
+      "isHidden": false,
+      "contentHash": "cleaned"
+    },
+    {
+      "id": "012",
+      "title": "नाम रसामृत",
+      "fileName": "PDF",
+      "url": "https://audios.chaitanyaprembhakti.org/Books%20PDFs_5/Naam.Rasamrit.pdf",
+      "sizeBytes": 44040192,
+      "displaySize": "42 MB",
+      "isHidden": false,
+      "contentHash": "cleaned"
+    },
+    {
+      "id": "013",
+      "title": "प्रेम रसामृत",
+      "fileName": "PDF",
+      "url": "https://audios.chaitanyaprembhakti.org/Books%20PDFs_5/Prem.Rasamrit.pdf",
+      "sizeBytes": 34603008,
+      "displaySize": "33 MB",
+      "isHidden": false,
+      "contentHash": "cleaned"
+    },
+    {
+      "id": "014",
+      "title": "भजन गीति",
+      "fileName": "PDF",
+      "url": "https://audios.chaitanyaprembhakti.org/Books%20PDFs_5/Bhajan.Geeti.pdf",
+      "sizeBytes": 512000,
+      "displaySize": "500 KB",
+      "isHidden": false,
+      "contentHash": "cleaned"
+    },
+    {
+      "id": "015",
+      "title": "भजन संकलन भूषण",
+      "fileName": "PDF",
+      "url": "https://audios.chaitanyaprembhakti.org/Books%20PDFs_5/Bhajan.Sankalan.Bhushan.pdf",
+      "sizeBytes": 95420416,
+      "displaySize": "91 MB",
+      "isHidden": false,
+      "contentHash": "cleaned"
+    },
+    {
+      "id": "016",
+      "title": "राजा प्रभुजी डायरी",
+      "fileName": "PDF",
+      "url": "https://audios.chaitanyaprembhakti.org/Books%20PDFs_5/Raja.prabhu.ji.Diary.2.pdf",
+      "sizeBytes": 136314880,
+      "displaySize": "130  MB",
+      "isHidden": false,
+      "contentHash": "cleaned"
+    },
+    {
+      "id": "017",
+      "title": "शिक्षाष्टकम्",
+      "fileName": "PDF",
+      "url": "https://audios.chaitanyaprembhakti.org/Books%20PDFs_5/Shikshashtakam.pdf",
+      "sizeBytes": 36700160,
+      "displaySize": "35 MB",
+      "isHidden": false,
+      "contentHash": "cleaned"
+    },
+    {
+      "id": "018",
+      "title": "अष्टकावली",
+      "fileName": "PDF",
+      "url": "https://audios.chaitanyaprembhakti.org/Books%20PDFs_5/Ashtakavalli.pdf",
+      "sizeBytes": 14155776,
+      "displaySize": "13.5 MB",
+      "isHidden": false,
+      "contentHash": "cleaned"
+    },
+    {
+      "id": "019",
+      "title": "श्रीमद्भगवद्गीता यथारूप",
+      "fileName": "PDF",
+      "url": "https://audios.chaitanyaprembhakti.org/Books%20PDFs_5/Shrimad.Bhagavad.Gita.-.As.It.Is.pdf",
+      "sizeBytes": 16777216,
+      "displaySize": "16 MB",
+      "isHidden": false,
+      "contentHash": "cleaned"
+    },
+    {
+      "id": "020",
+      "title": "सपार्षद गौर महिमा",
+      "fileName": "PDF",
+      "url": "https://audios.chaitanyaprembhakti.org/Books%20PDFs_5/Saparshad.Gaur.Mahima.pdf",
+      "sizeBytes": 153600,
+      "displaySize": "150 KB",
+      "isHidden": false,
+      "contentHash": "cleaned"
+    },
+    {
+      "id": "021",
+      "title": "श्रीमद्भगवद्गीता (विश्वनाथ चक्रवर्ती ठाकुर कृत टीका)",
+      "fileName": "PDF",
+      "url": "https://audios.chaitanyaprembhakti.org/more%20books%20pdf_18/Bhagavad-gita-hindi.by.Vishwanath.Chakravarti.teeka.pdf",
+      "sizeBytes": 4718592,
+      "displaySize": "4.5 MB",
+      "isHidden": false,
+      "contentHash": "cleaned"
+    },
+    {
+      "id": "022",
+      "title": "गौड़ीय कण्ठहार (हिन्दी, द्वितीय संस्करण)",
+      "fileName": "PDF",
+      "url": "https://audios.chaitanyaprembhakti.org/more%20books%20pdf_18/Gaudiya-kanthahara-hindi_2nd_ed.pdf",
+      "sizeBytes": 1153434,
+      "displaySize": "1.1 MB",
+      "isHidden": false,
+      "contentHash": "cleaned"
+    },
+    {
+      "id": "023",
+      "title": "श्रील गौर किशोर दास बाबाजी महाराज का जीवन चरित्र",
+      "fileName": "PDF",
+      "url": "https://audios.chaitanyaprembhakti.org/more%20books%20pdf_18/Gaur.Kishore.das.babaji.maharaj.biography.pdf",
+      "sizeBytes": 284672,
+      "displaySize": "278 KB",
+      "isHidden": false,
+      "contentHash": "cleaned"
+    },
+    {
+      "id": "024",
+      "title": "जैव धर्म",
+      "fileName": "PDF",
+      "url": "https://audios.chaitanyaprembhakti.org/more%20books%20pdf_18/Jaiva-dharma.pdf",
+      "sizeBytes": 1677722,
+      "displaySize": "1.6 MB",
+      "isHidden": false,
+      "contentHash": "cleaned"
+    },
+    {
+      "id": "025",
+      "title": "श्रीरामचरितमानस जी",
+      "fileName": "PDF",
+      "url": "https://audios.chaitanyaprembhakti.org/more%20books%20pdf_18/ramcharit.manas.ji.pdf",
+      "sizeBytes": 3270000,
+      "displaySize": "3.3 MB",
+      "isHidden": false,
+      "contentHash": "cleaned"
+    },
+    {
+      "id": "026",
+      "title": "वैष्णव सदाचार",
+      "fileName": "PDF",
+      "url": "https://audios.chaitanyaprembhakti.org/more%20books%20pdf_18/Vaihnav.sadachar.pdf",
+      "sizeBytes": 48234496,
+      "displaySize": "46 MB",
+      "isHidden": false,
+      "contentHash": "cleaned"
+    }
+  ]
+}

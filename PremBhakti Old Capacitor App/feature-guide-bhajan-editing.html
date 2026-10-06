@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bhajan Editing Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Hind:wght@400;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+	:root {
+		--bg: #f1f5f9; --card: #ffffff; --text: #1e293b; --muted: #64748b;
+		--line: #e2e8f0; --accent: #c2410c; --accent-soft: #fff7ed;
+		--ok: #15803d; --ok-soft: #f0fdf4; --warn: #b91c1c; --warn-soft: #fef2f2;
+		--code-bg: #f8fafc;
+	}
+	@media (prefers-color-scheme: dark) {
+		:root:not([data-theme="light"]) {
+			--bg: #0f172a; --card: #1e293b; --text: #e2e8f0; --muted: #94a3b8;
+			--line: #334155; --accent: #fb923c; --accent-soft: #431407;
+			--ok: #4ade80; --ok-soft: #052e16; --warn: #f87171; --warn-soft: #450a0a;
+			--code-bg: #0f172a;
+		}
+	}
+	:root[data-theme="dark"] {
+		--bg: #0f172a; --card: #1e293b; --text: #e2e8f0; --muted: #94a3b8;
+		--line: #334155; --accent: #fb923c; --accent-soft: #431407;
+		--ok: #4ade80; --ok-soft: #052e16; --warn: #f87171; --warn-soft: #450a0a;
+		--code-bg: #0f172a;
+	}
+	* { box-sizing: border-box; }
+	body {
+		margin: 0; background: var(--bg); color: var(--text);
+		font-family: 'Poppins', 'Hind', sans-serif; line-height: 1.6; font-size: 15px;
+	}
+	header {
+		background: linear-gradient(135deg, #c2410c, #ea580c); color: #fff;
+		padding: 32px 16px 28px; text-align: center;
+	}
+	header h1 { margin: 0 0 6px; font-size: 1.5rem; }
+	header p { margin: 0; opacity: .9; font-size: .95rem; }
+	main { max-width: 760px; margin: 0 auto; padding: 16px; }
+	.card {
+		background: var(--card); border: 1px solid var(--line); border-radius: 16px;
+		padding: 16px 18px; margin-bottom: 14px;
+	}
+	h2 { font-size: 1.1rem; margin: 0 0 8px; color: var(--accent); }
+	p { margin: 6px 0; }
+	ul, ol { margin: 6px 0; padding-left: 22px; }
+	li { margin: 4px 0; }
+	code {
+		background: var(--code-bg); border: 1px solid var(--line); border-radius: 6px;
+		padding: 1px 6px; font-size: .85em; word-break: break-word;
+	}
+	.flow { display: grid; gap: 8px; margin-top: 8px; }
+	.step {
+		display: flex; gap: 10px; align-items: flex-start;
+		background: var(--accent-soft); border-radius: 12px; padding: 10px 12px;
+	}
+	.num {
+		flex: none; width: 26px; height: 26px; border-radius: 50%;
+		background: var(--accent); color: #fff; font-weight: 700; font-size: .85rem;
+		display: flex; align-items: center; justify-content: center;
+	}
+	.note { border-radius: 12px; padding: 10px 12px; margin-top: 8px; font-size: .92rem; }
+	.note.ok { background: var(--ok-soft); color: var(--ok); }
+	.note.warn { background: var(--warn-soft); color: var(--warn); }
+	table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+	td { border-top: 1px solid var(--line); padding: 7px 4px; vertical-align: top; }
+	td:first-child { width: 42%; }
+	.muted { color: var(--muted); font-size: .85rem; }
+	footer { text-align: center; color: var(--muted); font-size: .8rem; padding: 8px 16px 24px; }
+</style>
+</head>
+<body>
+
+<header>
+	<h1>📖 Bhajan Editing — kaise chalta hai</h1>
+	<p>Admin Panel → Local Data → Bhajans · Sept 2026 ke changes</p>
+</header>
+
+<main>
+
+	<section class="card">
+		<h2>Ek line mein</h2>
+		<p>Ab bhajan save karte waqt app hamesha <b>cloud ka latest data</b> dekhta hai, sirf phone ki purani copy nahi. Isliye na number duplicate hota hai, na kisi doosre admin ka kaam mit-ta hai.</p>
+	</section>
+
+	<section class="card">
+		<h2>Bhajan data kahan rehta hai</h2>
+		<p>Firebase Storage ke <code>app-data/bhajandata/</code> folder mein 3 cheezein:</p>
+		<ul>
+			<li><code>215.json</code> — har bhajan ki apni file</li>
+			<li><code>bundle.json</code> — saare bhajan ek saath (users ke phone yahi download karte hain)</li>
+			<li><code>index.json</code> — list + ek <b>timestamp</b>. Phone ye time dekh ke samajhta hai ki naya bundle lena hai ya nahi</li>
+		</ul>
+		<p class="muted">Order hamesha: pehle bhajan file → phir bundle → sabse last index.</p>
+	</section>
+
+	<section class="card">
+		<h2>1. Bhajans screen kholte hi</h2>
+		<p>App cloud ke <code>index.json</code> ka time phone ke time se milata hai.</p>
+		<ul>
+			<li>Same hai → kuch nahi, seedha list.</li>
+			<li>Cloud naya hai → pehle naya data download ("Downloading the latest bhajans…"). Tab tak list aur <b>+ Add</b> band.</li>
+			<li>Internet nahi → peeli patti + <b>Retry</b>. Edit kar sakte ho, Save par phir se jaanch hogi.</li>
+		</ul>
+	</section>
+
+	<section class="card">
+		<h2>2. Editor mein song number</h2>
+		<ul>
+			<li><code>72</code> aur <code>072</code> ek hi number maane jaate hain. 100 se chhote number apne aap <code>072</code> ban jaate hain (purana format).</li>
+			<li>Number kisi aur bhajan ka hai → <b>laal warning</b> + Save band.</li>
+			<li>Purane bhajan ka number badla → pehle <b>confirm popup</b> (purana number hat jaata hai).</li>
+			<li><b>+ Add</b> agla khaali number local + cloud dono dekh ke deta hai.</li>
+		</ul>
+	</section>
+
+	<section class="card">
+		<h2>3. Save dabane par kya hota hai</h2>
+		<div class="flow">
+			<div class="step"><span class="num">1</span><div><b>Lock</b> — Firestore mein <code>app_config/bhajandata_write_lock</code> banta hai. Koi aur admin usi waqt save kar raha ho to: "… is saving right now, try again".</div></div>
+			<div class="step"><span class="num">2</span><div><b>Cloud se fresh bundle</b> padha jaata hai (seedha Storage se, CDN se nahi).</div></div>
+			<div class="step"><span class="num">3</span><div><b>Jaanch</b> — number kisi aur ka to nahi? Editor kholne ke baad kisi aur ne yahi bhajan badla ya hataya to nahi?</div></div>
+			<div class="step"><span class="num">4</span><div><b>Sirf aapka badlav</b> cloud bundle par lagta hai → file, bundle, index likhe jaate hain → phone ki list bhi cloud jaisi ho jaati hai.</div></div>
+			<div class="step"><span class="num">5</span><div><b>Lock hat jaata hai.</b></div></div>
+		</div>
+		<div class="note ok">Step 3 mein kuch bhi galat mila to <b>kuch bhi likha nahi jaata</b>.</div>
+	</section>
+
+	<section class="card">
+		<h2>4. "Another admin changed this bhajan" popup</h2>
+		<p>Isme cloud wala version dikhta hai. 3 button:</p>
+		<table>
+			<tr><td><b>Open the cloud version</b></td><td>Unka version editor mein khulega. Aapke badlav hat jaayenge.</td></tr>
+			<tr><td><b>Save mine anyway</b></td><td>Aapka version save. Unka badlav hat jaayega.</td></tr>
+			<tr><td><b>Cancel</b></td><td>Popup band, editing chalu. Kuch save nahi hua.</td></tr>
+		</table>
+	</section>
+
+	<section class="card">
+		<h2>Aur chhote changes</h2>
+		<ul>
+			<li><b>Preview</b> button (editor ke upar) — bina save kiye bhajan ko asli reading screen par dekho. Sirf dekhne ke liye, Star/Share band.</li>
+			<li>List mein <code>#दोहा#</code> jaisi subheading ki jagah bhajan ki <b>pehli asli line</b> dikhti hai.</li>
+			<li><b>Author Manager</b>, <b>Filter Category</b> aur <b>Rebuild Bundle</b> bhi isi safe tareeke se save karte hain.</li>
+			<li><b>Back button</b>: har press ek step peeche (font panel → preview → popup → editor). Save fail hone par ab panel galti se screen peeche nahi jaata.</li>
+		</ul>
+	</section>
+
+	<section class="card">
+		<h2>Yaad rakhne wali baatein</h2>
+		<ul>
+			<li>App save ke beech band ho gaya to lock <b>2 minute</b> mein apne aap khul jaata hai.</li>
+			<li>Lock ke liye koi naya Firestore rule nahi chahiye — <code>app_config</code> admins ke liye pehle se khula hai.</li>
+		</ul>
+		<div class="note warn">Testing mein asli save nahi kiya gaya tha (live data). Ek baar phone se kisi bhajan mein chhota badlav karke save zaroor check karna.</div>
+	</section>
+
+	<section class="card">
+		<h2>Code kahan hai</h2>
+		<table>
+			<tr><td><code>src/utils/githubBhajanStorage.ts</code></td><td>Lock, cloud jaanch, safe save, freshness</td></tr>
+			<tr><td><code>components/admin-panel/BhajanManager.tsx</code></td><td>List, editor, number warning, popups, Preview</td></tr>
+			<tr><td><code>components/BhajanReader.tsx</code></td><td>Reading screen (<code>previewMode</code>)</td></tr>
+			<tr><td><code>src/hooks/usePopupBackHandler.ts</code></td><td>Back button / history fix</td></tr>
+		</table>
+	</section>
+
+</main>
+
+<footer>Prem Bhakti · Admin Panel notes</footer>
+
+</body>
+</html>

@@ -1,0 +1,256 @@
+/**
+ * Janmashtami Design System — CSS Custom Properties
+ * ================================================
+ *
+ * Imported by `index.css`. Everything here is wrapped in `@layer base` or
+ * `@layer components` so Tailwind places it correctly in the cascade — base
+ * before utilities, components before utilities — which means a Tailwind
+ * utility at a call site can still override a token default. Nothing here uses
+ * `!important` except the reduced-motion block, where overriding is the point.
+ *
+ * Why this file exists alongside the TypeScript tokens: the audit found ~102
+ * inline `style={{ color, background, fill, borderColor }}` declarations across
+ * 39 files that Tailwind utilities cannot reach. Those call sites can now read
+ * `var(--jm-*)` instead of a hardcoded hex, so there is still exactly one
+ * source of truth.
+ *
+ * Naming: `--jm-<role>` for semantic roles, `--jm-<family>-<step>` for ramps.
+ * Semantic roles flip automatically under `.dark`; ramp values do not.
+ */
+
+@layer base {
+	:root {
+		/* ── Brand ramps (do not flip in dark mode) ───────────────────────── */
+		--jm-krishna-50: #eef3fb;
+		--jm-krishna-100: #d8e3f5;
+		--jm-krishna-200: #b0c5e8;
+		--jm-krishna-300: #7e9bd3;
+		--jm-krishna-400: #4a6fb8;
+		--jm-krishna-500: #103a8c;
+		--jm-krishna-600: #0b2e6b;
+		--jm-krishna-700: #092555;
+		--jm-krishna-800: #071c40;
+		--jm-krishna-900: #05142e;
+
+		--jm-gold-100: #fff3c9;
+		--jm-gold-200: #ffe79b;
+		--jm-gold-300: #ffd54f;
+		--jm-gold-400: #f0be33;
+		--jm-gold-500: #d4a017;
+		--jm-gold-600: #b08313;
+		--jm-gold-700: #8a660f;
+
+		--jm-peacock-300: #4fb3a6;
+		--jm-peacock-500: #157a6e;
+		--jm-peacock-700: #0c4c45;
+
+		--jm-cream-25: #fffdf7;
+		--jm-cream-50: #fff8e7;
+		--jm-cream-100: #fdf1d6;
+		--jm-cream-200: #f6eed9;
+
+		/* ── Named brand values from the brief ────────────────────────────── */
+		--jm-primary: #0b2e6b; /* Primary Krishna Blue */
+		--jm-royal: #103a8c; /* Royal Temple Blue   */
+		--jm-accent: #ffd54f; /* Golden Accent       */
+		--jm-deep-gold: #d4a017; /* Deep Gold           */
+		--jm-peacock: #157a6e; /* Peacock Green       */
+		--jm-border-gold: #e8c878; /* Border Gold         */
+
+		/* ── Status ───────────────────────────────────────────────────────── */
+		--jm-success: #2e8b57;
+		--jm-error: #c0392b;
+		--jm-warning: #d4a017;
+		--jm-info: #103a8c;
+
+		/* ── Semantic roles — these flip under .dark ──────────────────────── */
+		--jm-surface-page: #fff8e7;
+		--jm-surface-raised: #fffdf7;
+		--jm-surface-sunken: #f6eed9;
+		--jm-surface-scrim: rgba(11, 46, 107, 0.55);
+		--jm-divider: rgba(232, 200, 120, 0.45);
+
+		--jm-text-primary: #1d2433;
+		--jm-text-secondary: #5a6170;
+		--jm-text-muted: #6e7585;
+		--jm-text-on-dark: #fff8e7;
+		--jm-text-accent: #8a660f;
+
+		--jm-border-card: rgba(232, 200, 120, 0.7);
+		--jm-border-strong: #f0be33;
+
+		/* ── Motion ───────────────────────────────────────────────────────── */
+		--jm-duration-instant: 100ms;
+		--jm-duration-fast: 160ms;
+		--jm-duration-base: 240ms;
+		--jm-duration-slow: 320ms;
+		--jm-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+		--jm-ease-spring: cubic-bezier(0.34, 1.4, 0.64, 1);
+		--jm-ease-drift: cubic-bezier(0.45, 0, 0.55, 1);
+
+		/* ── Radius ───────────────────────────────────────────────────────── */
+		--jm-radius-sm: 0.5rem;
+		--jm-radius-md: 0.75rem;
+		--jm-radius-card: 1.25rem;
+		--jm-radius-panel: 1.75rem;
+
+		/* ── Layout ───────────────────────────────────────────────────────── */
+		--jm-touch-target: 2.75rem;
+	}
+
+	.dark {
+		--jm-surface-page: #071529;
+		--jm-surface-raised: #0f2242;
+		--jm-surface-sunken: #050f1f;
+		--jm-surface-scrim: rgba(3, 11, 26, 0.7);
+		--jm-divider: rgba(255, 213, 79, 0.18);
+
+		--jm-text-primary: #f7f7f7;
+		--jm-text-secondary: #c0cde4;
+		--jm-text-muted: #8b9cbf;
+		--jm-text-on-dark: #f7f7f7;
+		--jm-text-accent: #ffd54f;
+
+		--jm-border-card: rgba(255, 213, 79, 0.15);
+		--jm-border-strong: rgba(255, 213, 79, 0.4);
+	}
+
+	/*
+	 * Focus ring.
+	 *
+	 * The rule this replaces was gated behind
+	 * `@media (hover: hover) and (pointer: fine)`, which meant keyboard users on
+	 * touch devices — and anyone using an Android TV remote or a Bluetooth
+	 * keyboard on a tablet — got no focus indicator at all. `:focus-visible`
+	 * already suppresses the ring for mouse clicks, so the media query was
+	 * redundant as well as harmful. It is removed.
+	 *
+	 * Declared in `@layer base` (not with `!important`, as before) so a component
+	 * that supplies its own ring via `focus-visible:ring-*` can still opt out
+	 * with `focus-visible:outline-none`.
+	 */
+	*:focus-visible {
+		outline: 3px solid var(--jm-accent);
+		outline-offset: 2px;
+		border-radius: inherit;
+		z-index: 50;
+		transition:
+			outline-color 0.1s ease-in-out,
+			outline-offset 0.1s ease-in-out;
+	}
+
+	/* Honour the OS "increase contrast" setting by strengthening edges and text. */
+	@media (prefers-contrast: more) {
+		:root {
+			--jm-border-card: #b08313;
+			--jm-border-strong: #8a660f;
+			--jm-text-secondary: #3f4655;
+			--jm-text-muted: #4a5160;
+		}
+		.dark {
+			--jm-border-card: rgba(255, 213, 79, 0.55);
+			--jm-border-strong: rgba(255, 213, 79, 0.75);
+			--jm-text-secondary: #dbe4f4;
+			--jm-text-muted: #c0cde4;
+		}
+	}
+}
+
+@layer components {
+	/*
+	 * THE TEMPLE ARCH — the theme's signature shape.
+	 *
+	 * A pointed trefoil derived from a Vrindavan doorway, drawn as a clip-path so
+	 * it can frame any element without an extra SVG in the DOM. Reserved for
+	 * three places only (active nav tab, featured section crown, darshan tile);
+	 * its scarcity is what makes it read as a signature rather than decoration.
+	 */
+	.jm-arch {
+		clip-path: path(
+			"M 0 100 L 0 34 Q 0 14 14 8 Q 26 0 32 14 Q 40 30 50 30 Q 60 30 68 14 Q 74 0 86 8 Q 100 14 100 34 L 100 100 Z"
+		);
+	}
+
+	/* Gold hairline, used for section rules and card top edges. */
+	.jm-rule {
+		height: 1px;
+		background-image: linear-gradient(
+			90deg,
+			transparent 0%,
+			var(--jm-border-gold) 20%,
+			var(--jm-accent) 50%,
+			var(--jm-border-gold) 80%,
+			transparent 100%
+		);
+	}
+
+	/* Gold text gradient for the app lockup and screen titles. */
+	.jm-gold-text {
+		background-image: linear-gradient(
+			180deg,
+			#ffe9a8 0%,
+			#ffd54f 45%,
+			#b08313 100%
+		);
+		-webkit-background-clip: text;
+		background-clip: text;
+		color: transparent;
+		-webkit-text-fill-color: transparent;
+	}
+
+	/*
+	 * Minimum touch target.
+	 *
+	 * Expands the hit area of a visually small control to 44px without changing
+	 * layout — the pseudo-element overflows the button. Requires the element to
+	 * be `relative`. Use this where `min-h-touch` would break the visual size.
+	 */
+	.jm-touch::after {
+		content: "";
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: max(100%, var(--jm-touch-target));
+		height: max(100%, var(--jm-touch-target));
+		transform: translate(-50%, -50%);
+	}
+}
+
+/*
+ * Reduced motion.
+ *
+ * Outside any layer and using `!important`, because this must beat everything —
+ * including the pre-existing `stagger-container` delay ladder and the infinite
+ * `twinkling-stars` / `glow` / `audio-bar` loops in `index.css`.
+ *
+ * Ambient decorative motion is additionally gated in React via
+ * `useReducedMotion()` so those layers never mount at all: a paused animation
+ * still costs a composited layer on the low-end Android devices this app
+ * targets.
+ */
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms;
+		animation-iteration-count: 1;
+		transition-duration: 0.01ms;
+		scroll-behavior: auto;
+	}
+
+	html {
+		scroll-behavior: auto;
+	}
+
+	.stagger-item,
+	.stagger-container > * {
+		animation: none;
+		opacity: 1;
+		transform: none;
+	}
+
+	/* Purely decorative ambient layers are removed outright. */
+	.jm-ambient {
+		display: none;
+	}
+}

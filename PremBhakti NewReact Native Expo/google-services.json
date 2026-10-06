@@ -1,0 +1,101 @@
+{
+  "project_info": {
+    "project_number": "33454825743",
+    "project_id": "cpbs-admin",
+    "storage_bucket": "cpbs-admin.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:33454825743:android:b69dd828775f7e7b4b9e7a",
+        "android_client_info": {
+          "package_name": "com.cpbs.bhajans"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "33454825743-710esk660ed7fh9omqkfglf4qukp29qb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cpbs.bhajans",
+            "certificate_hash": "ab3d9f88f8dcd28713c31fd18778e7ba608d05cc"
+          }
+        },
+        {
+          "client_id": "33454825743-ajjgtunvv2b4ei9miqsjn63jb6c7f1gd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cpbs.bhajans",
+            "certificate_hash": "9072d04b97a4335037d4a419388d24a0e1e04277"
+          }
+        },
+        {
+          "client_id": "33454825743-dslp3lvssc2qis8bbvaeip5q6u0fvcqq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cpbs.bhajans",
+            "certificate_hash": "700f1c0c4a1c12b2351feaf841a7b61dabf60198"
+          }
+        },
+        {
+          "client_id": "33454825743-d4o8tq1tugoq51og8uhp3sh7tcdpis1r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCA4oFgsoRJTmIiEOWEmkR_3S018ImWueQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "33454825743-d4o8tq1tugoq51og8uhp3sh7tcdpis1r.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "33454825743-1ihfefb7t7ibp01nm84e2i0jj8o2t2ee.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.cpbs.bhajans"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:33454825743:android:b69dd828775f7e7b4b9e7a",
+        "android_client_info": {
+          "package_name": "com.cpbs.bhajans.rntest"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCA4oFgsoRJTmIiEOWEmkR_3S018ImWueQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "33454825743-d4o8tq1tugoq51og8uhp3sh7tcdpis1r.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "33454825743-1ihfefb7t7ibp01nm84e2i0jj8o2t2ee.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.cpbs.bhajans"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

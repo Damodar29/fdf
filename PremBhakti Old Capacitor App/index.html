@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="hi-IN">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <!-- Status-bar colour. The JS at the end of App.tsx rewrites this to match
+       the actual gradient header once React mounts; this is the pre-JS floor so
+       the very first paint is already Krishna blue rather than flashing the old
+       Radha-Yellow maroon. -->
+  <meta name="theme-color" content="#0B2E6B" />
+  <meta name="mobile-web-app-capable" content="yes" />
+
+  <!-- DNS Preconnect: tells WebView to open TCP connections BEFORE JS fires.
+         Saves 200-400ms on first request to each host. -->
+  <link rel="preconnect" href="https://firestore.googleapis.com" crossorigin />
+  <link rel="preconnect" href="https://firebase.googleapis.com" crossorigin />
+  <link rel="preconnect" href="https://identitytoolkit.googleapis.com" crossorigin />
+  <link rel="preconnect" href="https://objects.githubusercontent.com" crossorigin />
+  <link rel="preconnect" href="https://api.github.com" crossorigin />
+  <link rel="preconnect" href="https://img.youtube.com" crossorigin />
+  <!-- DNS prefetch fallback for browsers that don't support preconnect -->
+  <link rel="dns-prefetch" href="https://firestore.googleapis.com" />
+  <link rel="dns-prefetch" href="https://firebase.googleapis.com" />
+  <link rel="dns-prefetch" href="https://objects.githubusercontent.com" />
+  <!-- Content Security Policy: relaxed temporarily to debug Firebase Auth -->
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src * 'unsafe-inline' 'unsafe-eval' data: blob:; script-src * 'unsafe-inline' 'unsafe-eval'; connect-src * 'unsafe-inline'; img-src * data: blob: 'unsafe-inline'; frame-src *; style-src * 'unsafe-inline';" />
+  <!-- iOS PWA: enable standalone fullscreen app mode on iPhone/iPad -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Prem Bhakti" />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="apple-touch-icon" href="/icon.png" />
+  <title>Shri Chaitanya Prem Bhakti Sangh | Prem Bhakti Official Website</title>
+  <link rel="icon" type="image/png" href="/icon.png" />
+
+  <!-- Primary Meta Tags (SEO). The full organisation name has to be in the
+       title and description, or Google can't rank the site for
+       "Shri Chaitanya Prem Bhakti Sangh" / "Chaitanya Prem Bhakti". -->
+  <meta name="description"
+    content="Official website and app of Shri Chaitanya Prem Bhakti Sangh (श्री चैतन्य प्रेम भक्ति संघ), a Gaudiya Vaishnava community. Daily darshan, bhajans, kirtans, lectures, books, Vaishnav calendar and festival updates." />
+  <meta name="author" content="Shri Chaitanya Prem Bhakti Sangh" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <!-- Canonical: one URL per page so Google doesn't index junk paths
+       (e.g. /festivals showed up as "Notifications Blocked"). /privacy, /terms
+       and /about keep their own URL; everything else points at the home page. -->
+  <link rel="canonical" href="https://chaitanyaprembhakti.org/" />
+  <script>
+    (() => {
+      var pages = {
+        "/privacy": "Privacy Policy",
+        "/terms": "Terms of Service",
+        "/about": "About Us",
+      };
+      var path = location.pathname.toLowerCase().replace(/\/+$/, "") || "/";
+      var name = pages[path];
+      if (!name) return;
+      document.title = name + " | Shri Chaitanya Prem Bhakti Sangh";
+      var link = document.querySelector('link[rel="canonical"]');
+      if (link) link.href = "https://chaitanyaprembhakti.org" + path;
+    })();
+  </script>
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Shri Chaitanya Prem Bhakti Sangh" />
+  <meta property="og:locale" content="hi_IN" />
+  <meta property="og:url" content="https://chaitanyaprembhakti.org/" />
+  <meta property="og:title" content="Shri Chaitanya Prem Bhakti Sangh | Prem Bhakti" />
+  <meta property="og:description"
+    content="Official website and app of Shri Chaitanya Prem Bhakti Sangh. Daily darshan, bhajans, kirtans, lectures and festival updates." />
+  <meta property="og:image" content="https://chaitanyaprembhakti.org/icon.png" />
+
+  <!-- Twitter (square icon, so the small "summary" card fits it best) -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Shri Chaitanya Prem Bhakti Sangh | Prem Bhakti" />
+  <meta name="twitter:description"
+    content="Official website and app of Shri Chaitanya Prem Bhakti Sangh. Daily darshan, bhajans, kirtans, lectures and festival updates." />
+  <meta name="twitter:image" content="https://chaitanyaprembhakti.org/icon.png" />
+
+  <!-- Structured data: tells Google the site name, other names people search
+       for, logo and official profiles (feeds the knowledge panel). -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://chaitanyaprembhakti.org/#website",
+          "url": "https://chaitanyaprembhakti.org/",
+          "name": "Shri Chaitanya Prem Bhakti Sangh",
+          "alternateName": ["Prem Bhakti", "Chaitanya Prem Bhakti Sangh", "CPBS", "श्री चैतन्य प्रेम भक्ति संघ"],
+          "inLanguage": ["hi-IN", "en-IN"],
+          "publisher": { "@id": "https://chaitanyaprembhakti.org/#organization" }
+        },
+        {
+          "@type": "Organization",
+          "@id": "https://chaitanyaprembhakti.org/#organization",
+          "name": "Shri Chaitanya Prem Bhakti Sangh",
+          "alternateName": ["Shree Chaitanya Prem Bhakti Sangh", "Prem Bhakti", "CPBS", "श्री चैतन्य प्रेम भक्ति संघ"],
+          "url": "https://chaitanyaprembhakti.org/",
+          "logo": "https://chaitanyaprembhakti.org/icon.png",
+          "description": "A Gaudiya Vaishnava community formed to preach the Holy Names of the Lord across the northwestern and central regions of India.",
+          "sameAs": [
+            "https://www.youtube.com/c/ShriChaitanyaPremBhaktiSangh",
+            "https://www.facebook.com/chaitanyaprembhakti",
+            "https://www.instagram.com/chaitanya_prem_bhakti/",
+            "https://play.google.com/store/apps/details?id=com.cpbs.bhajans"
+          ]
+        }
+      ]
+    }
+  </script>
+
+  <!-- Google Analytics 4 (the Firebase project's GA property). Web only: the
+       Android app also loads this page, so skip it there and on localhost.
+       Loaded after the page has finished loading so it never slows start-up. -->
+  <script>
+    (() => {
+      var host = location.hostname;
+      if (window.Capacitor?.isNativePlatform?.()) return;
+      if (host !== "chaitanyaprembhakti.org" && host !== "www.chaitanyaprembhakti.org") return;
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function () { dataLayer.push(arguments); };
+      gtag("js", new Date());
+      gtag("config", "G-3KEZ7ZH5CQ");
+      window.addEventListener("load", () => {
+        setTimeout(() => {
+          var s = document.createElement("script");
+          s.async = true;
+          s.src = "https://www.googletagmanager.com/gtag/js?id=G-3KEZ7ZH5CQ";
+          document.head.appendChild(s);
+        }, 1500);
+      });
+    })();
+  </script>
+
+  <!-- Local Fonts for Offline Support -->
+  <link rel="stylesheet" href="/fonts/fonts.css" />
+
+  <link rel="stylesheet" href="/index.css" />
+
+  <!-- Prevent white flash on splash screen during night mode -->
+  <script>
+    (() => {
+      var hour = new Date().getHours();
+      var isDay = hour >= 6 && hour < 18;
+      if (!isDay) {
+        var style = document.createElement('style');
+        style.innerHTML = 'body { background-color: #081224 !important; }';
+        document.head.appendChild(style);
+      }
+    })();
+  </script>
+</head>
+
+<!--
+  Body defaults.
+
+  `font-bold` used to sit here, which forced EVERY piece of text in the app to
+  700 weight and destroyed any typographic hierarchy — headings could not read as
+  heavier than body copy because body copy was already as heavy as it could get.
+  It is replaced by `font-body`, and weight is now expressed per role via
+  `textRole` in `src/theme/typography.ts`.
+
+  `text-content-primary` reads `--jm-text-primary` from `src/theme/tokens.css`,
+  which flips automatically under `.dark`, so no `dark:` variant is needed.
+-->
+<body
+  class="bg-cream-50 dark:bg-ink-900 text-content-primary font-body font-bold transition-colors duration-300">
+  <!-- Hidden SEO Content for Google Bots -->
+  <div
+    style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border-width: 0;">
+    <h1>Shri Chaitanya Prem Bhakti Sangh (श्री चैतन्य प्रेम भक्ति संघ) – Prem Bhakti</h1>
+    <h2>About Us</h2>
+    <p>Shree Chaitanya Prem Bhakti Sangh is a Gaudiya Vaishnava community formed to preach the Holy Names of the Lord
+      across the northwestern and central regions of India, following the teachings of Shri Chaitanya Mahaprabhu.</p>
+    <h2>Prem Bhakti App</h2>
+    <p>Prem Bhakti is the official website and app of Shri Chaitanya Prem Bhakti Sangh. It gives devotees easy access to
+      daily darshan, bhajans, kirtans, lectures, spiritual books, the Vaishnav calendar, temple timings and festival
+      updates, all in one place.</p>
+    <a href="https://chaitanyaprembhakti.org/about">About Shri Chaitanya Prem Bhakti Sangh</a>
+    <a href="https://play.google.com/store/apps/details?id=com.cpbs.bhajans">Prem Bhakti app on Google Play</a>
+    <a href="https://www.youtube.com/c/ShriChaitanyaPremBhaktiSangh">YouTube</a>
+    <a href="https://www.facebook.com/chaitanyaprembhakti">Facebook</a>
+    <a href="https://www.instagram.com/chaitanya_prem_bhakti/">Instagram</a>
+    <h2>Legal</h2>
+    <a href="https://chaitanyaprembhakti.org/privacy">Privacy Policy</a>
+    <a href="https://chaitanyaprembhakti.org/terms">Terms of Service</a>
+  </div>
+
+  <div id="root" class="h-full w-full overflow-hidden"></div>
+  <script>
+    // Register & auto-update the generated app Service Worker (PWA).
+    // When a new version is deployed, the SW receives SKIP_WAITING
+    // and immediately takes control, refreshing the page automatically.
+    // Only register the Service Worker on web (PWA). On native Android/iOS
+    // (Capacitor), the webview cannot run the browser SW and push
+    // notifications are handled by the native Capacitor Push plugin instead.
+    var isNativeApp = window.Capacitor?.isNativePlatform?.();
+    var isLocalHost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.hostname === '::1';
+    if ('serviceWorker' in navigator && !isNativeApp && !isLocalHost) {
+      navigator.serviceWorker.register('/sw.js', { scope: '/' })
+          .then((reg) => {
+            reg.addEventListener('updatefound', () => {
+              var newSW = reg.installing;
+              if (!newSW) return;
+              newSW.addEventListener('statechange', () => {
+                if (newSW.state === 'installed' && navigator.serviceWorker.controller) {
+                  // New version available — tell it to take over immediately
+                  newSW.postMessage({ type: 'SKIP_WAITING' });
+                }
+              });
+            });
+          });
+
+      // When the new SW takes control, reload to serve the latest version
+      var refreshing = false;
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (!refreshing) {
+          refreshing = true;
+          window.location.reload();
+        }
+      });
+    }
+  </script>
+  <script type="module" src="/index.tsx"></script>
+</body>
+
+</html>

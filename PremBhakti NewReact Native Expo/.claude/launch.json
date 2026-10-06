@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "rn-web",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["expo", "start", "--web", "--port", "8081"],
+      "port": 8081
+    },
+    {
+      "name": "web-bundle",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["scripts/web-preview-server.js"],
+      "port": 8090
+    }
+  ]
+}

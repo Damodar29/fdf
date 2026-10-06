@@ -1,0 +1,130 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+
+// Load keystore properties if available
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
+android {
+    namespace "com.cpbs.bhajans"
+    compileSdk = rootProject.ext.compileSdkVersion
+    // AGP 8+ disables BuildConfig generation by default.
+    // We need it for BuildConfig.VERSION_CODE in notification channel IDs.
+    buildFeatures {
+        buildConfig = true
+    }
+    // Java 11 source/target: required by Capacitor 7 & modern Kotlin toolchain.
+    // coreLibraryDesugaring: backports java.time and other modern Java APIs to Android 26+.
+    // NOTE: .aab (App Bundle) is used → Play Store auto-delivers per-architecture slices.
+    //        No manual ABI splits needed here — the store handles it.
+    compileOptions {
+        coreLibraryDesugaringEnabled true
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    defaultConfig {
+        applicationId "com.cpbs.bhajans"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 47
+        versionName "47"
+        manifestPlaceholders = [ appVersionCode: String.valueOf(versionCode) ]
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        aaptOptions {
+             // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
+             // Default: https://android.googlesource.com/platform/frameworks/base/+/282e181b58cf72b6ca770dc7ca5f91f135444502/tools/aapt/AaptAssets.cpp#61
+            ignoreAssetsPattern = '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
+        }
+        ndk {
+            abiFilters "armeabi-v7a", "arm64-v8a" , "x86_64"
+        }
+    }
+
+    signingConfigs {
+        release {
+            if (keystorePropertiesFile.exists()) {
+                storeFile file(keystoreProperties['storeFile'])
+                storePassword keystoreProperties['storePassword']
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
+            }
+        }
+    }
+
+    packagingOptions {
+        jniLibs {
+            useLegacyPackaging = false
+            keepDebugSymbols += ["**/*.so"]
+        }
+    }
+    buildTypes {
+        release {
+            // R8 (successor to ProGuard): minifies, shrinks, and obfuscates the release APK.
+            // Removes unused code/resources → smaller APK + faster startup.
+            // Was incorrectly set to false — re-enabled.
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            if (keystorePropertiesFile.exists()) {
+                signingConfig signingConfigs.release
+            }
+            ndk {
+                debugSymbolLevel 'FULL'
+            }
+        }
+        debug {
+            minifyEnabled false
+            ndk {
+                // Emulators (BlueStacks/Android Studio) ke liye x86 support (sirf debug mein)
+                abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
+            }
+        }
+    }
+
+    lint {
+        // Disabling abortOnError and checkReleaseBuilds can prevent some Lint service issues.
+        abortOnError false
+        checkReleaseBuilds false
+    }
+}
+
+dependencies {
+    // Backports modern Java APIs (java.time, java.util.stream, etc.) to Android 26+
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
+    implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
+    implementation "androidx.core:core-splashscreen:$coreSplashScreenVersion"
+    implementation project(':capacitor-android')
+    testImplementation "junit:junit:$junitVersion"
+    androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
+    implementation platform('com.google.firebase:firebase-bom:34.15.0')
+    implementation 'com.google.firebase:firebase-messaging'
+    implementation 'com.google.firebase:firebase-auth'
+    implementation 'com.google.firebase:firebase-firestore'
+    implementation 'com.google.firebase:firebase-crashlytics'
+    // firebase-perf removed (unused in app code): its startup init
+    // (AppStartTrace, RemoteConfig ConfigCacheClient) showed up in main-thread
+    // ANRs on low-end devices in Crashlytics (v45/v46).
+    // Required for GoogleApiAvailability — used to silently warm up GMS
+    // connection in onStart() and prevent the "Something went wrong" dialog
+    // after long background periods.
+    implementation 'com.google.android.gms:play-services-base:18.10.0'
+    // Authorization API (Identity.getAuthorizationClient) for DriveAuthPlugin —
+    // Drive access for the backup without a second Google sign-in.
+    implementation 'com.google.android.gms:play-services-auth:21.5.0'
+}
+
+apply from: 'capacitor.build.gradle'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: 'com.github.triplet.play'
+
+play {
+    serviceAccountCredentials.set(file('../../play-store-key.json'))
+    track.set('production')
+    defaultToAppBundles.set(true)
+}

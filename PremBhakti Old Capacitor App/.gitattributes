@@ -1,0 +1,4 @@
+# Firebase Storage backups: keep byte-identical to Storage (no CRLF conversion)
+data/bhajans/** -text
+data/lectures/** -text
+data/books/** -text

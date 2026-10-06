@@ -1,0 +1,92 @@
+name: Lossless Convert m4v/mov to mp4
+
+on:
+  workflow_dispatch: # Allows manual triggering from GitHub UI
+
+jobs:
+  convert-videos:
+    runs-on: ubuntu-latest
+    if: false # Paused to conserve GitHub Action limits as requested
+    steps:
+      - name: Install Dependencies
+        run: |
+          pip install b2
+          sudo apt-get update && sudo apt-get install -y ffmpeg
+
+      - name: Scan and Convert Videos
+        env:
+          B2_KEY_ID: ${{ secrets.B2_KEY_ID }}
+          B2_APP_KEY: ${{ secrets.B2_APP_KEY }}
+          B2_BUCKET: ${{ secrets.B2_BUCKET }}
+        run: |
+          echo "Authorizing B2..."
+          b2 account authorize $B2_KEY_ID $B2_APP_KEY
+
+          echo "Fetching list of all .m4v and .mov files..."
+          b2 ls --recursive b2://$B2_BUCKET/ | grep -iE "\.(m4v|mov)" | grep -v "hhbsm-2026-glorification-audios" > files.txt || true
+
+          if [ ! -s files.txt ]; then
+            echo "No .m4v or .mov files found."
+            exit 0
+          fi
+          
+          CONVERTED=0
+          FAILED=0
+
+          while IFS= read -r FILE_NAME; do
+              
+              if [ -z "$FILE_NAME" ]; then
+                  continue
+              fi
+              
+              echo "----------------------------------------"
+              echo "Processing $FILE_NAME..."
+              
+              # Generate the new filename (replace extension with .mp4)
+              NEW_FILE_NAME="${FILE_NAME%.*}.mp4"
+              
+              echo "Converting: $FILE_NAME -> $NEW_FILE_NAME"
+              
+              # Download original via Cloudflare CDN (Zero Egress Fees)
+              ENCODED_URL=$(python3 -c "import urllib.parse; print(urllib.parse.quote('''$FILE_NAME''', safe='/'))")
+              HTTP_STATUS=$(curl -sL "https://videos.chaitanyaprembhakti.org/$ENCODED_URL" -o unoptimized_input_video --write-out "%{http_code}")
+              
+              if [ "$HTTP_STATUS" != "200" ]; then
+                  echo "ERROR: Failed to download $FILE_NAME (HTTP $HTTP_STATUS). Skipping."
+                  FAILED=$((FAILED+1))
+                  continue
+              fi
+              
+              # Convert losslessly and optimize for web streaming (faststart)
+              ffmpeg -y -nostdin -i unoptimized_input_video -movflags +faststart -c copy converted_output_video.mp4
+              
+              echo "Uploading converted version..."
+              if b2 file upload $B2_BUCKET converted_output_video.mp4 "$NEW_FILE_NAME"; then
+                  rm -f unoptimized_input_video converted_output_video.mp4
+                  echo "Successfully converted and uploaded: $NEW_FILE_NAME"
+                  
+                  echo "Deleting original file: $FILE_NAME"
+                  b2 rm "b2://$B2_BUCKET/$FILE_NAME" || echo "Warning: Could not delete original."
+                  
+                  CONVERTED=$((CONVERTED+1))
+              else
+                  echo "Failed to upload converted version for: $NEW_FILE_NAME"
+                  rm -f unoptimized_input_video converted_output_video.mp4
+                  FAILED=$((FAILED+1))
+              fi
+          done < files.txt
+          
+          echo "CONVERTED=$CONVERTED" >> $GITHUB_ENV
+          echo "FAILED=$FAILED" >> $GITHUB_ENV
+
+      - name: Send Telegram Notification
+        if: always()
+        env:
+          BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          MESSAGE="🚀 *Lossless Video Conversion Complete*%0A✅ Converted: ${CONVERTED:-0} files%0A❌ Failed: ${FAILED:-0} files"
+          curl -s -X POST "https://api.telegram.org/bot${BOT_TOKEN}/sendMessage" \
+            -d chat_id="${CHAT_ID}" \
+            -d parse_mode=Markdown \
+            -d text="$MESSAGE"

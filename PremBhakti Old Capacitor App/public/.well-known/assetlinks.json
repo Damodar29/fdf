@@ -1,0 +1,15 @@
+[
+	{
+		"relation": [
+			"delegate_permission/common.handle_all_urls",
+			"delegate_permission/common.get_login_creds"
+		],
+		"target": {
+			"namespace": "android_app",
+			"package_name": "com.cpbs.bhajans",
+			"sha256_cert_fingerprints": [
+				"87:FC:E7:35:24:94:75:6D:E1:B8:27:56:D1:83:B5:08:92:09:65:5F:DF:60:1F:32:04:65:C2:25:FF:54:3A:36"
+			]
+		}
+	}
+]

@@ -1,0 +1,19 @@
+{
+  "id": "003",
+  "title": "श्री \"हरे कृष्ण दास\" जी महाराज (वर्तमान आचार्य)",
+  "description": "श्री चैतन्य प्रेम भक्ति संघ के वर्तमान आचार्य श्री हरे कृष्ण दास जी महाराज के हरि कथा प्रवचन।",
+  "date": "",
+  "audio": [
+    {
+      "id": "hkd-01",
+      "singer": "सत्संग 1",
+      "url": "https://audios.chaitanyaprembhakti.org/Acharya%20JI%20Lectures_10/HARE.krishna.DAS.m4a"
+    },
+    {
+      "id": "hkd-02",
+      "singer": "सत्संग 2",
+      "url": "https://audios.chaitanyaprembhakti.org/Acharya%20JI%20Lectures_10/HARE.krshna.DAS.2.m4a"
+    }
+  ],
+  "isHidden": false
+}

@@ -1,0 +1,12 @@
+# Share-link previews for https://chaitanyaprembhakti.org/v/... — see src/index.js.
+# Deploy from this folder: node wr.mjs deploy
+# (not plain `npx wrangler` — that uses the global login, a different account; see AGENTS.md)
+name = "share-preview"
+main = "src/index.js"
+compatibility_date = "2024-01-01"
+account_id = "f2788c3a7cff336f1bd18f9417239ef8"
+
+routes = [
+  { pattern = "chaitanyaprembhakti.org/v/*", zone_name = "chaitanyaprembhakti.org" },
+  { pattern = "www.chaitanyaprembhakti.org/v/*", zone_name = "chaitanyaprembhakti.org" }
+]

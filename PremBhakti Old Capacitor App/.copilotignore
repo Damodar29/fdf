@@ -1,0 +1,18 @@
+# GitHub Copilot — exclude from AI context and suggestions
+ruflo/
+.swarm/
+.claude-flow/
+.claude/
+.agents/
+graphify-out/
+node_modules/
+dist/
+backup/
+reports/
+temp_video/
+temp_videos/
+test_dist/
+
+# Folder-local CLI logins (Cloudflare / gcloud tokens) — never index or read
+.wrangler-auth/
+.gcloud/

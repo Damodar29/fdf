@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
+    <application
+        android:name=".MainApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:requestLegacyExternalStorage="true"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:hardwareAccelerated="true"
+        android:largeHeap="true"
+        android:extractNativeLibs="false"
+        android:forceDarkAllowed="false"
+        android:usesCleartextTraffic="false">
+        <!-- FCM Default Notification Settings -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="push_notifications_v6"
+        />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@mipmap/ic_launcher_round"
+        />
+        <activity
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|density|smallestScreenSize|screenLayout|uiMode|navigation"
+            android:name=".MainActivity"
+            android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme.NoActionBarLaunch"
+            android:launchMode="singleTask"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <!-- Deep Link: open app when user taps a chaitanyaprembhakti.org bhajan share link -->
+            <!-- android:autoVerify="true" enables verified App Links (no disambiguation dialog) -->
+            <!-- Requires /.well-known/assetlinks.json on the domain to fully verify -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="chaitanyaprembhakti.org" />
+                <data android:scheme="http" android:host="chaitanyaprembhakti.org" />
+            </intent-filter>
+        </activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/file_paths" />
+        </provider>
+
+        <!-- ─── Background Audio: @capgo/capacitor-media-session ─── -->
+        <!-- Explicitly declare the service so we can set foregroundServiceType.  -->
+        <!-- stopWithTask is intentionally left at default (true): swiping the    -->
+        <!-- app away from recents stops audio cleanly, which is the expected     -->
+        <!-- behavior. The Home button (background) scenario is handled by the    -->
+        <!-- handleOnStop() guard: service stays alive if isPlaybackActive().     -->
+        <!-- Service lifecycle: starts on first play(), stops when state='none'.  -->
+        <service
+            android:name="com.capgo.mediasession.MediaSessionService"
+            android:foregroundServiceType="mediaPlayback"
+            android:exported="false"
+            android:enabled="true"
+            tools:node="merge"
+            tools:replace="android:exported"
+        />
+
+        <!-- Prevent crash from cordova-plugin-background-mode if present -->
+        <service android:name="de.appplant.cordova.plugin.background.ForegroundService" tools:node="remove" />
+
+        <!-- MediaButtonReceiver handles headset/Bluetooth media buttons & notification actions -->
+        <receiver android:name="androidx.media.session.MediaButtonReceiver" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
+            </intent-filter>
+        </receiver>
+        <!-- ──────────────────────────────────────────────────────── -->
+
+        <!-- ─── Custom Push Notifications Receiver ─── -->
+        <service android:name=".CustomFirebaseMessagingService" android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <!-- ────────────────────────────────────────── -->
+
+        <!-- ─── Download Complete Receiver ─── -->
+        <receiver android:name=".plugins.DownloadCompleteReceiver" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
+            </intent-filter>
+        </receiver>
+        <!-- ────────────────────────────────────────────────── -->
+
+        <!-- ─── Background Upload Foreground Service ─── -->
+        <!-- foregroundServiceType="dataSync" keeps the service alive while -->
+        <!-- the user navigates away or the screen is off. -->
+        <service
+            android:name=".plugins.UploadForegroundService"
+            android:foregroundServiceType="dataSync"
+            android:exported="false"
+        />
+        <!-- ─────────────────────────────────────────── -->
+    </application>
+
+    <!-- ─── Permissions ─── -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <!-- Required by Capacitor WebView for SpeechRecognition -->
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
+
+    <!-- Wake lock: keep CPU alive while audio plays with screen off -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <!-- Required to start a foreground service on Android 9+ -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+    <!-- Required on Android 14+ for dataSync foreground service type (upload) -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+
+    <!-- Required on Android 14+ for mediaPlayback foreground service type -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+
+    <!-- External storage write: needed for Android 9 and below (API ≤ 28) -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28" />
+    <!-- External storage read: needed for Android 12 and below (API ≤ 32) -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
+
+    <!-- ─── Package Visibility (Android 11+ / API 30+) ───────────────────── -->
+    <!-- Without this, resolveActivity() always returns null on API 30+ for   -->
+    <!-- apps not explicitly listed, even if installed. This causes openPdf   -->
+    <!-- to always reject with "No PDF reader installed" on Android 11+.       -->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:mimeType="application/pdf" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:mimeType="vnd.android.document/directory" />
+        </intent>
+        <package android:name="com.android.vending" />
+        <!-- Play Store for update flow -->
+    </queries>
+    <!-- ──────────────────────────────────────────────────────────────── -->
+</manifest>

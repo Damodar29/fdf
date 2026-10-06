@@ -1,0 +1,92 @@
+name: Optimize New Video (Faststart)
+
+on:
+  repository_dispatch:
+    types: [optimize-video]
+
+jobs:
+  optimize:
+    runs-on: ubuntu-latest
+    if: false # Paused to conserve GitHub Action limits as requested
+    steps:
+      - name: Install Dependencies
+        run: |
+          pip install b2
+          sudo apt-get update && sudo apt-get install -y ffmpeg
+
+      - name: Optimize Video
+        id: optimize_step
+        env:
+          B2_KEY_ID: ${{ secrets.B2_KEY_ID }}
+          B2_APP_KEY: ${{ secrets.B2_APP_KEY }}
+          B2_BUCKET: ${{ secrets.B2_BUCKET }}
+          OBJECT_KEY: ${{ github.event.client_payload.object_key }}
+        run: |
+          echo "Authorizing B2..."
+          b2 account authorize $B2_KEY_ID $B2_APP_KEY
+
+          if [[ "$OBJECT_KEY" == *"hhbsm-2026-glorification-audios"* ]]; then
+              echo "Ignoring glorification audio folder."
+              exit 0
+          fi
+
+          echo "Checking if already optimized..."
+          ENCODED_URL=$(python3 -c "import urllib.parse; print(urllib.parse.quote('''$OBJECT_KEY''', safe='/'))")
+          
+          # Use ffmpeg -v trace over HTTP to read just the header atoms without downloading the file
+          # This breaks the infinite webhook loop when the GH Action itself uploads an already-optimized file
+          ffmpeg -v trace -i "https://videos.chaitanyaprembhakti.org/$ENCODED_URL" 2>&1 | grep -e "type:'mdat'" -e "type:'moov'" | head -n 2 > layout.txt || true
+          FIRST_ATOM=$(head -n 1 layout.txt)
+          
+          if [[ "$FIRST_ATOM" == *"mdat"* ]]; then
+              echo "Needs optimization: $OBJECT_KEY"
+              echo "Downloading $OBJECT_KEY via Cloudflare CDN (Zero Egress Fees)..."
+              HTTP_STATUS=$(curl -sL "https://videos.chaitanyaprembhakti.org/$ENCODED_URL" -o unoptimized.mp4 --write-out "%{http_code}")
+
+              if [ "$HTTP_STATUS" != "200" ]; then
+                  echo "ERROR: Failed to download file (HTTP $HTTP_STATUS). Aborting."
+                  exit 1
+              fi
+              
+              echo "Running FFmpeg +faststart..."
+              ffmpeg -y -nostdin -i unoptimized.mp4 -movflags +faststart -c copy optimized.mp4
+              
+              echo "Uploading optimized video back to B2..."
+              if b2 file upload $B2_BUCKET optimized.mp4 "$OBJECT_KEY"; then
+                  rm -f unoptimized.mp4 optimized.mp4
+                  echo "Optimization complete!"
+                  echo "did_optimize=true" >> $GITHUB_OUTPUT
+              else
+                  rm -f unoptimized.mp4 optimized.mp4
+                  echo "Upload failed."
+                  exit 1
+              fi
+          else
+              echo "Already optimized (moov atom is first)! Skipping to prevent infinite webhook loops."
+          fi
+
+      - name: Send Telegram Notification
+        if: steps.optimize_step.outputs.did_optimize == 'true'
+        env:
+          BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          FILE_NAME: ${{ github.event.client_payload.object_key }}
+        run: |
+          MESSAGE="✅ *Video Optimization Complete*%0AFile: \`$FILE_NAME\`"
+          curl -s -X POST "https://api.telegram.org/bot${BOT_TOKEN}/sendMessage" \
+            -d chat_id="${CHAT_ID}" \
+            -d parse_mode=Markdown \
+            -d text="$MESSAGE"
+
+      - name: Send Failure Notification
+        if: failure()
+        env:
+          BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          FILE_NAME: ${{ github.event.client_payload.object_key }}
+        run: |
+          MESSAGE="❌ *Video Optimization Failed*%0AFile: \`${FILE_NAME}\`%0AThe GitHub Action crashed while optimizing. Please check the Actions logs on GitHub for details."
+          curl -s -X POST "https://api.telegram.org/bot${BOT_TOKEN}/sendMessage" \
+            -d chat_id="${CHAT_ID}" \
+            -d parse_mode=Markdown \
+            -d text="$MESSAGE"

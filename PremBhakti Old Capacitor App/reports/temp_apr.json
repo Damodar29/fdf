@@ -1,0 +1,991 @@
+{
+	"name": "projects/cpbs-admin/databases/(default)/documents/Calendar/Apr",
+	"fields": {
+		"2026-04-28": {
+			"arrayValue": {
+				"values": [
+					{
+						"mapValue": {
+							"fields": {
+								"eventTime": {
+									"stringValue": ""
+								},
+								"breakTime": {
+									"stringValue": ""
+								},
+								"eventName": {
+									"stringValue": "रुक्मणी द्वादशी ।"
+								},
+								"location": {
+									"stringValue": ""
+								},
+								"type": {
+									"stringValue": "other"
+								},
+								"time": {
+									"stringValue": ""
+								},
+								"description": {
+									"stringValue": ""
+								},
+								"isEkadashi": {
+									"booleanValue": false
+								}
+							}
+						}
+					}
+				]
+			}
+		},
+		"2026-04-25": {
+			"arrayValue": {
+				"values": [
+					{
+						"mapValue": {
+							"fields": {
+								"eventTime": {
+									"stringValue": ""
+								},
+								"eventName": {
+									"stringValue": "श्री मधु पंडित-तिरोभाव "
+								},
+								"breakTime": {
+									"stringValue": ""
+								},
+								"location": {
+									"stringValue": ""
+								},
+								"type": {
+									"stringValue": "disappearance"
+								},
+								"time": {
+									"stringValue": ""
+								},
+								"description": {
+									"stringValue": ""
+								},
+								"isEkadashi": {
+									"booleanValue": false
+								}
+							}
+						}
+					},
+					{
+						"mapValue": {
+							"fields": {
+								"location": {
+									"stringValue": ""
+								},
+								"eventTime": {
+									"stringValue": ""
+								},
+								"eventName": {
+									"stringValue": "श्री जानकी (सीताजी) एवं श्री जान्हवादेवी आविर्भाव ।"
+								},
+								"breakTime": {
+									"stringValue": ""
+								},
+								"description": {
+									"stringValue": ""
+								},
+								"isEkadashi": {
+									"booleanValue": false
+								},
+								"type": {
+									"stringValue": "appearance"
+								},
+								"time": {
+									"stringValue": ""
+								}
+							}
+						}
+					}
+				]
+			}
+		},
+		"2027-04-11": {
+			"arrayValue": {
+				"values": [
+					{
+						"mapValue": {
+							"fields": {
+								"eventName": {
+									"stringValue": "श्री रामानुजाचार्य जी का आविर्भाव महोत्सव l "
+								},
+								"breakTime": {
+									"stringValue": ""
+								},
+								"eventTime": {
+									"stringValue": ""
+								},
+								"location": {
+									"stringValue": ""
+								},
+								"time": {
+									"stringValue": ""
+								},
+								"type": {
+									"stringValue": "appearance"
+								},
+								"isEkadashi": {
+									"booleanValue": false
+								},
+								"description": {
+									"stringValue": ""
+								}
+							}
+						}
+					}
+				]
+			}
+		},
+		"2026-04-04": {
+			"arrayValue": {
+				"values": [
+					{
+						"mapValue": {
+							"fields": {
+								"eventName": {
+									"stringValue": "श्री पुरुषोत्तम दास सेवक जी महाराज का तिरोभाव महोत्सव ।"
+								},
+								"breakTime": {
+									"stringValue": ""
+								},
+								"eventTime": {
+									"stringValue": ""
+								},
+								"location": {
+									"stringValue": ""
+								},
+								"time": {
+									"stringValue": ""
+								},
+								"type": {
+									"stringValue": "disappearance"
+								},
+								"isEkadashi": {
+									"booleanValue": false
+								},
+								"description": {
+									"stringValue": ""
+								}
+							}
+						}
+					}
+				]
+			}
+		},
+		"2026-04-23": {
+			"arrayValue": {
+				"values": [
+					{
+						"mapValue": {
+							"fields": {
+								"type": {
+									"stringValue": "other"
+								},
+								"time": {
+									"stringValue": ""
+								},
+								"description": {
+									"stringValue": ""
+								},
+								"isEkadashi": {
+									"booleanValue": false
+								},
+								"eventTime": {
+									"stringValue": ""
+								},
+								"eventName": {
+									"stringValue": " जाह्नु सप्तमी"
+								},
+								"breakTime": {
+									"stringValue": ""
+								},
+								"location": {
+									"stringValue": ""
+								}
+							}
+						}
+					}
+				]
+			}
+		},
+		"2026-04-02": {
+			"arrayValue": {
+				"values": [
+					{
+						"mapValue": {
+							"fields": {
+								"location": {
+									"stringValue": ""
+								},
+								"breakTime": {
+									"stringValue": ""
+								},
+								"eventName": {
+									"stringValue": "श्री श्यामानंद प्रभु  आविर्भाव ।"
+								},
+								"eventTime": {
+									"stringValue": ""
+								},
+								"isEkadashi": {
+									"booleanValue": false
+								},
+								"description": {
+									"stringValue": ""
+								},
+								"type": {
+									"stringValue": "appearance"
+								},
+								"time": {
+									"stringValue": ""
+								}
+							}
+						}
+					},
+					{
+						"mapValue": {
+							"fields": {
+								"time": {
+									"stringValue": ""
+								},
+								"type": {
+									"stringValue": "other"
+								},
+								"description": {
+									"stringValue": ""
+								},
+								"isEkadashi": {
+									"booleanValue": false
+								},
+								"eventTime": {
+									"stringValue": ""
+								},
+								"eventName": {
+									"stringValue": "श्री हनुमान जयन्ती ।"
+								},
+								"breakTime": {
+									"stringValue": ""
+								},
+								"location": {
+									"stringValue": ""
+								}
+							}
+						}
+					},
+					{
+						"mapValue": {
+							"fields": {
+								"eventTime": {
+									"stringValue": ""
+								},
+								"eventName": {
+									"stringValue": "श्री बलराम रास यात्रा ।"
+								},
+								"breakTime": {
+									"stringValue": ""
+								},
+								"location": {
+									"stringValue": ""
+								},
+								"type": {
+									"stringValue": "other"
+								},
+								"time": {
+									"stringValue": ""
+								},
+								"description": {
+									"stringValue": ""
+								},
+								"isEkadashi": {
+									"booleanValue": false
+								}
+							}
+						}
+					},
+					{
+						"mapValue": {
+							"fields": {
+								"breakTime": {
+									"stringValue": ""
+								},
+								"eventName": {
+									"stringValue": "श्री कृष्ण बसन्तरास पूर्णिमा ।"
+								},
+								"eventTime": {
+									"stringValue": ""
+								},
+								"location": {
+									"stringValue": ""
+								},
+								"time": {
+									"stringValue": ""
+								},
+								"type": {
+									"stringValue": "other"
+								},
+								"isEkadashi": {
+									"booleanValue": false
+								},
+								"description": {
+									"stringValue": ""
+								}
+							}
+						}
+					}
+				]
+			}
+		},
+		"2027-04-02": {
+			"arrayValue": {
+				"values": [
+					{
+						"mapValue": {
+							"fields": {
+								"description": {
+									"stringValue": "पारण – सुबह 9:30 के पूर्व l"
+								},
+								"isEkadashi": {
+									"booleanValue": true
+								},
+								"type": {
+									"stringValue": "ekadashi"
+								},
+								"time": {
+									"stringValue": "पारण – सुबह 9:30 के पूर्व ।"
+								},
+								"location": {
+									"stringValue": ""
+								},
+								"eventTime": {
+									"stringValue": ""
+								},
+								"breakTime": {
+									"stringValue": "पारण – सुबह 9:30 के पूर्व ।"
+								},
+								"eventName": {
+									"stringValue": "पापमोचनी एकादशी उपवास ।"
+								}
+							}
+						}
+					}
+				]
+			}
+		},
+		"2026-04-27": {
+			"arrayValue": {
+				"values": [
+					{
+						"mapValue": {
+							"fields": {
+								"time": {
+									"stringValue": "पारण 09:25 के पूर्व ।"
+								},
+								"type": {
+									"stringValue": "ekadashi"
+								},
+								"isEkadashi": {
+									"booleanValue": true
+								},
+								"description": {
+									"stringValue": ""
+								},
+								"breakTime": {
+									"stringValue": "पारण 09:25 के पूर्व ।"
+								},
+								"eventName": {
+									"stringValue": "मोहिनी एकादशी उपवास ।"
+								},
+								"eventTime": {
+									"stringValue": ""
+								},
+								"location": {
+									"stringValue": ""
+								}
+							}
+						}
+					},
+					{
+						"mapValue": {
+							"fields": {
+								"eventTime": {
+									"stringValue": ""
+								},
+								"breakTime": {
+									"stringValue": ""
+								},
+								"eventName": {
+									"stringValue": "अलीगढ़ वार्षिक महोत्सव सम्पन्न ।"
+								},
+								"location": {
+									"stringValue": ""
+								},
+								"time": {
+									"stringValue": ""
+								},
+								"type": {
+									"stringValue": "other"
+								},
+								"description": {
+									"stringValue": ""
+								},
+								"isEkadashi": {
+									"booleanValue": false
+								}
+							}
+						}
+					}
+				]
+			}
+		},
+		"2027-04-06": {
+			"arrayValue": {
+				"values": [
+					{
+						"mapValue": {
+							"fields": {
+								"description": {
+									"stringValue": ""
+								},
+								"isEkadashi": {
+									"booleanValue": false
+								},
+								"type": {
+									"stringValue": "other"
+								},
+								"time": {
+									"stringValue": ""
+								},
+								"location": {
+									"stringValue": ""
+								},
+								"eventTime": {
+									"stringValue": ""
+								},
+								"breakTime": {
+									"stringValue": ""
+								},
+								"eventName": {
+									"stringValue": "अमावस्या ।"
+								}
+							}
+						}
+					}
+				]
+			}
+		},
+		"2027-04-03": {
+			"arrayValue": {
+				"values": [
+					{
+						"mapValue": {
+							"fields": {
+								"breakTime": {
+									"stringValue": ""
+								},
+								"eventName": {
+									"stringValue": "श्री गोविंद घोष जी का तिरोभाव महोत्सव l"
+								},
+								"eventTime": {
+									"stringValue": ""
+								},
+								"location": {
+									"stringValue": ""
+								},
+								"type": {
+									"stringValue": "disappearance"
+								},
+								"time": {
+									"stringValue": ""
+								},
+								"isEkadashi": {
+									"booleanValue": false
+								},
+								"description": {
+									"stringValue": ""
+								}
+							}
+						}
+					}
+				]
+			}
+		},
+		"2026-04-30": {
+			"arrayValue": {
+				"values": [
+					{
+						"mapValue": {
+							"fields": {
+								"type": {
+									"stringValue": "festival"
+								},
+								"time": {
+									"stringValue": "पारण अगले दिन ,सुबह 9:30 के पूर्व । "
+								},
+								"isEkadashi": {
+									"booleanValue": false
+								},
+								"description": {
+									"stringValue": ""
+								},
+								"eventName": {
+									"stringValue": "श्री नृसिंह चतुर्दशी उपवास । भरतपुर मण्डल का २९ वाँ वार्षिक महो.।"
+								},
+								"breakTime": {
+									"stringValue": "पारण अगले दिन ,सुबह 9:30 के पूर्व । "
+								},
+								"eventTime": {
+									"stringValue": ""
+								},
+								"location": {
+									"stringValue": ""
+								}
+							}
+						}
+					}
+				]
+			}
+		},
+		"2027-04-07": {
+			"arrayValue": {
+				"values": [
+					{
+						"mapValue": {
+							"fields": {
+								"location": {
+									"stringValue": ""
+								},
+								"eventName": {
+									"stringValue": "विक्रम सम्वत 2084 नववर्ष प्रारम्भ ।"
+								},
+								"breakTime": {
+									"stringValue": ""
+								},
+								"eventTime": {
+									"stringValue": ""
+								},
+								"isEkadashi": {
+									"booleanValue": false
+								},
+								"description": {
+									"stringValue": ""
+								},
+								"time": {
+									"stringValue": ""
+								},
+								"type": {
+									"stringValue": "other"
+								}
+							}
+						}
+					}
+				]
+			}
+		},
+		"2026-04-12": {
+			"arrayValue": {
+				"values": [
+					{
+						"mapValue": {
+							"fields": {
+								"description": {
+									"stringValue": ""
+								},
+								"isEkadashi": {
+									"booleanValue": false
+								},
+								"time": {
+									"stringValue": ""
+								},
+								"type": {
+									"stringValue": "disappearance"
+								},
+								"location": {
+									"stringValue": ""
+								},
+								"eventTime": {
+									"stringValue": ""
+								},
+								"eventName": {
+									"stringValue": "श्री वृन्दावनदास ठक्कुर महाशय का तिरोभाव महोत्सव ।"
+								},
+								"breakTime": {
+									"stringValue": ""
+								}
+							}
+						}
+					}
+				]
+			}
+		},
+		"2026-04-13": {
+			"arrayValue": {
+				"values": [
+					{
+						"mapValue": {
+							"fields": {
+								"eventName": {
+									"stringValue": "श्री बल्लाभाचार्य जयन्ती ।"
+								},
+								"breakTime": {
+									"stringValue": ""
+								},
+								"eventTime": {
+									"stringValue": ""
+								},
+								"location": {
+									"stringValue": ""
+								},
+								"type": {
+									"stringValue": "appearance"
+								},
+								"time": {
+									"stringValue": ""
+								},
+								"isEkadashi": {
+									"booleanValue": false
+								},
+								"description": {
+									"stringValue": ""
+								}
+							}
+						}
+					},
+					{
+						"mapValue": {
+							"fields": {
+								"description": {
+									"stringValue": ""
+								},
+								"isEkadashi": {
+									"booleanValue": true
+								},
+								"time": {
+									"stringValue": "पारण 09:30 के पूर्व ।"
+								},
+								"type": {
+									"stringValue": "ekadashi"
+								},
+								"location": {
+									"stringValue": ""
+								},
+								"eventTime": {
+									"stringValue": ""
+								},
+								"breakTime": {
+									"stringValue": "पारण 09:30 के पूर्व ।"
+								},
+								"eventName": {
+									"stringValue": "बरूथिनी एकादशी उपवास ।"
+								}
+							}
+						}
+					}
+				]
+			}
+		},
+		"2026-04-17": {
+			"arrayValue": {
+				"values": [
+					{
+						"mapValue": {
+							"fields": {
+								"isEkadashi": {
+									"booleanValue": false
+								},
+								"description": {
+									"stringValue": ""
+								},
+								"time": {
+									"stringValue": ""
+								},
+								"type": {
+									"stringValue": "disappearance"
+								},
+								"location": {
+									"stringValue": ""
+								},
+								"eventName": {
+									"stringValue": "परम पूज्या गुरु माताजी श्रीमती शचिसुत प्रिया दासीजी का तिरोभाव महोत्सव ।"
+								},
+								"breakTime": {
+									"stringValue": ""
+								},
+								"eventTime": {
+									"stringValue": ""
+								}
+							}
+						}
+					},
+					{
+						"mapValue": {
+							"fields": {
+								"type": {
+									"stringValue": "appearance"
+								},
+								"time": {
+									"stringValue": ""
+								},
+								"isEkadashi": {
+									"booleanValue": false
+								},
+								"description": {
+									"stringValue": ""
+								},
+								"eventName": {
+									"stringValue": "श्री गदाधर पं. गोस्वामी आविर्भाव महोत्सव ।"
+								},
+								"breakTime": {
+									"stringValue": ""
+								},
+								"eventTime": {
+									"stringValue": ""
+								},
+								"location": {
+									"stringValue": ""
+								}
+							}
+						}
+					},
+					{
+						"mapValue": {
+							"fields": {
+								"eventTime": {
+									"stringValue": ""
+								},
+								"eventName": {
+									"stringValue": "अमावस्या ।"
+								},
+								"breakTime": {
+									"stringValue": ""
+								},
+								"location": {
+									"stringValue": ""
+								},
+								"type": {
+									"stringValue": "other"
+								},
+								"time": {
+									"stringValue": ""
+								},
+								"description": {
+									"stringValue": ""
+								},
+								"isEkadashi": {
+									"booleanValue": false
+								}
+							}
+						}
+					}
+				]
+			}
+		},
+		"2027-04-15": {
+			"arrayValue": {
+				"values": [
+					{
+						"mapValue": {
+							"fields": {
+								"isEkadashi": {
+									"booleanValue": false
+								},
+								"description": {
+									"stringValue": "पारण – सुबह 9:30 के पूर्व l"
+								},
+								"time": {
+									"stringValue": "पारण – सुबह 9:30 के पूर्व l"
+								},
+								"type": {
+									"stringValue": "festival"
+								},
+								"location": {
+									"stringValue": "श्री कृष्ण चैतन्य प्रेम भक्ति धाम, OCF-5, गणेशनगर, कोटा (राजस्थान)"
+								},
+								"eventName": {
+									"stringValue": "श्री रामनवमी उपवास ।"
+								},
+								"breakTime": {
+									"stringValue": "पारण – सुबह 9:30 के पूर्व l"
+								},
+								"eventTime": {
+									"stringValue": ""
+								}
+							}
+						}
+					}
+				]
+			}
+		},
+		"2026-04-20": {
+			"arrayValue": {
+				"values": [
+					{
+						"mapValue": {
+							"fields": {
+								"location": {
+									"stringValue": "अलीगढ़, राजस्थान"
+								},
+								"eventTime": {
+									"stringValue": ""
+								},
+								"eventName": {
+									"stringValue": "श्री परशुराम जयन्ती, अलीगढ़ महोत्सव प्रारम्भ ।"
+								},
+								"breakTime": {
+									"stringValue": ""
+								},
+								"description": {
+									"stringValue": ""
+								},
+								"isEkadashi": {
+									"booleanValue": false
+								},
+								"type": {
+									"stringValue": "festival"
+								},
+								"time": {
+									"stringValue": ""
+								}
+							}
+						}
+					},
+					{
+						"mapValue": {
+							"fields": {
+								"isEkadashi": {
+									"booleanValue": false
+								},
+								"description": {
+									"stringValue": ""
+								},
+								"type": {
+									"stringValue": "other"
+								},
+								"time": {
+									"stringValue": ""
+								},
+								"location": {
+									"stringValue": ""
+								},
+								"eventName": {
+									"stringValue": "श्री हरि की चन्दन यात्रा ।"
+								},
+								"breakTime": {
+									"stringValue": ""
+								},
+								"eventTime": {
+									"stringValue": ""
+								}
+							}
+						}
+					},
+					{
+						"mapValue": {
+							"fields": {
+								"location": {
+									"stringValue": ""
+								},
+								"eventName": {
+									"stringValue": "अक्षय तृतीया ।"
+								},
+								"breakTime": {
+									"stringValue": ""
+								},
+								"eventTime": {
+									"stringValue": ""
+								},
+								"isEkadashi": {
+									"booleanValue": false
+								},
+								"description": {
+									"stringValue": ""
+								},
+								"time": {
+									"stringValue": ""
+								},
+								"type": {
+									"stringValue": "other"
+								}
+							}
+						}
+					}
+				]
+			}
+		},
+		"2026-04-09": {
+			"arrayValue": {
+				"values": [
+					{
+						"mapValue": {
+							"fields": {
+								"location": {
+									"stringValue": ""
+								},
+								"breakTime": {
+									"stringValue": ""
+								},
+								"eventName": {
+									"stringValue": "श्री अभिराम ठाकुर तिरोभाव महो. ।"
+								},
+								"eventTime": {
+									"stringValue": ""
+								},
+								"isEkadashi": {
+									"booleanValue": false
+								},
+								"description": {
+									"stringValue": ""
+								},
+								"time": {
+									"stringValue": ""
+								},
+								"type": {
+									"stringValue": "disappearance"
+								}
+							}
+						}
+					}
+				]
+			}
+		},
+		"2026-04-14": {
+			"arrayValue": {
+				"values": [
+					{
+						"mapValue": {
+							"fields": {
+								"breakTime": {
+									"stringValue": ""
+								},
+								"eventName": {
+									"stringValue": "श्री तुलसी जलदान आरंभ "
+								},
+								"eventTime": {
+									"stringValue": ""
+								},
+								"location": {
+									"stringValue": ""
+								},
+								"type": {
+									"stringValue": "other"
+								},
+								"time": {
+									"stringValue": ""
+								},
+								"isEkadashi": {
+									"booleanValue": false
+								},
+								"description": {
+									"stringValue": ""
+								}
+							}
+						}
+					}
+				]
+			}
+		}
+	},
+	"createTime": "2026-03-15T23:45:52.431705Z",
+	"updateTime": "2026-04-29T14:58:24.335080Z"
+}

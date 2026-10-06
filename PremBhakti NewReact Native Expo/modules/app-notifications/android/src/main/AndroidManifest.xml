@@ -1,0 +1,16 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+  <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+  <application>
+    <!-- Pushes FCM shows by itself (app in the background, "notification" payloads)
+         get this status-bar icon. Their channel (push_notifications_v6, as in the
+         Capacitor app) and colour are set in firebase.json for @react-native-firebase. -->
+    <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@drawable/ic_stat_notify" />
+    <!-- Shows every push itself, as the Capacitor app's CustomFirebaseMessagingService
+         (plugins/withAppNotifications.js removes @react-native-firebase's own service). -->
+    <service android:name="expo.modules.appnotifications.PushMessagingService" android:exported="false">
+      <intent-filter>
+        <action android:name="com.google.firebase.MESSAGING_EVENT" />
+      </intent-filter>
+    </service>
+  </application>
+</manifest>

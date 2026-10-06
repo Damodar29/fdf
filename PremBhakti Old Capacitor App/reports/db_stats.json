@@ -1,0 +1,1622 @@
+[
+	{
+		"id": "10_3_2",
+		"count": 8,
+		"version": "10.3.2",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1781604501,
+			"nanoseconds": 352000000
+		}
+	},
+	{
+		"id": "10_3_3",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786291164,
+			"nanoseconds": 212000000
+		},
+		"count": 76,
+		"version": "10.3.3"
+	},
+	{
+		"id": "android_native_10_3_5",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1781700377,
+			"nanoseconds": 616000000
+		},
+		"version": "android_native_10.3.5",
+		"count": 3
+	},
+	{
+		"id": "android_native_10_3_6",
+		"count": 130,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786316889,
+			"nanoseconds": 552000000
+		},
+		"version": "android_native_10.3.6"
+	},
+	{
+		"id": "android_native_10_3_7",
+		"version": "android_native_10.3.7",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786304141,
+			"nanoseconds": 780000000
+		},
+		"count": 268
+	},
+	{
+		"id": "android_native_10_3_8",
+		"version": "android_native_10.3.8",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1782865322,
+			"nanoseconds": 793000000
+		},
+		"count": 0
+	},
+	{
+		"id": "android_native_38_0_0",
+		"count": 10,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786202089,
+			"nanoseconds": 207000000
+		},
+		"version": "android_native_38.0.0"
+	},
+	{
+		"id": "android_native_39_0_0",
+		"version": "android_native_39.0.0",
+		"count": 49,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786280020,
+			"nanoseconds": 941000000
+		}
+	},
+	{
+		"id": "android_native_40_0_0",
+		"count": 10,
+		"version": "android_native_40.0.0",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786169643,
+			"nanoseconds": 606000000
+		}
+	},
+	{
+		"id": "android_native_41_0_0",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786288829,
+			"nanoseconds": 699000000
+		},
+		"count": 34,
+		"version": "android_native_41.0.0"
+	},
+	{
+		"id": "android_native_42_0_0",
+		"version": "android_native_42.0.0",
+		"count": 187,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786323461,
+			"nanoseconds": 797000000
+		}
+	},
+	{
+		"id": "android_native_43_0_0",
+		"count": 13,
+		"version": "android_native_43.0.0",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786281539,
+			"nanoseconds": 29000000
+		}
+	},
+	{
+		"id": "android_native_44_0_0",
+		"version": "android_native_44.0.0",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786323568,
+			"nanoseconds": 65000000
+		},
+		"count": 419
+	},
+	{
+		"id": "android_ota_10_3_6",
+		"count": 1,
+		"version": "android_ota_10.3.6",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1782973912,
+			"nanoseconds": 272000000
+		}
+	},
+	{
+		"id": "android_ota_10_3_7",
+		"count": 45,
+		"version": "android_ota_10.3.7",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786291395,
+			"nanoseconds": 194000000
+		}
+	},
+	{
+		"id": "android_ota_10_3_7_1",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1785225040,
+			"nanoseconds": 487000000
+		},
+		"count": 1,
+		"version": "android_ota_10.3.7.1"
+	},
+	{
+		"id": "android_ota_10_3_7_2",
+		"version": "android_ota_10.3.7.2",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1785554243,
+			"nanoseconds": 109000000
+		},
+		"count": 5
+	},
+	{
+		"id": "android_ota_10_3_7_3",
+		"count": 0,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1784036913,
+			"nanoseconds": 212000000
+		},
+		"version": "android_ota_10.3.7.3"
+	},
+	{
+		"id": "android_ota_10_3_7_4",
+		"count": 30,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786263198,
+			"nanoseconds": 54000000
+		},
+		"version": "android_ota_10.3.7.4"
+	},
+	{
+		"id": "android_ota_10_3_7_5",
+		"count": 10,
+		"version": "android_ota_10.3.7.5",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786282280,
+			"nanoseconds": 490000000
+		}
+	},
+	{
+		"id": "android_ota_10_3_7_6",
+		"version": "android_ota_10.3.7.6",
+		"count": 68,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786286476,
+			"nanoseconds": 664000000
+		}
+	},
+	{
+		"id": "android_ota_10_3_7_7",
+		"version": "android_ota_10.3.7.7",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786301723,
+			"nanoseconds": 864000000
+		},
+		"count": 30
+	},
+	{
+		"id": "android_ota_10_3_8",
+		"version": "android_ota_10.3.8",
+		"count": 2,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1783289916,
+			"nanoseconds": 346000000
+		}
+	},
+	{
+		"id": "android_ota_10_3_9",
+		"count": 2,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1783291954,
+			"nanoseconds": 436000000
+		},
+		"version": "android_ota_10.3.9"
+	},
+	{
+		"id": "android_ota_38_0_0",
+		"version": "android_ota_38.0.0",
+		"count": 10,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1785673416,
+			"nanoseconds": 393000000
+		}
+	},
+	{
+		"id": "android_ota_39_0_0",
+		"count": 33,
+		"version": "android_ota_39.0.0",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786312984,
+			"nanoseconds": 809000000
+		}
+	},
+	{
+		"id": "android_ota_39_1_0",
+		"count": 1,
+		"version": "android_ota_39.1.0",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1785844249,
+			"nanoseconds": 643000000
+		}
+	},
+	{
+		"id": "android_ota_40_0_0",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786244883,
+			"nanoseconds": 846000000
+		},
+		"version": "android_ota_40.0.0",
+		"count": 8
+	},
+	{
+		"id": "android_ota_41_0_0",
+		"count": 5,
+		"version": "android_ota_41.0.0",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786288831,
+			"nanoseconds": 229000000
+		}
+	},
+	{
+		"id": "android_ota_42_0_0",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1784985839,
+			"nanoseconds": 876000000
+		},
+		"version": "android_ota_42.0.0",
+		"count": 0
+	},
+	{
+		"id": "android_ota_42_0_1",
+		"version": "android_ota_42.0.1",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786323462,
+			"nanoseconds": 294000000
+		},
+		"count": 183
+	},
+	{
+		"id": "android_ota_42_0_2",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786289601,
+			"nanoseconds": 861000000
+		},
+		"count": 67,
+		"version": "android_ota_42.0.2"
+	},
+	{
+		"id": "android_ota_43_0_3",
+		"count": 10,
+		"version": "android_ota_43.0.3",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786281542,
+			"nanoseconds": 320000000
+		}
+	},
+	{
+		"id": "android_ota_44_0_1",
+		"version": "android_ota_44.0.1",
+		"count": 25,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786323573,
+			"nanoseconds": 728000000
+		}
+	},
+	{
+		"id": "android_ota_44_0_2",
+		"count": 36,
+		"version": "android_ota_44.0.2",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786312911,
+			"nanoseconds": 519000000
+		}
+	},
+	{
+		"id": "android_ota_44_0_3",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786289461,
+			"nanoseconds": 576000000
+		},
+		"version": "android_ota_44.0.3",
+		"count": 26
+	},
+	{
+		"id": "android_ota_44_0_4",
+		"version": "android_ota_44.0.4",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786302957,
+			"nanoseconds": 650000000
+		},
+		"count": 39
+	},
+	{
+		"id": "android_ota_44_0_5",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786302093,
+			"nanoseconds": 612000000
+		},
+		"count": 39,
+		"version": "android_ota_44.0.5"
+	},
+	{
+		"id": "android_ota_44_0_6",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786325878,
+			"nanoseconds": 386000000
+		},
+		"count": 201,
+		"version": "android_ota_44.0.6"
+	},
+	{
+		"id": "android_ota_44_0_7",
+		"version": "android_ota_44.0.7",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786322959,
+			"nanoseconds": 966000000
+		},
+		"count": 47
+	},
+	{
+		"id": "android_ota_44_0_8",
+		"count": 36,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786325878,
+			"nanoseconds": 545000000
+		},
+		"version": "android_ota_44.0.8"
+	},
+	{
+		"id": "android_pwa_10_3_3",
+		"count": 0,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1781678336,
+			"nanoseconds": 862000000
+		},
+		"version": "android_pwa_10.3.3"
+	},
+	{
+		"id": "android_pwa_10_3_4",
+		"version": "android_pwa_10.3.4",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1781701469,
+			"nanoseconds": 405000000
+		},
+		"count": 0
+	},
+	{
+		"id": "android_pwa_10_3_6",
+		"version": "android_pwa_10.3.6",
+		"count": -2,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1783292011,
+			"nanoseconds": 70000000
+		}
+	},
+	{
+		"id": "android_pwa_10_3_7",
+		"count": 0,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1783684711,
+			"nanoseconds": 231000000
+		},
+		"version": "android_pwa_10.3.7"
+	},
+	{
+		"id": "android_pwa_10_3_7_4",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1784786427,
+			"nanoseconds": 886000000
+		},
+		"version": "android_pwa_10.3.7.4",
+		"count": -2
+	},
+	{
+		"id": "android_pwa_10_3_7_6",
+		"version": "android_pwa_10.3.7.6",
+		"count": 2,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1785321600,
+			"nanoseconds": 221000000
+		}
+	},
+	{
+		"id": "android_pwa_38_0_0",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786032750,
+			"nanoseconds": 321000000
+		},
+		"count": 1,
+		"version": "android_pwa_38.0.0"
+	},
+	{
+		"id": "android_pwa_42_0_1",
+		"count": 0,
+		"version": "android_pwa_42.0.1",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786084370,
+			"nanoseconds": 682000000
+		}
+	},
+	{
+		"id": "android_pwa_44_0_6",
+		"count": 1,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786084371,
+			"nanoseconds": 646000000
+		},
+		"version": "android_pwa_44.0.6"
+	},
+	{
+		"id": "android_web_10_3_",
+		"version": "android_web_10.3.",
+		"count": 3,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1782864461,
+			"nanoseconds": 133000000
+		}
+	},
+	{
+		"id": "android_web_10_3_3",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1781677231,
+			"nanoseconds": 773000000
+		},
+		"version": "android_web_10.3.3",
+		"count": 69
+	},
+	{
+		"id": "android_web_10_3_4",
+		"version": "android_web_10.3.4",
+		"count": 11,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1782398940,
+			"nanoseconds": 671000000
+		}
+	},
+	{
+		"id": "android_web_10_3_5",
+		"count": 0,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1781699709,
+			"nanoseconds": 353000000
+		},
+		"version": "android_web_10.3.5"
+	},
+	{
+		"id": "android_web_10_3_6",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1784286631,
+			"nanoseconds": 344000000
+		},
+		"version": "android_web_10.3.6",
+		"count": 163
+	},
+	{
+		"id": "android_web_10_3_7",
+		"count": 52,
+		"version": "android_web_10.3.7",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1784443156,
+			"nanoseconds": 408000000
+		}
+	},
+	{
+		"id": "android_web_10_3_7_1",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1784396792,
+			"nanoseconds": 626000000
+		},
+		"version": "android_web_10.3.7.1",
+		"count": 1
+	},
+	{
+		"id": "android_web_10_3_7_2",
+		"version": "android_web_10.3.7.2",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1784182039,
+			"nanoseconds": 459000000
+		},
+		"count": 10
+	},
+	{
+		"id": "android_web_10_3_7_3",
+		"version": "android_web_10.3.7.3",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1783680271,
+			"nanoseconds": 239000000
+		},
+		"count": 2
+	},
+	{
+		"id": "android_web_10_3_7_4",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1785306882,
+			"nanoseconds": 279000000
+		},
+		"count": 26,
+		"version": "android_web_10.3.7.4"
+	},
+	{
+		"id": "android_web_10_3_7_5",
+		"count": 4,
+		"version": "android_web_10.3.7.5",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1784275118,
+			"nanoseconds": 125000000
+		}
+	},
+	{
+		"id": "android_web_10_3_7_6",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1785314401,
+			"nanoseconds": 541000000
+		},
+		"version": "android_web_10.3.7.6",
+		"count": 27
+	},
+	{
+		"id": "android_web_10_3_7_7",
+		"count": 9,
+		"version": "android_web_10.3.7.7",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1785346679,
+			"nanoseconds": 705000000
+		}
+	},
+	{
+		"id": "android_web_10_3_7_8",
+		"count": -2,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1784710167,
+			"nanoseconds": 257000000
+		},
+		"version": "android_web_10.3.7.8"
+	},
+	{
+		"id": "android_web_10_3_8",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1782863217,
+			"nanoseconds": 517000000
+		},
+		"version": "android_web_10.3.8",
+		"count": 0
+	},
+	{
+		"id": "android_web_10_3_9",
+		"count": -1,
+		"version": "android_web_10.3.9",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1782864463,
+			"nanoseconds": 404000000
+		}
+	},
+	{
+		"id": "android_web_10_4_0",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1782844014,
+			"nanoseconds": 303000000
+		},
+		"count": 0,
+		"version": "android_web_10.4.0"
+	},
+	{
+		"id": "android_web_10_4_1",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1782854832,
+			"nanoseconds": 603000000
+		},
+		"version": "android_web_10.4.1",
+		"count": 0
+	},
+	{
+		"id": "android_web_38",
+		"count": 1,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1784715100,
+			"nanoseconds": 516000000
+		},
+		"version": "android_web_38"
+	},
+	{
+		"id": "android_web_38_0_0",
+		"count": 0,
+		"version": "android_web_38.0.0",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1784916085,
+			"nanoseconds": 539000000
+		}
+	},
+	{
+		"id": "android_web_39_0_0",
+		"version": "android_web_39.0.0",
+		"count": -1,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1785030183,
+			"nanoseconds": 821000000
+		}
+	},
+	{
+		"id": "android_web_40_0_0",
+		"count": 16,
+		"version": "android_web_40.0.0",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1785490091,
+			"nanoseconds": 561000000
+		}
+	},
+	{
+		"id": "android_web_42_0_0",
+		"version": "android_web_42.0.0",
+		"count": 0,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1784989231,
+			"nanoseconds": 791000000
+		}
+	},
+	{
+		"id": "android_web_42_0_1",
+		"count": -2,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1785782460,
+			"nanoseconds": 609000000
+		},
+		"version": "android_web_42.0.1"
+	},
+	{
+		"id": "android_web_42_0_2",
+		"version": "android_web_42.0.2",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1785929794,
+			"nanoseconds": 888000000
+		},
+		"count": -2
+	},
+	{
+		"id": "android_web_43_0_3",
+		"count": 5,
+		"version": "android_web_43.0.3",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1785721948,
+			"nanoseconds": 975000000
+		}
+	},
+	{
+		"id": "android_web_44_0_2",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786221008,
+			"nanoseconds": 86000000
+		},
+		"version": "android_web_44.0.2",
+		"count": 0
+	},
+	{
+		"id": "android_web_44_0_3",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1785781190,
+			"nanoseconds": 515000000
+		},
+		"count": 1,
+		"version": "android_web_44.0.3"
+	},
+	{
+		"id": "android_web_44_0_4",
+		"version": "android_web_44.0.4",
+		"count": 0,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1785970721,
+			"nanoseconds": 892000000
+		}
+	},
+	{
+		"id": "android_web_44_0_5",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786050814,
+			"nanoseconds": 971000000
+		},
+		"version": "android_web_44.0.5",
+		"count": 8
+	},
+	{
+		"id": "android_web_44_0_6",
+		"version": "android_web_44.0.6",
+		"count": 2,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786221008,
+			"nanoseconds": 305000000
+		}
+	},
+	{
+		"id": "desktop_pwa_10_3_6",
+		"count": 0,
+		"version": "desktop_pwa_10.3.6",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1783281027,
+			"nanoseconds": 406000000
+		}
+	},
+	{
+		"id": "desktop_pwa_10_3_7",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1782829695,
+			"nanoseconds": 699000000
+		},
+		"count": 0,
+		"version": "desktop_pwa_10.3.7"
+	},
+	{
+		"id": "desktop_pwa_10_3_7_3",
+		"count": 0,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1783618604,
+			"nanoseconds": 61000000
+		},
+		"version": "desktop_pwa_10.3.7.3"
+	},
+	{
+		"id": "desktop_pwa_10_3_7_7",
+		"version": "desktop_pwa_10.3.7.7",
+		"count": 0,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1784478091,
+			"nanoseconds": 186000000
+		}
+	},
+	{
+		"id": "desktop_pwa_39_0_0",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1784905247,
+			"nanoseconds": 383000000
+		},
+		"count": 2,
+		"version": "desktop_pwa_39.0.0"
+	},
+	{
+		"id": "desktop_pwa_44_0_4",
+		"count": 0,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1785946409,
+			"nanoseconds": 372000000
+		},
+		"version": "desktop_pwa_44.0.4"
+	},
+	{
+		"id": "desktop_web_10_3_",
+		"version": "desktop_web_10.3.",
+		"count": 0,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1782864456,
+			"nanoseconds": 653000000
+		}
+	},
+	{
+		"id": "desktop_web_10_3_3",
+		"version": "desktop_web_10.3.3",
+		"count": 31,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1782398771,
+			"nanoseconds": 974000000
+		}
+	},
+	{
+		"id": "desktop_web_10_3_4",
+		"version": "desktop_web_10.3.4",
+		"count": 16,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1782398904,
+			"nanoseconds": 51000000
+		}
+	},
+	{
+		"id": "desktop_web_10_3_6",
+		"count": 88,
+		"version": "desktop_web_10.3.6",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1785674844,
+			"nanoseconds": 118000000
+		}
+	},
+	{
+		"id": "desktop_web_10_3_7",
+		"count": 40,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1785077643,
+			"nanoseconds": 217000000
+		},
+		"version": "desktop_web_10.3.7"
+	},
+	{
+		"id": "desktop_web_10_3_7_1",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1783672090,
+			"nanoseconds": 827000000
+		},
+		"version": "desktop_web_10.3.7.1",
+		"count": 3
+	},
+	{
+		"id": "desktop_web_10_3_7_2",
+		"count": 2,
+		"version": "desktop_web_10.3.7.2",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1785077645,
+			"nanoseconds": 509000000
+		}
+	},
+	{
+		"id": "desktop_web_10_3_7_3",
+		"version": "desktop_web_10.3.7.3",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1783675277,
+			"nanoseconds": 586000000
+		},
+		"count": 3
+	},
+	{
+		"id": "desktop_web_10_3_7_4",
+		"count": 29,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1784986784,
+			"nanoseconds": 247000000
+		},
+		"version": "desktop_web_10.3.7.4"
+	},
+	{
+		"id": "desktop_web_10_3_7_5",
+		"count": 0,
+		"version": "desktop_web_10.3.7.5",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1784027109,
+			"nanoseconds": 340000000
+		}
+	},
+	{
+		"id": "desktop_web_10_3_7_6",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1784654618,
+			"nanoseconds": 476000000
+		},
+		"count": 28,
+		"version": "desktop_web_10.3.7.6"
+	},
+	{
+		"id": "desktop_web_10_3_7_7",
+		"version": "desktop_web_10.3.7.7",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1784709896,
+			"nanoseconds": 156000000
+		},
+		"count": 13
+	},
+	{
+		"id": "desktop_web_10_3_7_8",
+		"count": 2,
+		"version": "desktop_web_10.3.7.8",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1784715093,
+			"nanoseconds": 436000000
+		}
+	},
+	{
+		"id": "desktop_web_10_3_8",
+		"version": "desktop_web_10.3.8",
+		"count": 0,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1782974078,
+			"nanoseconds": 143000000
+		}
+	},
+	{
+		"id": "desktop_web_10_3_9",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1783290521,
+			"nanoseconds": 91000000
+		},
+		"count": 1,
+		"version": "desktop_web_10.3.9"
+	},
+	{
+		"id": "desktop_web_38",
+		"version": "desktop_web_38",
+		"count": 2,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1784715097,
+			"nanoseconds": 126000000
+		}
+	},
+	{
+		"id": "desktop_web_38_0_0",
+		"version": "desktop_web_38.0.0",
+		"count": -1,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1784788307,
+			"nanoseconds": 97000000
+		}
+	},
+	{
+		"id": "desktop_web_39_0_0",
+		"count": 0,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1784953183,
+			"nanoseconds": 922000000
+		},
+		"version": "desktop_web_39.0.0"
+	},
+	{
+		"id": "desktop_web_40_0_0",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1785006765,
+			"nanoseconds": 23000000
+		},
+		"version": "desktop_web_40.0.0",
+		"count": 16
+	},
+	{
+		"id": "desktop_web_41_0_0",
+		"count": 1,
+		"version": "desktop_web_41.0.0",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1785136533,
+			"nanoseconds": 306000000
+		}
+	},
+	{
+		"id": "desktop_web_42_0_0",
+		"count": -1,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1784984298,
+			"nanoseconds": 850000000
+		},
+		"version": "desktop_web_42.0.0"
+	},
+	{
+		"id": "desktop_web_42_0_1",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1785927685,
+			"nanoseconds": 60000000
+		},
+		"version": "desktop_web_42.0.1",
+		"count": 9
+	},
+	{
+		"id": "desktop_web_42_0_2",
+		"count": 6,
+		"version": "desktop_web_42.0.2",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1785759037,
+			"nanoseconds": 178000000
+		}
+	},
+	{
+		"id": "desktop_web_43_0_3",
+		"count": 0,
+		"version": "desktop_web_43.0.3",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1785720895,
+			"nanoseconds": 891000000
+		}
+	},
+	{
+		"id": "desktop_web_44_0_1",
+		"version": "desktop_web_44.0.1",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1785721713,
+			"nanoseconds": 795000000
+		},
+		"count": 0
+	},
+	{
+		"id": "desktop_web_44_0_2",
+		"count": 0,
+		"version": "desktop_web_44.0.2",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1785923217,
+			"nanoseconds": 144000000
+		}
+	},
+	{
+		"id": "desktop_web_44_0_3",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1785857018,
+			"nanoseconds": 370000000
+		},
+		"version": "desktop_web_44.0.3",
+		"count": 0
+	},
+	{
+		"id": "desktop_web_44_0_4",
+		"count": 1,
+		"version": "desktop_web_44.0.4",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786168639,
+			"nanoseconds": 74000000
+		}
+	},
+	{
+		"id": "desktop_web_44_0_5",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786287838,
+			"nanoseconds": 66000000
+		},
+		"version": "desktop_web_44.0.5",
+		"count": 2
+	},
+	{
+		"id": "desktop_web_44_0_6",
+		"version": "desktop_web_44.0.6",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786318403,
+			"nanoseconds": 107000000
+		},
+		"count": 5
+	},
+	{
+		"id": "desktop_web_44_0_8",
+		"count": 2,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786318403,
+			"nanoseconds": 327000000
+		},
+		"version": "desktop_web_44.0.8"
+	},
+	{
+		"id": "ios_pwa_10_3_3",
+		"version": "ios_pwa_10.3.3",
+		"count": 0,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1782922380,
+			"nanoseconds": 179000000
+		}
+	},
+	{
+		"id": "ios_pwa_10_3_4",
+		"version": "ios_pwa_10.3.4",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1781944280,
+			"nanoseconds": 853000000
+		},
+		"count": 0
+	},
+	{
+		"id": "ios_pwa_10_3_6",
+		"version": "ios_pwa_10.3.6",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1784515791,
+			"nanoseconds": 447000000
+		},
+		"count": 1
+	},
+	{
+		"id": "ios_pwa_10_3_7",
+		"version": "ios_pwa_10.3.7",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1783669340,
+			"nanoseconds": 646000000
+		},
+		"count": 2
+	},
+	{
+		"id": "ios_pwa_10_3_7_1",
+		"count": 0,
+		"version": "ios_pwa_10.3.7.1",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1783571280,
+			"nanoseconds": 290000000
+		}
+	},
+	{
+		"id": "ios_pwa_10_3_7_2",
+		"count": 0,
+		"version": "ios_pwa_10.3.7.2",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1783679495,
+			"nanoseconds": 883000000
+		}
+	},
+	{
+		"id": "ios_pwa_10_3_7_4",
+		"version": "ios_pwa_10.3.7.4",
+		"count": 0,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1784126289,
+			"nanoseconds": 680000000
+		}
+	},
+	{
+		"id": "ios_pwa_10_3_7_6",
+		"version": "ios_pwa_10.3.7.6",
+		"count": 0,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1784632313,
+			"nanoseconds": 401000000
+		}
+	},
+	{
+		"id": "ios_pwa_10_3_7_7",
+		"version": "ios_pwa_10.3.7.7",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1785120280,
+			"nanoseconds": 521000000
+		},
+		"count": 0
+	},
+	{
+		"id": "ios_pwa_38_0_0",
+		"count": -1,
+		"version": "ios_pwa_38.0.0",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1785121326,
+			"nanoseconds": 313000000
+		}
+	},
+	{
+		"id": "ios_pwa_39_0_0",
+		"count": 0,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1785286718,
+			"nanoseconds": 888000000
+		},
+		"version": "ios_pwa_39.0.0"
+	},
+	{
+		"id": "ios_pwa_40_0_0",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1784967853,
+			"nanoseconds": 626000000
+		},
+		"version": "ios_pwa_40.0.0",
+		"count": 0
+	},
+	{
+		"id": "ios_pwa_41_0_0",
+		"version": "ios_pwa_41.0.0",
+		"count": 0,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1785131527,
+			"nanoseconds": 235000000
+		}
+	},
+	{
+		"id": "ios_pwa_42_0_1",
+		"version": "ios_pwa_42.0.1",
+		"count": 1,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1785672517,
+			"nanoseconds": 585000000
+		}
+	},
+	{
+		"id": "ios_pwa_42_0_2",
+		"count": -39,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786169651,
+			"nanoseconds": 349000000
+		},
+		"version": "ios_pwa_42.0.2"
+	},
+	{
+		"id": "ios_pwa_44_0_2",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786280557,
+			"nanoseconds": 69000000
+		},
+		"count": 0,
+		"version": "ios_pwa_44.0.2"
+	},
+	{
+		"id": "ios_pwa_44_0_3",
+		"version": "ios_pwa_44.0.3",
+		"count": 18,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1785927682,
+			"nanoseconds": 585000000
+		}
+	},
+	{
+		"id": "ios_pwa_44_0_4",
+		"version": "ios_pwa_44.0.4",
+		"count": 0,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786169630,
+			"nanoseconds": 995000000
+		}
+	},
+	{
+		"id": "ios_pwa_44_0_6",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786287015,
+			"nanoseconds": 610000000
+		},
+		"version": "ios_pwa_44.0.6",
+		"count": 1
+	},
+	{
+		"id": "ios_pwa_44_0_7",
+		"version": "ios_pwa_44.0.7",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786292431,
+			"nanoseconds": 950000000
+		},
+		"count": 1
+	},
+	{
+		"id": "ios_pwa_44_0_8",
+		"count": 1,
+		"version": "ios_pwa_44.0.8",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786292432,
+			"nanoseconds": 10000000
+		}
+	},
+	{
+		"id": "ios_web_10_3_3",
+		"count": 0,
+		"version": "ios_web_10.3.3",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1784481900,
+			"nanoseconds": 485000000
+		}
+	},
+	{
+		"id": "ios_web_10_3_4",
+		"version": "ios_web_10.3.4",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1781549074,
+			"nanoseconds": 639000000
+		},
+		"count": 2
+	},
+	{
+		"id": "ios_web_10_3_6",
+		"count": 4,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1783426721,
+			"nanoseconds": 82000000
+		},
+		"version": "ios_web_10.3.6"
+	},
+	{
+		"id": "ios_web_10_3_7",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1783503624,
+			"nanoseconds": 260000000
+		},
+		"version": "ios_web_10.3.7",
+		"count": 6
+	},
+	{
+		"id": "ios_web_10_3_7_4",
+		"version": "ios_web_10.3.7.4",
+		"count": 4,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1784175840,
+			"nanoseconds": 399000000
+		}
+	},
+	{
+		"id": "ios_web_10_3_7_6",
+		"version": "ios_web_10.3.7.6",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786018752,
+			"nanoseconds": 680000000
+		},
+		"count": 11
+	},
+	{
+		"id": "ios_web_10_3_7_7",
+		"version": "ios_web_10.3.7.7",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1784730964,
+			"nanoseconds": 585000000
+		},
+		"count": 3
+	},
+	{
+		"id": "ios_web_39_0_0",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1785416895,
+			"nanoseconds": 796000000
+		},
+		"version": "ios_web_39.0.0",
+		"count": 1
+	},
+	{
+		"id": "ios_web_42_0_1",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1785713294,
+			"nanoseconds": 895000000
+		},
+		"version": "ios_web_42.0.1",
+		"count": 3
+	},
+	{
+		"id": "ios_web_42_0_2",
+		"count": 3,
+		"version": "ios_web_42.0.2",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1785674879,
+			"nanoseconds": 653000000
+		}
+	},
+	{
+		"id": "ios_web_43_0_3",
+		"count": 2,
+		"version": "ios_web_43.0.3",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786226586,
+			"nanoseconds": 84000000
+		}
+	},
+	{
+		"id": "ios_web_44_0_5",
+		"count": 1,
+		"version": "ios_web_44.0.5",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786018752,
+			"nanoseconds": 774000000
+		}
+	},
+	{
+		"id": "ios_web_44_0_6",
+		"count": 1,
+		"version": "ios_web_44.0.6",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786316898,
+			"nanoseconds": 622000000
+		}
+	},
+	{
+		"id": "ios_web_44_0_8",
+		"version": "ios_web_44.0.8",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786316898,
+			"nanoseconds": 692000000
+		},
+		"count": 1
+	},
+	{
+		"id": "os_android_10",
+		"version": "os_android_10",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786107942,
+			"nanoseconds": 607000000
+		},
+		"count": 57
+	},
+	{
+		"id": "os_android_11",
+		"count": 153,
+		"version": "os_android_11",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786291163,
+			"nanoseconds": 704000000
+		}
+	},
+	{
+		"id": "os_android_12",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786299140,
+			"nanoseconds": 540000000
+		},
+		"count": 108,
+		"version": "os_android_12"
+	},
+	{
+		"id": "os_android_13",
+		"count": 136,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786278149,
+			"nanoseconds": 546000000
+		},
+		"version": "os_android_13"
+	},
+	{
+		"id": "os_android_14",
+		"version": "os_android_14",
+		"count": 119,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786241084,
+			"nanoseconds": 313000000
+		}
+	},
+	{
+		"id": "os_android_15",
+		"version": "os_android_15",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786323565,
+			"nanoseconds": 938000000
+		},
+		"count": 223
+	},
+	{
+		"id": "os_android_16",
+		"count": 327,
+		"version": "os_android_16",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786289653,
+			"nanoseconds": 55000000
+		}
+	},
+	{
+		"id": "os_android_8_1_0",
+		"version": "os_android_8.1.0",
+		"count": 17,
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786181313,
+			"nanoseconds": 753000000
+		}
+	},
+	{
+		"id": "os_android_9",
+		"lastSeen": {
+			"type": "firestore/timestamp/1.0",
+			"seconds": 1786161159,
+			"nanoseconds": 839000000
+		},
+		"count": 15,
+		"version": "os_android_9"
+	}
+]

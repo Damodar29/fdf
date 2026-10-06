@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Antigravity Prompts</title>
+<style>
+  :root {
+    --page: #f7f3ea;
+    --card: #ffffff;
+    --sunken: #f1ece0;
+    --text: #1e2433;
+    --muted: #5b6475;
+    --line: #e4dccb;
+    --royal: #0b2e6b;
+    --royal-2: #103a8c;
+    --gold: #c9971c;
+    --gold-soft: #fbf1d6;
+    --accent: #0e7490;
+    --accent-soft: #e0f4f8;
+    --ok: #15803d;
+    --ok-soft: #e3f5e8;
+    --warn: #b45309;
+    --warn-soft: #fdf0dc;
+    --bad: #b91c1c;
+    --bad-soft: #fde8e8;
+    --code-bg: #1b2236;
+    --code-text: #e8ecf5;
+    --shadow: 0 1px 2px rgba(20, 30, 60, .06), 0 6px 20px rgba(20, 30, 60, .06);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --page: #0f1422;
+      --card: #171e30;
+      --sunken: #121828;
+      --text: #e7eaf2;
+      --muted: #9aa3b7;
+      --line: #273049;
+      --royal: #9fbaf0;
+      --royal-2: #7fa2e8;
+      --gold: #e5b843;
+      --gold-soft: #2c2512;
+      --accent: #5fc4dc;
+      --accent-soft: #10303a;
+      --ok: #5ccf86;
+      --ok-soft: #10301d;
+      --warn: #f0b05a;
+      --warn-soft: #33240e;
+      --bad: #f28b8b;
+      --bad-soft: #3a1717;
+      --code-bg: #0a0e19;
+      --code-text: #e8ecf5;
+      --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 6px 20px rgba(0, 0, 0, .25);
+    }
+  }
+  
+  body {
+    background: var(--page);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 2rem 1rem;
+  }
+  
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  h1, h2, h3 {
+    color: var(--royal);
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+  
+  h1 { font-size: 2rem; margin-top: 0; }
+  h2 { font-size: 1.5rem; border-bottom: 1px solid var(--line); padding-bottom: 0.5rem; }
+  
+  p, ul {
+    margin-bottom: 1rem;
+  }
+  
+  ul {
+    padding-left: 1.5rem;
+  }
+  
+  li {
+    margin-bottom: 0.5rem;
+  }
+  
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow);
+  }
+  
+  .prompt-container {
+    position: relative;
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  pre {
+    background: var(--code-bg);
+    color: var(--code-text);
+    padding: 1.25rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin: 0;
+    white-space: pre-wrap;
+  }
+  
+  .copy-btn {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--code-text);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  
+  .copy-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+  
+  .copy-btn.copied {
+    background: var(--ok);
+    border-color: var(--ok);
+    color: white;
+  }
+  
+  .note {
+    background: var(--warn-soft);
+    border-left: 4px solid var(--warn);
+    padding: 1rem;
+    border-radius: 4px 8px 8px 4px;
+    margin-bottom: 1.5rem;
+  }
+  
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+  th, td { text-align: left; padding: 0.5rem 0.6rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--muted); font-weight: 600; }
+  .m { display: inline-block; white-space: nowrap; font-weight: 700; font-size: 0.82rem; padding: 0.1rem 0.5rem; border-radius: 6px; }
+  .m-opus { background: var(--bad-soft); color: var(--bad); }
+  .m-sonnet { background: var(--accent-soft); color: var(--accent); }
+  .m-pro { background: var(--ok-soft); color: var(--ok); }
+  .m-flash { background: var(--warn-soft); color: var(--warn); }
+  a { color: var(--accent); }
+
+  code {
+    background: var(--sunken);
+    padding: 0.2em 0.4em;
+    border-radius: 4px;
+    font-size: 0.9em;
+    font-family: monospace;
+    color: var(--royal-2);
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <h1>Antigravity ke liye prompts (copy-paste)</h1>
+  
+  <div class="card">
+    <p>Ye prompts Antigravity mein <code>C:\rn\mobile</code> folder khol kar Agent chat mein paste karne hain.</p>
+    
+    <div class="note">
+      <strong>Niyam:</strong>
+      <ul style="margin-bottom: 0;">
+        <li>Har screen ke liye <strong>nayi chat</strong> shuru karo.</li>
+        <li>Ek chat mein ek hi screen.</li>
+        <li>Pehle <strong>Planning</strong> mode mein plan banwao, padho, phir "approve" karo.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" id="models">
+    <h2>Kaunsa kaam kis model se karwao</h2>
+    <p>Model ko kaam ke hisaab se chuno. Jitna mushkil ya risky kaam, utna strong model.</p>
+    <ul>
+      <li><span class="m m-opus">Claude Opus</span> sabse strong hai. Bade aur risky kaam isse karwao.</li>
+      <li><span class="m m-sonnet">Claude Sonnet</span> beech wale screens ke liye theek hai: data, keys, share, comments.</li>
+      <li><span class="m m-pro">Gemini 3.1 Pro</span> chhote, seedhe screens ke liye theek hai.</li>
+      <li><span class="m m-flash">Gemini Flash</span> se screen port <strong>mat</strong> karwao. Ye tez hai par galtiyan zyada karta hai. Sirf Prompt 4 (status check) jaise chhote kaam ke liye.</li>
+    </ul>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>#</th><th>Kaam</th><th>Model</th><th>Kyun</th></tr></thead>
+        <tbody>
+          <tr><td>0</td><td>Prompt 1 (Step 0 setup)</td><td><span class="m m-opus">Claude Opus</span></td><td>Saare screen kholne ke raaste badalte hain. Galti hui to poori app ka navigation tootega.</td></tr>
+          <tr><td>1</td><td>About</td><td><span class="m m-pro">Gemini 3.1 Pro</span></td><td>Sirf static text aur icons.</td></tr>
+          <tr><td>2</td><td>Privacy</td><td><span class="m m-sonnet">Claude Sonnet</span></td><td>"Delete Account" asli account mitata hai. Ye logic dhyan se likhna hai.</td></tr>
+          <tr><td>3</td><td>Terms</td><td><span class="m m-pro">Gemini 3.1 Pro</span></td><td>Static text, plus <code>/privacy</code>, <code>/terms</code>, <code>/about</code> links.</td></tr>
+          <tr><td>4</td><td>Guru / Virahi Maharaj</td><td><span class="m m-pro">Gemini 3.1 Pro</span></td><td>Ek Firestore doc padhna aur HTML dikhana.</td></tr>
+          <tr><td>5</td><td>Temple timings</td><td><span class="m m-pro">Gemini 3.1 Pro</span></td><td>Mandal data pehle se hai, bas dikhana hai.</td></tr>
+          <tr><td>6</td><td>Our centers</td><td><span class="m m-pro">Gemini 3.1 Pro</span></td><td>Same mandal data, map/phone/WhatsApp links.</td></tr>
+          <tr><td>7</td><td>Daily quotes</td><td><span class="m m-sonnet">Claude Sonnet</span></td><td>Image save/share aur "last seen" keys.</td></tr>
+          <tr><td>8</td><td>Information</td><td><span class="m m-sonnet">Claude Sonnet</span></td><td>Read/like keys, Home badge, push se ek item kholna, comments.</td></tr>
+          <tr><td>9</td><td>Glorification (sirf reader)</td><td><span class="m m-sonnet">Claude Sonnet</span></td><td>Home ka "नई महिमाएं" badge isi par chalta hai.</td></tr>
+          <tr><td>10</td><td>Vaishnav calendar</td><td><span class="m m-opus">Claude Opus</span></td><td>Tithi/date ka hisaab bilkul same copy karna hai. Choti galti = galat tithi.</td></tr>
+          <tr><td>11</td><td>Videos</td><td><span class="m m-sonnet">Claude Sonnet</span></td><td>YouTube player, folders, share links.</td></tr>
+          <tr><td>12</td><td>Donate</td><td><span class="m m-opus">Claude Opus</span></td><td>Form, UPI, receipt download, login wala user. Paise ka kaam hai.</td></tr>
+          <tr><td>13</td><td>Deity darshan</td><td><span class="m m-opus">Claude Opus</span></td><td>1.5k lines, photo viewer, pinch zoom, push params.</td></tr>
+          <tr><td>14</td><td>Activities</td><td><span class="m m-opus">Claude Opus</span></td><td>Sabse bada (3k lines), Videos aur Darshan dono ke parts.</td></tr>
+          <tr><td>R</td><td>Prompt 3 (review)</td><td>Ulta model</td><td>Claude ne port kiya to <span class="m m-pro">Gemini 3.1 Pro</span> se review. Gemini ne kiya to <span class="m m-sonnet">Claude Sonnet</span> se. Review Flash se nahi.</td></tr>
+          <tr><td>S</td><td>Prompt 4 (atak jaaye)</td><td><span class="m m-flash">Gemini Flash</span> bhi chalega</td><td>Sirf <code>git status</code> padh kar batana hai, kuch badalna nahi.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note" style="margin-top: 1rem; margin-bottom: 0;">Agar Gemini 3.1 Pro kisi chhote screen mein do baar galti kare (rang, text ya spacing OG jaisa na bane), to wahi screen nayi chat mein Claude Sonnet se karwa lo. Claude ki limit khatam ho to bade screens (Calendar, Donate, Darshan, Activities) ruk kar baad mein karwao, Flash se mat karwao.</div>
+  </div>
+
+  <div class="card">
+    <h2>Prompt 1 — pehli baar (Step 0: setup)</h2>
+    
+    <div class="prompt-container">
+      <button class="copy-btn" onclick="copyPrompt('prompt1', this)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+        Copy
+      </button>
+      <pre id="prompt1">You are taking over the React Native (Expo SDK 57) app in C:\rn\mobile from an earlier agent.
+
+Before doing anything, read these files completely, in this order:
+1. docs/handoff/ANTIGRAVITY-HANDOFF.md   (rules + plan — the rules in section 0 are absolute)
+2. docs/context/PROJECT-CONTEXT.md
+3. docs/context/WEBVIEW-BRIDGE.md
+4. docs/context/HISTORY.md
+5. src/lib/appNav.ts, src/navigation/types.ts, src/navigation/RootNavigator.tsx,
+   src/screens/HomeScreen.tsx, src/components/SideMenu.tsx, src/lib/webStore.ts
+
+Key rules (from section 0):
+- C:\Users\damod\OneDrive\Desktop\aaaacursor is READ-ONLY. Never write, build, install,
+  checkout, stash, reset or clean there.
+- Never commit or push without my "yes".
+- Never touch the real app com.cpbs.bhajans.
+- No new packages without asking.
+- No Gradle/JDK/Expo upgrades.
+
+Task now: do ONLY "Step 0" from section 3 of the handoff:
+- the NATIVE_SCREENS map in appNav
+- route every screen-by-name opener (Home tiles, SideMenu, pushes, site links, quotes
+  opener) through openScreen
+- leave the map empty, so behaviour must not change
+
+First show me a short plan. After I approve:
+- implement it
+- run `npx tsc --noEmit`
+- check in the browser preview (section 5) that every Home tile and side-menu item still
+  opens its web screen
+
+Reply to me in simple Hinglish. At the end tell me what you did, what you tested and what
+is left, then ask before commit/push.</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Prompt 2 — ek screen port karna (har screen ke liye, naam badal kar)</h2>
+    
+    <p><code>&lt;SCREEN&gt;</code> ki jagah screen ka naam likho. Order handoff ke section 6 mein hai (<a href="ANTIGRAVITY-HANDOFF.md">docs/handoff/ANTIGRAVITY-HANDOFF.md</a>, "## 6. Recommended order"). Model ke liye <a href="#models">upar table</a> dekho:<br>
+    About &rarr; Privacy &rarr; Terms &rarr; Guru/Virahi &rarr; Temple timings &rarr; Centers &rarr; Quotes &rarr; Information &rarr; Glorification &rarr; Calendar &rarr; Videos &rarr; Donate &rarr; Darshan &rarr; Activities.</p>
+
+    <div class="prompt-container">
+      <button class="copy-btn" onclick="copyPrompt('prompt2', this)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+        Copy
+      </button>
+      <pre id="prompt2">Read docs/handoff/ANTIGRAVITY-HANDOFF.md completely (rules in section 0 are absolute),
+then docs/context/PROJECT-CONTEXT.md and the latest entries of docs/context/HISTORY.md.
+
+Task: port the &lt;SCREEN&gt; screen from the OG app to a native React Native screen, following
+section 4 ("Porting one screen") step by step, and the notes for this screen in section 6.
+
+Requirements:
+- A. Do the sync check first (git log + git status on the OG files, read-only), and port
+  from the CURRENT files in C:\Users\damod\OneDrive\Desktop\aaaacursor (read-only).
+- B. Read the OG screen file and all its local imports fully. Before coding, write a plan
+  that lists:
+  - every state, data read/write and localStorage key
+  - every hi/en string
+  - every UI state
+- C. Open the OG screen in the browser preview at http://localhost:8090 (375x812) and take
+  screenshots in light/dark and Hindi/English. They are the spec.
+- D. The screen must look and behave EXACTLY like the OG: same colours from src/theme,
+  same lucide icons, same texts, same spacing. No redesign.
+  - Reuse homeDataStore data.
+  - Use the same storage keys via webStore.
+  - Guard every Firestore write with Platform.OS === "web".
+- E. Run every check in section 4E and the "Definition of done" in section 8. Compare
+  side by side with the OG at :8090 in the same viewport.
+- F. Update PROJECT-CONTEXT.md and HISTORY.md.
+
+Do not add npm packages without asking me. Do not build an APK. Do not touch the phone
+unless I say so.
+
+First show me the plan and wait for my approval. Reply in simple Hinglish. At the end:
+- what was done
+- what you tested and how (with screenshots of OG vs native)
+- what can only be tested on the phone
+- then ask "commit/push kar doon?"</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Prompt 3 — doosre model se review karwana (screen port hone ke baad)</h2>
+    
+    <p>Ye prompt doosre model ko do. Agar port Gemini ne kiya to review Claude se karwao, aur ulta.</p>
+    
+    <div class="prompt-container">
+      <button class="copy-btn" onclick="copyPrompt('prompt3', this)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+        Copy
+      </button>
+      <pre id="prompt3">Read docs/handoff/ANTIGRAVITY-HANDOFF.md (section 0 rules are absolute).
+
+Review the uncommitted changes in C:\rn\mobile (git diff + new files) that port the
+&lt;SCREEN&gt; screen to native. Do NOT change code yet. Only report.
+
+Check against the OG file in C:\Users\damod\OneDrive\Desktop\aaaacursor (read-only):
+1. Every string (hi + en), icon, colour, spacing and UI state matches the OG.
+2. The same localStorage/webStore keys are read and written as in the OG.
+3. Every Firestore/REST read matches the OG. Every write is guarded for the web preview.
+4. Every entry point opens the native screen: Home tile, menu, banner, push with params,
+   site link.
+5. Dark mode, the Android back button, empty/loading/error states.
+6. No hardcoded colours, no new packages, no duplicated data fetching (homeDataStore
+   reuse).
+7. `npx tsc --noEmit` is clean.
+8. Open both screens side by side in the browser preview (OG on :8090, app on :8081, at
+   375x812) and list every visual difference.
+
+Give me a numbered list of problems, most serious first, each with the file and line.
+Reply in simple Hinglish.</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Prompt 4 — galti ho jaaye / agent atak jaaye</h2>
+    
+    <div class="prompt-container">
+      <button class="copy-btn" onclick="copyPrompt('prompt4', this)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+        Copy
+      </button>
+      <pre id="prompt4">Stop. Run `git status` and `git diff --stat` in C:\rn\mobile and tell me exactly which
+files you changed. Do not change or delete anything.
+
+Also confirm, by running `git -C C:\Users\damod\OneDrive\Desktop\aaaacursor status --short`,
+that you did not change anything in aaaacursor. Do not fix anything there yourself; only
+report.
+
+Reply in simple Hinglish.</pre>
+    </div>
+    
+    <p>Agar RN mein sab kharab ho jaaye aur pichhli commit par wapas jaana ho, to ye agent se mat karwao. Pehle kisi ko dikha lo. (<code>git restore</code> / <code>git checkout --</code> changes hamesha ke liye mita dete hain.)</p>
+  </div>
+
+  <div class="card">
+    <h2>Tips (Hinglish)</h2>
+    
+    <ul>
+      <li><strong>Model chunna:</strong> bade screens (Darshan, Activities, Donate, Calendar) ke liye Claude (Opus/Sonnet) behtar hai. Chhote static screens (About, Terms, Guru/Virahi) Gemini 3.1 Pro se karwa sakte ho. Poori list <a href="#models">"Kaunsa model"</a> table mein hai.</li>
+      <li><strong>Planning mode:</strong> hamesha plan pehle padho. Agar plan mein aaaacursor mein likhna, <code>npm install</code> ya Gradle/Expo upgrade dikhe, to approve mat karna.</li>
+      <li><strong>Preview:</strong> dono terminals (<code>npm run web:preview</code>, <code>npm run web</code>) chalte rehne do. Agent browser mein khud check karega.</li>
+      <li><strong>Commit:</strong> har screen ke baad agent poochega. Pehle khud browser mein screen dekh lo, phir "haan" bolo.</li>
+      <li><strong>Ek baar mein ek screen:</strong> Do screens ek saath karwane se galtiyan badhti hain.</li>
+      <li><strong>Privacy screen ka "Delete Account" button:</strong> ye asli account delete karta hai. Agent ko kabhi asli account par ise dabane mat dena. Test ke liye apna ek alag test account banana hoga; agent poochega.</li>
+      <li><strong>Naya package ya permission:</strong> agar agent kahe ki naya package ya permission (jaise mic) chahiye, to iska matlab naya APK build hai. Pehle samjho, phir haan bolo.</li>
+      <li><strong>Phone test:</strong> sab screens ho jaane ke baad ek saath karna. Tab APK banegi (~12–15 min).</li>
+    </ul>
+  </div>
+
+</div>
+
+<script>
+  function copyPrompt(id, btnElement) {
+    const textToCopy = document.getElementById(id).innerText;
+    navigator.clipboard.writeText(textToCopy).then(() => {
+      const originalHTML = btnElement.innerHTML;
+      btnElement.classList.add('copied');
+      btnElement.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Copied!';
+      
+      setTimeout(() => {
+        btnElement.classList.remove('copied');
+        btnElement.innerHTML = originalHTML;
+      }, 2000);
+    }).catch(err => {
+      console.error('Failed to copy text: ', err);
+      alert('Copy karne mein error aaya.');
+    });
+  }
+</script>
+</body>
+</html>

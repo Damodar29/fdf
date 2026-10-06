@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Status-bar icon for pushes: the tilak from the app header (components/Ornaments Tilak), white on transparent. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="220"
+    android:viewportHeight="220">
+    <group android:translateX="60">
+        <path
+            android:pathData="M30,10v85q0,40 20,40t20,-40V10"
+            android:strokeColor="#FFFFFFFF"
+            android:strokeWidth="14"
+            android:strokeLineCap="round"
+            android:fillColor="#00000000" />
+        <path
+            android:pathData="M50,135 C28,135 20,165 50,200 C80,165 72,135 50,135 Z"
+            android:fillColor="#FFFFFFFF"
+            android:strokeColor="#FFFFFFFF"
+            android:strokeWidth="8" />
+    </group>
+</vector>

@@ -1,0 +1,533 @@
+@import url("/fonts/fonts.css");
+@import "./src/theme/tokens.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Accent palette variables.
+ *
+ * These are the runtime-swappable accent family that Tailwind's `saffron-*`
+ * utilities read. `utils/theme.ts` overwrites them on the document root when the
+ * user picks a palette in Settings or Onboarding; the values below are the
+ * pre-JS defaults, so the very first paint is already Krishna blue rather than
+ * flashing the old theme.
+ *
+ * Keep these in sync with `THEME_PALETTES.janmashtami` in `utils/theme.ts`,
+ * which derives from `krishna` in `src/theme/colors.ts`.
+ */
+:root {
+	/* Cyan */
+	--color-primary-50: #ecfeff;
+	--color-primary-100: #cffafe;
+	--color-primary-200: #a5f3fc;
+	--color-primary-300: #67e8f9;
+	--color-primary-400: #22d3ee;
+	--color-primary-500: #06b6d4;
+	--color-primary-600: #0891b2;
+	--color-primary-700: #0e7490;
+	--color-primary-800: #155e75;
+	--color-primary-900: #164e63;
+}
+
+/* --- TV / D-PAD NAVIGATION SUPPORT --- */
+/* The focus-visible ring now lives in `src/theme/tokens.css`, where it is
+   declared for ALL input modalities. The previous rule here was gated behind
+   `@media (hover: hover) and (pointer: fine)`, which silently removed the focus
+   indicator on touch devices and Android TV. */
+html {
+	scroll-behavior: smooth;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	user-select: none;
+	-webkit-tap-highlight-color: transparent;
+	overscroll-behavior-y: none; /* Stops the pull-to-refresh / bounce effect */
+	/*
+	 * Body face. Previously `"Comic Sans MS", cursive !important` — the
+	 * `!important` meant no Tailwind `font-*` utility anywhere in the app could
+	 * take effect, which is why the whole UI rendered in Comic Sans regardless of
+	 * the five font families declared in the Tailwind config.
+	 *
+	 * The `!important` is removed so `font-display` / `font-heading` /
+	 * `font-decorative` / `font-hindi` work at the call site. This declaration is
+	 * now only the default — it is what any element WITHOUT a `font-*` utility
+	 * inherits, which is most of the app.
+	 *
+	 * MUST stay byte-identical to `latinStack` in `src/theme/typography.ts`,
+	 * including `"Noto Sans Devanagari"` in second position: `fonts.css` clamps
+	 * that face to the Devanagari block, so its only job here is to catch a
+	 * Devanagari character (or `₹`) that appears in otherwise-Latin text and land
+	 * it on a font we ship rather than whatever the device has.
+	 */
+	font-family:
+		"Roboto", "Noto Sans Devanagari", system-ui, -apple-system, "Segoe UI",
+		"Helvetica Neue", Arial, sans-serif;
+	color: var(--jm-text-primary);
+	/* Smooth font rendering */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+/* Android Pull-to-Refresh & Scroll bounce disable */
+/* WebKit specific rules for Android webview to stop overscroll */
+body,
+html {
+	overscroll-behavior: none;
+}
+
+/* Make UI larger on Web specifically for Desktop/TV without breaking phone/tablet */
+@media (min-width: 1024px) {
+	html {
+		font-size: 115%; /* Scales up everything using rem */
+	}
+}
+@media (min-width: 1440px) {
+	html {
+		font-size: 130%;
+	}
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   PAGE BACKGROUND
+   `bg-paper` is applied by App.tsx, BhajanReader and GlobalErrorBoundary.
+   Light mode: warm cream paper that lifts toward gold at the top edge.
+   Dark mode:  a Vrindavan night sky deepening toward the horizon, with a faint
+               peacock cast in the lower right so the darkness is not flat.
+
+   Kept here, after `@tailwind utilities`, rather than moved into tokens.css —
+   the original rule sat after the utilities layer and therefore won against
+   `bg-*` utilities on the same element. Preserving that position preserves that
+   behaviour.
+   ══════════════════════════════════════════════════════════════════════════ */
+.bg-paper {
+	background-color: var(--jm-surface-page);
+	background-image:
+		radial-gradient(
+			ellipse 120% 60% at 50% -10%,
+			rgba(255, 213, 79, 0.18) 0%,
+			transparent 70%
+		),
+		linear-gradient(180deg, #fffdf7 0%, #fff8e7 55%, #fdf1d6 100%);
+	background-attachment: fixed;
+}
+
+.dark .bg-paper {
+	background-color: var(--jm-surface-page);
+	background-image:
+		radial-gradient(
+			ellipse 100% 55% at 50% 0%,
+			rgba(16, 58, 140, 0.5) 0%,
+			transparent 72%
+		),
+		radial-gradient(
+			ellipse 80% 50% at 85% 100%,
+			rgba(21, 122, 110, 0.14) 0%,
+			transparent 70%
+		),
+		linear-gradient(180deg, #071529 0%, #05142e 60%, #030b1a 100%);
+	background-attachment: fixed;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+	width: 4px; /* Thinner for modern look */
+	height: 4px;
+}
+::-webkit-scrollbar-track {
+	background: rgba(11, 46, 107, 0.08);
+}
+.dark ::-webkit-scrollbar-track {
+	background: rgba(255, 213, 79, 0.08);
+}
+::-webkit-scrollbar-thumb {
+	background-color: rgba(212, 160, 23, 0.5); /* Deep Gold */
+	border-radius: 10px;
+}
+.dark ::-webkit-scrollbar-thumb {
+	background-color: rgba(255, 213, 79, 0.35); /* Golden Accent */
+}
+::-webkit-scrollbar-thumb:hover {
+	background-color: rgba(212, 160, 23, 0.9);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+	display: none;
+}
+.no-scrollbar {
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
+
+/* RTL Scrollbar for Left-Handed Mode */
+.left-scrollbar {
+	direction: rtl;
+	overflow-y: auto;
+	-webkit-overflow-scrolling: touch;
+}
+.left-scrollbar > * {
+	direction: ltr;
+}
+
+.scroll-container {
+	-webkit-overflow-scrolling: touch;
+	overscroll-behavior-y: contain; /* Prevents scroll chaining to parent */
+	overscroll-behavior-x: contain;
+	touch-action: pan-y;
+	will-change: scroll-position;
+}
+
+/* Prevent unwanted long-press context menus / highlights on mobile */
+* {
+	-webkit-touch-callout: none;
+}
+
+/* Utility for Selectable Text in Reader */
+.select-text {
+	user-select: text;
+	-webkit-user-select: text;
+	-webkit-touch-callout: default; /* Allow context menu on reader text */
+}
+
+/* Keyframes referenced by Tailwind Config in index.html */
+@keyframes fadeInUp {
+	from {
+		opacity: 0;
+		transform: translateY(10px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+@keyframes shimmer {
+	100% {
+		transform: translateX(100%);
+	}
+}
+.skeleton-shimmer {
+	position: relative;
+	overflow: hidden;
+}
+.skeleton-shimmer::after {
+	content: "";
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	transform: translateX(-100%);
+	background-image: linear-gradient(
+		90deg,
+		rgba(255, 255, 255, 0) 0,
+		rgba(255, 255, 255, 0.4) 20%,
+		rgba(255, 255, 255, 0.6) 60%,
+		rgba(255, 255, 255, 0)
+	);
+	animation: shimmer 2s infinite;
+}
+.dark .skeleton-shimmer::after {
+	background-image: linear-gradient(
+		90deg,
+		rgba(255, 255, 255, 0) 0,
+		rgba(255, 255, 255, 0.05) 20%,
+		rgba(255, 255, 255, 0.1) 60%,
+		rgba(255, 255, 255, 0)
+	);
+}
+@keyframes slideInRight {
+	from {
+		transform: translateX(20%);
+		opacity: 0;
+	}
+	to {
+		transform: translateX(0);
+		opacity: 1;
+	}
+}
+@keyframes slideInLeft {
+	from {
+		transform: translateX(-20%);
+		opacity: 0;
+	}
+	to {
+		transform: translateX(0);
+		opacity: 1;
+	}
+}
+@keyframes slideInBottom {
+	from {
+		transform: translateY(20%);
+		opacity: 0;
+	}
+	to {
+		transform: translateY(0);
+		opacity: 1;
+	}
+}
+@keyframes pop {
+	0% {
+		transform: scale(0.95);
+		opacity: 0;
+	}
+	100% {
+		transform: scale(1);
+		opacity: 1;
+	}
+}
+@keyframes toastIn {
+	from {
+		transform: translateY(20px);
+		opacity: 0;
+	}
+	to {
+		transform: translateY(0);
+		opacity: 1;
+	}
+}
+@keyframes pulse-slow {
+	0%,
+	100% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0.6;
+	}
+}
+@keyframes float-slow {
+	0%,
+	100% {
+		transform: translate(0, 0);
+	}
+	50% {
+		transform: translate(10px, 15px);
+	}
+}
+@keyframes float-slow-reverse {
+	0%,
+	100% {
+		transform: translate(0, 0);
+	}
+	50% {
+		transform: translate(-10px, -10px);
+	}
+}
+
+/* Gold glow — used by the live/streaming indicators. Was a green glow
+   (rgba(22, 163, 74, …)) which read as a system status light rather than a
+   festival lamp. Animating box-shadow is not compositor-friendly, so this is
+   kept short-lived and off the ambient loops. */
+@keyframes glow {
+	0%,
+	100% {
+		box-shadow: 0 0 6px rgba(212, 160, 23, 0.55);
+	}
+	50% {
+		box-shadow: 0 0 20px rgba(255, 213, 79, 0.95);
+	}
+}
+
+@keyframes story-progress-fill {
+	from {
+		transform: scaleX(0);
+	}
+	to {
+		transform: scaleX(1);
+	}
+}
+
+.animate-glow {
+	animation: glow 2s infinite;
+}
+
+/* YouTube Player Double-Tap Ripple */
+@keyframes yt-ripple {
+	0% {
+		opacity: 0;
+		transform: scale(0.7);
+	}
+	30% {
+		opacity: 1;
+		transform: scale(1);
+	}
+	100% {
+		opacity: 0;
+		transform: scale(1.1);
+	}
+}
+@keyframes yt-ripple-bg {
+	0% {
+		opacity: 0;
+	}
+	20% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+.animate-yt-ripple {
+	animation: yt-ripple 0.7s ease-out forwards;
+}
+.animate-yt-ripple-bg {
+	animation: yt-ripple-bg 0.7s ease-out forwards;
+}
+
+/* Dark-mode page floor. Was #0f172a (stock slate-900); now the brief's
+   Vrindavan night sky. The `!important` is pre-existing and retained because
+   the Android WebView paints this before React mounts. */
+.dark body,
+.dark {
+	background-color: #071529;
+}
+
+@keyframes twinkling-stars {
+	0% {
+		transform: translateY(0) scale(0.8);
+		opacity: 0.2;
+	}
+	50% {
+		opacity: 0.8;
+		transform: translateY(-2px) scale(1.2);
+	}
+	100% {
+		transform: translateY(0) scale(0.8);
+		opacity: 0.2;
+	}
+}
+.animate-twinkling-stars {
+	animation: twinkling-stars 4s ease-in-out infinite;
+}
+
+@keyframes audio-bar {
+	0%,
+	100% {
+		height: 4px;
+	}
+	50% {
+		height: 16px;
+	}
+}
+.animate-audio-bar {
+	animation: audio-bar 0.8s ease-in-out infinite;
+}
+.audio-bar-1 {
+	animation-delay: 0.1s;
+}
+.audio-bar-2 {
+	animation-delay: 0.3s;
+}
+.audio-bar-3 {
+	animation-delay: 0.5s;
+}
+
+/* --- Staggered Entrance Animation --- */
+@keyframes slideUpFade {
+	from {
+		opacity: 0;
+		transform: translateY(40px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.stagger-item {
+	animation: slideUpFade 1s cubic-bezier(0.25, 0.8, 0.25, 1) both;
+}
+
+.stagger-container > * {
+	animation: slideUpFade 1s cubic-bezier(0.25, 0.8, 0.25, 1) both;
+}
+
+/* Delays for children, much slower for the "one by one" feel */
+.stagger-container > *:nth-child(1) {
+	animation-delay: calc(var(--base-delay, 0ms) + 100ms);
+}
+.stagger-container > *:nth-child(2) {
+	animation-delay: calc(var(--base-delay, 0ms) + 200ms);
+}
+.stagger-container > *:nth-child(3) {
+	animation-delay: calc(var(--base-delay, 0ms) + 300ms);
+}
+.stagger-container > *:nth-child(4) {
+	animation-delay: calc(var(--base-delay, 0ms) + 400ms);
+}
+.stagger-container > *:nth-child(5) {
+	animation-delay: calc(var(--base-delay, 0ms) + 500ms);
+}
+.stagger-container > *:nth-child(6) {
+	animation-delay: calc(var(--base-delay, 0ms) + 600ms);
+}
+.stagger-container > *:nth-child(7) {
+	animation-delay: calc(var(--base-delay, 0ms) + 700ms);
+}
+.stagger-container > *:nth-child(8) {
+	animation-delay: calc(var(--base-delay, 0ms) + 800ms);
+}
+.stagger-container > *:nth-child(9) {
+	animation-delay: calc(var(--base-delay, 0ms) + 900ms);
+}
+.stagger-container > *:nth-child(10) {
+	animation-delay: calc(var(--base-delay, 0ms) + 1000ms);
+}
+.stagger-container > *:nth-child(11) {
+	animation-delay: calc(var(--base-delay, 0ms) + 1100ms);
+}
+.stagger-container > *:nth-child(12) {
+	animation-delay: calc(var(--base-delay, 0ms) + 1200ms);
+}
+.stagger-container > *:nth-child(13) {
+	animation-delay: calc(var(--base-delay, 0ms) + 1300ms);
+}
+.stagger-container > *:nth-child(14) {
+	animation-delay: calc(var(--base-delay, 0ms) + 1400ms);
+}
+.stagger-container > *:nth-child(15) {
+	animation-delay: calc(var(--base-delay, 0ms) + 1500ms);
+}
+.stagger-container > *:nth-child(16) {
+	animation-delay: calc(var(--base-delay, 0ms) + 1600ms);
+}
+.stagger-container > *:nth-child(17) {
+	animation-delay: calc(var(--base-delay, 0ms) + 1700ms);
+}
+.stagger-container > *:nth-child(18) {
+	animation-delay: calc(var(--base-delay, 0ms) + 1800ms);
+}
+.stagger-container > *:nth-child(19) {
+	animation-delay: calc(var(--base-delay, 0ms) + 1900ms);
+}
+.stagger-container > *:nth-child(20) {
+	animation-delay: calc(var(--base-delay, 0ms) + 2000ms);
+}
+.stagger-container > *:nth-child(21) {
+	animation-delay: calc(var(--base-delay, 0ms) + 2100ms);
+}
+.stagger-container > *:nth-child(22) {
+	animation-delay: calc(var(--base-delay, 0ms) + 2200ms);
+}
+.stagger-container > *:nth-child(23) {
+	animation-delay: calc(var(--base-delay, 0ms) + 2300ms);
+}
+.stagger-container > *:nth-child(24) {
+	animation-delay: calc(var(--base-delay, 0ms) + 2400ms);
+}
+.stagger-container > *:nth-child(25) {
+	animation-delay: calc(var(--base-delay, 0ms) + 2500ms);
+}

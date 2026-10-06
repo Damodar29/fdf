@@ -1,0 +1,165 @@
+14: import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+151: const [isUploading, setIsUploading] = useState(false);
+152: const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+155: const [showPhotoOptions, setShowPhotoOptions] = useState(false);
+168: photoURL: string;
+170: realName: '', dikshaName: '', guruSelection: '', guruNameCustom: '', dikshaDate: '', isAspiring: false, photoURL: ''
+172: const [memberPhotoPreview, setMemberPhotoPreview] = useState<string | null>(null);
+173: const [isMemberUploading, setIsMemberUploading] = useState(false);
+251: photoURL: d.photoURL || '',
+277: const [showSaveSuccess, setShowSaveSuccess] = useState(false);
+280: const [uploadProgress, setUploadProgress] = useState(0);
+283: const [lastSavedAt, setLastSavedAt] = useState<number | null>(null);
+284: const [draftSavedAt, setDraftSavedAt] = useState<number | null>(null);
+319: if (showPhotoOptions) window.history.pushState({ isPopup: true, view: 'profile-photo-options' }, '');
+320: }, [showPhotoOptions]);
+341: if (showPhotoOptions && e.state?.view !== 'profile-photo-options') setShowPhotoOptions(false);
+349: }, [showDeleteConfirm, showPhotoOptions, showGuruSelector, showMandalSelector, showFamilyMemberModal, showFamilyGuruSelector]);
+356: const handleClosePhotoOptions = () => {
+357: if (window.history.state?.view === 'profile-photo-options') window.history.back();
+358: else setShowPhotoOptions(false);
+514: setMemberForm({ realName: '', dikshaName: '', guruSelection: '', guruNameCustom: '', dikshaDate: '', isAspiring: true, photoURL: '' });
+515: setMemberPhotoPreview(null);
+530: photoURL: m.photoURL || '',
+532: setMemberPhotoPreview(m.photoURL || null);
+576: const handleSaveMember = () => {
+603: photoURL: memberPhotoPreview || '',
+649: if (profile.photoURL) setPhotoPreview(profile.photoURL);
+656: const { _savedAt, ...rest } = draft;
+661: setDraftSavedAt(_savedAt || Date.now());
+680: /* ── Auto-save Draft (localStorage & Firestore) ── */
+688: _savedAt: Date.now(),
+691: setDraftSavedAt(Date.now());
+693: // ONLY auto-save to Firestore if they haven't submitted yet!
+695: // to click "Save" so that `hasPendingEdits` and history are recorded properly.
+703: }).catch(e => console.warn('Silent firestore draft save failed:', e));
+707: console.warn('Draft save failed:', e);
+709: }, 15000); // 15s debounce — saves after 15s of inactivity
+730: /* ── Photo Upload ── */
+731: const handlePhotoSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
+733: handleClosePhotoOptions();
+741: setIsUploading(true);
+742: setUploadProgress(0);
+745: setUploadProgress(prev => prev < 85 ? prev + Math.random() * 15 : prev);
+749: const photoRef = ref(storage, `profile_photos/${user.uid}/profile.jpg`);
+750: await uploadBytes(photoRef, compressed, { contentType: 'image/jpeg' });
+751: setUploadProgress(100);
+753: const downloadURL = await getDownloadURL(photoRef);
+756: const changes = [{ field: 'photoURL', old: profile?.photoURL || '', new: downloadURL }];
+763: // Uploading photo → automatically mark submitted for review
+765: photoURL: downloadURL,
+770: setPhotoPreview(downloadURL);
+771: showToast(isHindi ? 'फोटो अपलोड हो गई ✅ समीक्षा के लिए भेजी गई' : 'Photo uploaded ✅ Sent for review', 'success');
+773: console.error('Photo upload error:', error);
+774: showToast(isHindi ? 'फोटो अपलोड विफल' : 'Photo upload failed', 'error');
+776: setIsUploading(false);
+782: const handleRemovePhoto = async () => {
+783: handleClosePhotoOptions();
+784: if (!user || !profile?.photoURL) return;
+785: setIsUploading(true);
+788: const changes = [{ field: 'photoURL', old: profile?.photoURL || '', new: '' }];
+795: // Removing photo → also pull back from review queue
+797: photoURL: '',
+802: setPhotoPreview(null);
+803: showToast(isHindi ? 'फोटो हटा दी गई' : 'Photo removed', 'success');
+805: showToast(isHindi ? 'फोटो हटाने में विफल' : 'Failed to remove photo', 'error');
+807: setIsUploading(false);
+811: /* ── Family Member Photo Upload ── */
+812: const handleMemberPhotoSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
+819: setIsMemberUploading(true);
+822: // Bug #6 fix: Use Date.now() for new members so concurrent uploads
+824: // in handleSaveMember matches this since both are time-based.
+829: const photoRef = ref(storage, `profile_photos/${user.uid}/family_${memberId}.jpg`);
+830: await uploadBytes(photoRef, compressed, { contentType: 'image/jpeg' });
+831: const downloadURL = await getDownloadURL(photoRef);
+832: setMemberPhotoPreview(downloadURL);
+833: showToast(isHindi ? 'फोटो अपलोड हो गई ✅' : 'Photo uploaded ✅', 'success');
+835: console.error('Member photo upload error:', error);
+836: showToast(isHindi ? 'फोटो अपलोड विफल' : 'Photo upload failed', 'error');
+838: setIsMemberUploading(false);
+843: /* ── Save Profile ── */
+844: const handleSave = async (e: React.FormEvent) => {
+860: const hasPhoto = !!photoPreview;
+911: submittedForReview: hasPhoto,
+926: // not for no-change saves, to avoid double feedback.
+933: // No toast for no-change saves — the success animation is enough
+937: hasPhoto
+938: ? (isHindi ? 'प्रोफाइल सुरक्षित किया गया और समीक्षा के लिए भेजा गया ✅' : 'Profile saved and sent for review ✅')
+939: : (isHindi ? 'प्रोफाइल सुरक्षित किया गया। स्वीकृति के लिए फोटो भी अपलोड करें 📸' : 'Profile saved. Please upload photo for approval 📸'),
+943: // ═══ NEW: Success animation + clear draft + update lastSavedAt ═══
+944: setShowSaveSuccess(true);
+945: setLastSavedAt(Date.now());
+980: photoPreview,
+1090: {/* ── Photo Section ── */}
+1094: onClick={() => !isApprovedProfile && setShowPhotoOptions(true)}
+1096: {photoPreview ? (
+1097: // Bug #23 fix: only show custom-uploaded photo, never Google account photo
+1098: <img src={photoPreview} alt="Profile" className="w-full h-full object-cover" />
+1105: {isUploading ? <Loader2 size={28} className="text-white animate-spin" /> : <Camera size={28} className="text-white drop-shadow-md" />}
+1112: <input ref={fileInputRef} type="file" accept="image/*" onChange={handlePhotoSelect} className="hidden" />
+1113: <input ref={cameraInputRef} type="file" accept="image/*" capture="user" onChange={handlePhotoSelect} className="hidden" />
+1115: {/* ═══ NEW: Upload Progress Bar ═══ */}
+1116: {isUploading && (
+1120: style={{ width: `${uploadProgress}%` }} />
+1122: <p className="text-[10px] text-slate-400 text-center mt-1">{Math.round(uploadProgress)}%</p>
+1135: photoPreview={photoPreview}
+1189: ['realName', 'dikshaName', 'guruName', 'dikshaDate', 'mandalId', 'personalExperience', 'photoURL'].forEach(f => { defaults[f] = 'current'; });
+1242: <form onSubmit={handleSave} className="space-y-5">
+1583: {req.fromUserPhoto ? (
+1584: <img src={req.fromUserPhoto} alt={req.fromUserName} className="w-full h-full object-cover" />
+1618: {member.photoURL ? (
+1619: <img src={member.photoURL} alt={member.realName} className="w-full h-full object-cover" />
+1713: {/* ── Save / Request Edit Button ── */}
+1732: : photoPreview
+1733: ? (isHindi ? 'प्रोफाइल सहेजें और समीक्षा के लिए भेजें ✅' : 'Save & Send for Review ✅')
+1734: : (isHindi ? 'प्रोफाइल सहेजें' : 'Save Profile')}
+1738: {/* ═══ NEW: Draft saved / last saved indicator ═══ */}
+1740: {draftSavedAt ? (
+1742: 💾 {isHindi ? 'प्रारूप सुरक्षित:' : 'Draft saved:'} {new Date(draftSavedAt).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}
+1745: {lastSavedAt && (
+1747: ✅ {isHindi ? 'अंतिम बार सुरक्षित:' : 'Last saved:'} {new Date(lastSavedAt).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}
+1752: {!photoPreview && !isSaving && (
+1755: {isHindi ? 'ध्यान दें: स्वीकृति के लिए फोटो अपलोड करना अनिवार्य है!' : 'Action Required: Photo upload is mandatory for approval!'}
+1788: {isHindi ? 'आपका सारा डेटा, फोटो, और लाइक हमेशा के लिए डिलीट हो जाएंगे।' : 'All your data, photos, and likes will be permanently deleted.'}
+1830: {/* ════════ PHOTO OPTIONS SHEET ════════ */}
+1831: {showPhotoOptions && (
+1834: onClick={handleClosePhotoOptions}
+1841: <h3 className="font-bold text-slate-800 dark:text-white px-2">{isHindi ? 'प्रोफाइल फोटो बदलें' : 'Change Profile Photo'}</h3>
+1842: <button onClick={handleClosePhotoOptions} className="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 rounded-full transition-colors bg-white dark:bg-slate-700 shadow-sm">
+1851: <Camera size={14} /> {isHindi ? 'फोटो कैसी होनी चाहिए?' : 'How should the photo be?'}
+1875: {/* Group Photo */}
+1887: {isHindi ? 'ग्रुप' : 'Group'}<br />{isHindi ? 'फोटो' : 'photo'}
+1891: {/* Blurry Photo */}
+1902: {isHindi ? 'धुंधली' : 'Blurry'}<br />{isHindi ? 'फोटो' : 'photo'}
+1909: {isHindi ? 'अपलोड के बाद एडमिन द्वारा जांच की जाएगी' : 'Will be checked by admin after upload'}
+1922: <span className="font-semibold text-slate-700 dark:text-slate-200 text-base">{isHindi ? 'कैमरा से फोटो लें' : 'Take photo with camera'}</span>
+1933: {photoPreview && (
+1935: onClick={handleRemovePhoto}
+1941: <span className="font-semibold text-red-600 dark:text-red-400 text-base">{isHindi ? 'फोटो हटाएं' : 'Remove photo'}</span>
+2100: {/* ── Member Photo ── */}
+2105: {memberPhotoPreview ? (
+2106: <img src={memberPhotoPreview} alt="Member" className="w-full h-full object-cover" />
+2120: {isMemberUploading
+2135: onChange={handleMemberPhotoSelect}
+2140: {isHindi ? 'फोटो जोड़ने के लिए टैप करें (वैकल्पिक)' : 'Tap to add photo (optional)'}
+2143: {/* Remove photo option */}
+2144: {memberPhotoPreview && (
+2147: onClick={() => setMemberPhotoPreview(null)}
+2150: {isHindi ? 'फोटो हटाएं' : 'Remove photo'}
+2254: {/* Save button */}
+2258: onClick={handleSaveMember}
+2262: {editingMemberIndex !== null ? (isHindi ? 'बदलाव सहेजें' : 'Save Changes') : (isHindi ? 'सदस्य जोड़ें' : 'Add Member')}
+2559: ['realName', 'dikshaName', 'guruName', 'dikshaDate', 'mandalId', 'personalExperience', 'photoURL'].forEach(field => { defs[field] = 'current'; });
+2578: ['realName', 'dikshaName', 'guruName', 'dikshaDate', 'mandalId', 'personalExperience', 'photoURL'].forEach(f => { defs[f] = 'current'; });
+2622: { key: 'photoURL', label: 'Photo', labelHi: 'फोटो' },
+2648: const isPhoto = key === 'photoURL';
+2655: {isHindi ? 'दोनों समान' : 'Same'} {curVal ? `· ${isPhoto ? '📷' : curVal.slice(0, 18)}` : '· खाली'}
+2662: {isPhoto ? (curVal ? '📷' : '—') : (curVal || '—')}
+2667: {isPhoto ? (othVal ? '📷' : '—') : (othVal || '—')}
+2722: onPhotoSelect={handlePhotoSelect}
+2725: photoPreview={photoPreview}
+2726: isUploading={isUploading}
+2735: photoPreview={photoPreview}
+2753: {/* ═══ NEW: Save Success Animation ═══ */}
+2754: {showSaveSuccess && (
+2757: onDone={() => setShowSaveSuccess(false)}

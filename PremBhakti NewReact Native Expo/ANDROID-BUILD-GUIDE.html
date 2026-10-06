@@ -1,0 +1,664 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prem Bhakti RN — APK Guide</title>
+<style>
+  :root {
+    --page: #f7f3ea;
+    --card: #ffffff;
+    --sunken: #f1ece0;
+    --text: #1e2433;
+    --muted: #5b6475;
+    --line: #e4dccb;
+    --royal: #0b2e6b;
+    --royal-2: #103a8c;
+    --gold: #c9971c;
+    --gold-soft: #fbf1d6;
+    --accent: #0e7490;
+    --accent-soft: #e0f4f8;
+    --ok: #15803d;
+    --ok-soft: #e3f5e8;
+    --warn: #b45309;
+    --warn-soft: #fdf0dc;
+    --bad: #b91c1c;
+    --bad-soft: #fde8e8;
+    --code-bg: #1b2236;
+    --code-text: #e8ecf5;
+    --shadow: 0 1px 2px rgba(20, 30, 60, .06), 0 6px 20px rgba(20, 30, 60, .06);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --page: #0f1422;
+      --card: #171e30;
+      --sunken: #121828;
+      --text: #e7eaf2;
+      --muted: #9aa3b7;
+      --line: #273049;
+      --royal: #9fbaf0;
+      --royal-2: #7fa2e8;
+      --gold: #e5b843;
+      --gold-soft: #2c2512;
+      --accent: #5fc4dc;
+      --accent-soft: #10303a;
+      --ok: #5ccf86;
+      --ok-soft: #10301d;
+      --warn: #f0b05a;
+      --warn-soft: #33240e;
+      --bad: #f28b8b;
+      --bad-soft: #3a1717;
+      --code-bg: #0a0e19;
+      --code-text: #e8ecf5;
+      --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 6px 20px rgba(0, 0, 0, .25);
+    }
+  }
+  :root[data-theme="dark"] {
+    --page: #0f1422;
+    --card: #171e30;
+    --sunken: #121828;
+    --text: #e7eaf2;
+    --muted: #9aa3b7;
+    --line: #273049;
+    --royal: #9fbaf0;
+    --royal-2: #7fa2e8;
+    --gold: #e5b843;
+    --gold-soft: #2c2512;
+    --accent: #5fc4dc;
+    --accent-soft: #10303a;
+    --ok: #5ccf86;
+    --ok-soft: #10301d;
+    --warn: #f0b05a;
+    --warn-soft: #33240e;
+    --bad: #f28b8b;
+    --bad-soft: #3a1717;
+    --code-bg: #0a0e19;
+    --code-text: #e8ecf5;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 6px 20px rgba(0, 0, 0, .25);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 16px; }
+  body {
+    margin: 0;
+    background: var(--page);
+    color: var(--text);
+    font: 16px/1.65 system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", "Nirmala UI", sans-serif;
+  }
+  a { color: var(--accent); }
+  code, kbd, .path {
+    font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+    font-size: .9em;
+  }
+  code { background: var(--sunken); border: 1px solid var(--line); padding: 1px 6px; border-radius: 6px; word-break: break-word; }
+  kbd {
+    background: var(--card); border: 1px solid var(--line); border-bottom-width: 2px;
+    padding: 1px 7px; border-radius: 6px; white-space: nowrap;
+  }
+  .menu { font-weight: 600; color: var(--royal); }
+
+  /* ---------- hero ---------- */
+  .hero {
+    background: linear-gradient(160deg, #103a8c 0%, #0b2e6b 55%, #071c40 100%);
+    color: #fff;
+    padding: 40px 16px 32px;
+    border-bottom: 3px solid #c9971c;
+  }
+  .hero-inner { max-width: 980px; margin: 0 auto; }
+  .eyebrow { color: #f3d27a; letter-spacing: .14em; text-transform: uppercase; font-size: .78rem; font-weight: 700; }
+  .hero h1 { margin: 6px 0 10px; font-size: clamp(1.6rem, 4vw, 2.3rem); line-height: 1.2; }
+  .hero p { margin: 0; color: #d6e0f5; max-width: 680px; }
+  .facts { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+  .fact {
+    background: rgba(255, 255, 255, .08); border: 1px solid rgba(243, 210, 122, .35);
+    border-radius: 12px; padding: 8px 12px; min-width: 0;
+  }
+  .fact small { display: block; color: #f3d27a; font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; }
+  .fact span { font-family: ui-monospace, Consolas, monospace; font-size: .9rem; word-break: break-all; }
+
+  /* ---------- layout ---------- */
+  .layout { max-width: 980px; margin: 0 auto; padding: 24px 16px 64px; display: grid; gap: 28px; }
+  .layout > *, ol.steps > li, .grid-2 > *, .grid-3 > *, section, details { min-width: 0; }
+  @media (min-width: 1100px) {
+    .layout { max-width: 1180px; grid-template-columns: 220px minmax(0, 1fr); align-items: start; }
+    nav.toc { position: sticky; top: 16px; }
+  }
+  nav.toc {
+    background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px;
+    box-shadow: var(--shadow);
+  }
+  nav.toc strong { display: block; font-size: .78rem; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin-bottom: 6px; }
+  nav.toc ol { margin: 0; padding-left: 20px; }
+  nav.toc li { margin: 3px 0; }
+  nav.toc a { color: var(--text); text-decoration: none; font-size: .93rem; }
+  nav.toc a:hover { color: var(--accent); text-decoration: underline; }
+
+  section { margin-bottom: 40px; }
+  h2 {
+    font-size: 1.45rem; margin: 0 0 6px; color: var(--royal);
+    display: flex; align-items: center; gap: 10px;
+  }
+  h2 .num {
+    flex: none; width: 32px; height: 32px; border-radius: 50%;
+    display: inline-grid; place-items: center; font-size: .95rem;
+    background: var(--gold-soft); color: var(--gold); border: 1.5px solid var(--gold);
+  }
+  .lead { color: var(--muted); margin: 0 0 18px; }
+  h3 { font-size: 1.08rem; margin: 22px 0 8px; }
+
+  .card {
+    background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+    padding: 18px 20px; box-shadow: var(--shadow);
+  }
+  .grid-3 { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  .grid-2 { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+  .card h4 { margin: 0 0 6px; font-size: 1rem; }
+  .card p { margin: 0; color: var(--muted); }
+  .icon { font-size: 1.5rem; line-height: 1; display: block; margin-bottom: 8px; }
+
+  /* ---------- steps ---------- */
+  ol.steps { list-style: none; counter-reset: step; padding: 0; margin: 0; display: grid; gap: 12px; }
+  ol.steps > li {
+    counter-increment: step; position: relative;
+    background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+    padding: 16px 18px 16px 62px; box-shadow: var(--shadow);
+  }
+  ol.steps > li::before {
+    content: counter(step); position: absolute; left: 16px; top: 15px;
+    width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center;
+    background: var(--royal-2); color: #fff; font-weight: 700; font-size: .95rem;
+  }
+  :root[data-theme="dark"] ol.steps > li::before { color: #0f1422; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) ol.steps > li::before { color: #0f1422; } }
+  ol.steps > li > b:first-child { display: block; font-size: 1.02rem; margin-bottom: 4px; }
+  ol.steps p { margin: 6px 0 0; }
+  ol.steps ul { margin: 6px 0 0; padding-left: 20px; }
+  .why { margin-top: 8px; font-size: .92rem; color: var(--muted); border-left: 3px solid var(--line); padding-left: 10px; }
+  .why b { color: var(--text); }
+
+  /* ---------- callouts ---------- */
+  .callout { border-radius: 12px; padding: 14px 16px; margin: 16px 0; border: 1px solid; display: flex; gap: 12px; }
+  .callout .ci { flex: none; font-size: 1.25rem; line-height: 1.4; }
+  .callout p { margin: 0; }
+  .callout p + p { margin-top: 6px; }
+  .callout.ok { background: var(--ok-soft); border-color: color-mix(in srgb, var(--ok) 40%, transparent); }
+  .callout.warn { background: var(--warn-soft); border-color: color-mix(in srgb, var(--warn) 40%, transparent); }
+  .callout.bad { background: var(--bad-soft); border-color: color-mix(in srgb, var(--bad) 40%, transparent); }
+  .callout.info { background: var(--accent-soft); border-color: color-mix(in srgb, var(--accent) 40%, transparent); }
+  .callout b.t { display: block; margin-bottom: 2px; }
+
+  /* ---------- copyable code ---------- */
+  .cmd {
+    position: relative; background: var(--code-bg); color: var(--code-text);
+    border-radius: 10px; padding: 12px 84px 12px 14px; margin: 10px 0 4px;
+    font-family: ui-monospace, "Cascadia Code", Consolas, monospace; font-size: .88rem;
+    overflow-x: auto; white-space: pre;
+  }
+  .cmd .copy {
+    position: absolute; right: 8px; top: 8px;
+    background: rgba(255, 255, 255, .1); color: #fff; border: 1px solid rgba(255, 255, 255, .2);
+    border-radius: 7px; padding: 3px 10px; font: 600 .75rem system-ui, sans-serif; cursor: pointer;
+  }
+  .cmd .copy:hover { background: rgba(255, 255, 255, .2); }
+  .cmd .copy.done { background: #15803d; border-color: #15803d; }
+  .label { font-size: .82rem; color: var(--muted); margin-top: 12px; }
+
+  /* ---------- tables ---------- */
+  .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 14px; background: var(--card); box-shadow: var(--shadow); }
+  table { width: 100%; border-collapse: collapse; min-width: 560px; }
+  th, td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { background: var(--sunken); font-size: .82rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+  tr:last-child td { border-bottom: 0; }
+  td:first-child { font-weight: 600; }
+  .yes { color: var(--ok); font-weight: 600; }
+  .no { color: var(--bad); font-weight: 600; }
+
+  /* ---------- troubleshooting ---------- */
+  details {
+    background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+    margin-bottom: 10px; box-shadow: var(--shadow);
+  }
+  summary {
+    cursor: pointer; padding: 14px 16px; font-weight: 600; list-style: none;
+    display: flex; gap: 10px; align-items: flex-start;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary::before { content: "▸"; color: var(--gold); transition: transform .15s; flex: none; }
+  details[open] summary::before { transform: rotate(90deg); }
+  summary code { font-weight: 500; }
+  .det { padding: 0 16px 16px 38px; }
+  .det p { margin: 6px 0; }
+  .det .k { font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-top: 10px; }
+
+  .flow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 10px 0; }
+  .flow span.box { background: var(--sunken); border: 1px solid var(--line); border-radius: 9px; padding: 6px 10px; font-size: .9rem; }
+  .flow span.arr { color: var(--gold); font-weight: 700; }
+
+  footer { text-align: center; color: var(--muted); font-size: .85rem; padding: 0 16px 40px; }
+
+  .theme-btn {
+    position: fixed; right: 16px; bottom: 16px; z-index: 5;
+    background: var(--card); color: var(--text); border: 1px solid var(--line);
+    border-radius: 999px; padding: 8px 14px; font: 600 .85rem system-ui, sans-serif;
+    box-shadow: var(--shadow); cursor: pointer;
+  }
+  @media print { .theme-btn, .copy, nav.toc { display: none !important; } .hero { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">Shree Chaitanya Prem Bhakti Sangh · React Native App</div>
+    <h1>Android Studio se APK banane ki poori guide</h1>
+    <p>Testing ke liye <b>Debug</b> ya <b>Release</b> APK khud kaise banayein, phone par kaise daalein, aur kuch atak jaye to kya karein — sab kuch step-by-step, saath mein ye bhi ki har step <i>kyon</i> zaroori hai.</p>
+    <div class="facts">
+      <div class="fact"><small>Project folder</small><span>C:\rn\mobile</span></div>
+      <div class="fact"><small>Android Studio mein kholo</small><span>C:\rn\mobile\android</span></div>
+      <div class="fact"><small>Test app ka package</small><span>com.cpbs.bhajans.rntest</span></div>
+      <div class="fact"><small>Phone par naam</small><span>Prem Bhakti RN</span></div>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <nav class="toc" aria-label="Is guide mein">
+    <strong>Is guide mein</strong>
+    <ol>
+      <li><a href="#rules">3 zaroori niyam</a></li>
+      <li><a href="#which">Debug ya Release?</a></li>
+      <li><a href="#setup">Ek baar ka setup</a></li>
+      <li><a href="#release">Release APK banana</a></li>
+      <li><a href="#debug">Debug build chalana</a></li>
+      <li><a href="#after-change">Code badalne ke baad</a></li>
+      <li><a href="#phone">Phone par check karna</a></li>
+      <li><a href="#trouble">Error aaye to</a></li>
+      <li><a href="#playstore">Play Store release (baad mein)</a></li>
+      <li><a href="#files">Zaroori files &amp; paths</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <!-- 1 -->
+    <section id="rules">
+      <h2><span class="num">1</span>Sabse pehle — 3 zaroori niyam</h2>
+      <p class="lead">Ye teen baatein yaad rahengi to 90% problems kabhi aayengi hi nahi.</p>
+      <div class="grid-3">
+        <div class="card">
+          <span class="icon">🛡️</span>
+          <h4>Asli app ko kuch nahi hoga</h4>
+          <p>Ye app phone par <code>com.cpbs.bhajans.rntest</code> ("Prem Bhakti RN") naam se <b>alag</b> install hoti hai. Play Store wali asli <code>com.cpbs.bhajans</code> aur uska data bilkul safe rehta hai — dono app saath-saath chalti hain.</p>
+        </div>
+        <div class="card">
+          <span class="icon">📁</span>
+          <h4>Sirf <code>C:\rn\mobile</code></h4>
+          <p>Code aur build dono yahin. Worktree wala lamba path (<code>…\.claude\worktrees\…\mobile</code>) purani copy hai — Windows ki path-length limit ki wajah se wahan C++ build fail hota hai.</p>
+        </div>
+        <div class="card">
+          <span class="icon">⛔</span>
+          <h4>Gradle upgrade mat karna</h4>
+          <p>Android Studio baar-baar "Upgrade Gradle / AGP" bolega. <b>Mana karna hai.</b> React Native 0.86 ko exactly Gradle <b>9.3.1</b> aur JDK <b>17</b> chahiye — upgrade karte hi build toot jaata hai.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2 -->
+    <section id="which">
+      <h2><span class="num">2</span>Debug ya Release — kaunsa banaun?</h2>
+      <p class="lead">Short answer: <b>phone par app chala kar dekhni hai → Release.</b> Code likhte-likhte turant result dekhna hai → Debug.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th></th><th>Release APK</th><th>Debug build</th></tr></thead>
+          <tbody>
+            <tr><td>Kab use karein</td><td>Poori app test karni ho, kisi ko bhejni ho, roz use karke dekhni ho</td><td>Code badal rahe ho aur turant phone par dekhna ho</td></tr>
+            <tr><td>Bina PC ke chalegi?</td><td class="yes">Haan — sab kuch APK ke andar hai</td><td class="no">Nahi — PC par Metro chalna zaroori hai</td></tr>
+            <tr><td>Speed</td><td>Tez, asli app jaisi</td><td>Thodi dheemi (development checks ON)</td></tr>
+            <tr><td>Code badla to?</td><td>Dobara build banana padega</td><td>Save karte hi app apne-aap reload</td></tr>
+            <tr><td>Build time</td><td>Pehli baar ~25 min, baad mein 3–8 min</td><td>Pehli baar ~15 min, baad mein 2–5 min</td></tr>
+            <tr><td>APK size</td><td>~90 MB</td><td>Bada (debug info ke saath)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout info"><span class="ci">ℹ️</span><div><p>Dono build ek hi package (<code>.rntest</code>) aur ek hi test key se sign hote hain, isliye ek ke upar doosra seedha install ho jaata hai — uninstall karne ki zaroorat nahi.</p></div></div>
+    </section>
+
+    <!-- 3 -->
+    <section id="setup">
+      <h2><span class="num">3</span>Ek baar ka setup</h2>
+      <p class="lead">Ye sirf pehli baar (ya naya PC / Android Studio reinstall hone par) karna hai.</p>
+      <ol class="steps">
+        <li>
+          <b>Project kholo</b>
+          Android Studio → <span class="menu">File → Open</span> → ye folder chuno:
+          <div class="cmd">C:\rn\mobile\android<button class="copy">Copy</button></div>
+          <div class="why"><b>Kyon <code>android</code> sub-folder?</b> Android Studio ko Gradle project chahiye, jo <code>android</code> folder mein hai. Pura <code>C:\rn\mobile</code> khologe to wo JavaScript project samjhega aur build option nahi dikhenge.</div>
+        </li>
+        <li>
+          <b>Gradle Sync poora hone do</b>
+          Neeche status bar mein "Gradle sync" chalta dikhega. Pehli baar <b>5–10 minute</b> lagte hain (libraries download hoti hain). Beech mein Studio band mat karna.
+        </li>
+        <li>
+          <b>Upgrade wala popup aaye to mana karo</b>
+          "Project update recommended" / "Upgrade Android Gradle Plugin" jaisa popup aaye to <span class="menu">Don't ask again for this project</span> dabao.
+          <div class="why"><b>Kyon?</b> React Native 0.86 Gradle 9.3.1 ke saath hi test hua hai. Naya Gradle (jaise 9.8) RN ke C++ build ko tod deta hai.</div>
+        </li>
+        <li>
+          <b>JDK 17 check karo</b> (normally apne-aap set hota hai)
+          <span class="menu">File → Settings → Build, Execution, Deployment → Build Tools → Gradle</span> → <b>Gradle JDK</b> mein <code>GRADLE_LOCAL_JAVA_HOME</code> (jdk-17) dikhna chahiye. Kuch aur dikhe to list se <b>jdk-17</b> chuno.
+          <div class="why"><b>Kyon?</b> Android Studio ka apna Java (JBR) version 25 hai. Usse build karne par <i>"restricted method in java.lang.System"</i> error aata hai. Project mein JDK 17 ka path pehle se pin kiya hua hai (<code>gradle.properties</code> + <code>.gradle/config.properties</code>), isliye ye step bas confirm karne ke liye hai.</div>
+        </li>
+        <li>
+          <b>Phone ready karo</b>
+          <ul>
+            <li>Phone: <span class="menu">Settings → Developer options → USB debugging</span> <b>ON</b></li>
+            <li>USB cable lagao (data wali cable — sirf charging wali nahi chalegi)</li>
+            <li>Phone par popup <b>"Allow USB debugging?"</b> → <b>Always allow from this computer</b> ✓ → <b>Allow</b></li>
+            <li>Android Studio ke upar device dropdown mein <b>Samsung SM-M556…</b> (Galaxy M55) dikhne lagega</li>
+          </ul>
+        </li>
+      </ol>
+    </section>
+
+    <!-- 4 -->
+    <section id="release">
+      <h2><span class="num">4</span>Release APK banana <small style="font-size:.6em;color:var(--muted);font-weight:500">(testing ke liye best)</small></h2>
+      <p class="lead">Ye poori, akeli chalne wali app hai — bilkul waisi jaisi user ke phone par chalegi.</p>
+      <ol class="steps">
+        <li>
+          <b>Build Variant "release" chuno</b>
+          <span class="menu">View → Tool Windows → Build Variants</span>. Ek panel khulega jisme <code>:app</code> ke saamne dropdown hai → <b>release</b> chuno.
+          <div class="why">Baaki modules (expo, reanimated wagera) apne-aap match ho jaate hain, unhe chhedne ki zaroorat nahi.</div>
+        </li>
+        <li>
+          <b>APK generate karo</b>
+          <span class="menu">Build → Generate App Bundles or APKs → Generate APKs</span>
+          <p>Neeche <b>Build</b> tab mein progress dikhega. Pehli baar <b>20–30 min</b> (C++ code compile hota hai), baad mein kaafi jaldi.</p>
+          <div class="callout warn"><span class="ci">⚠️</span><div><p><b>"Generate Signed App Bundle / APK"</b> wala option <b>mat</b> chuno — wo keystore maangega. Testing ke liye simple <b>Generate APKs</b> kaafi hai; project already test key se sign karta hai.</p></div></div>
+        </li>
+        <li>
+          <b>APK dhoondo</b>
+          Build khatam hone par neeche-right popup aayega → <b>locate</b> dabao. Ya seedha yahan:
+          <div class="cmd">C:\rn\mobile\android\app\build\outputs\apk\release\app-release.apk<button class="copy">Copy</button></div>
+        </li>
+        <li>
+          <b>Phone par install karo</b> — koi bhi ek tareeka:
+          <ul>
+            <li><b>USB se (aasan):</b> phone jude hone par ye file double-click karo —
+              <div class="cmd">C:\rn\mobile\scripts\install-release-on-phone.cmd<button class="copy">Copy</button></div>
+              Last mein <code>Success</code> likha aaye to ho gaya.
+            </li>
+            <li><b>Bina cable:</b> APK ko WhatsApp / Drive / Bluetooth se phone par bhejo → file par tap → <b>Install</b>. ("Unknown apps" ki permission maange to us app ko allow karo.)</li>
+          </ul>
+          <div class="callout warn"><span class="ci">⚠️</span><div><p><b class="t">PC par APK ko double-click mat karna</b>Is computer par <code>.apk</code> files <b>BlueStacks</b> se khulti hain. Double-click karte hi BlueStacks emulator chalu ho jaata hai aur app usme install ho jaati hai, phone mein nahi. Phone ke liye upar wala script ya file bhejne wala tareeka hi use karo.</p></div></div>
+        </li>
+        <li>
+          <b>Chala kar dekho</b>
+          Phone ke app drawer mein <b>Prem Bhakti RN</b> kholo. Asli <b>Prem Bhakti</b> bhi wahin alag dikhegi — wo bilkul waisi hi hai.
+        </li>
+      </ol>
+      <div class="callout info"><span class="ci">ℹ️</span><div><p><b class="t">Test APK sirf 64-bit (arm64) phones ke liye</b>Build jaldi ho aur APK chhoti bane, isliye test build sirf <code>arm64-v8a</code> ke liye banta hai (Galaxy M55 aur aaj ke lagbhag sab phone). Release build code ko chhota (R8) bhi karta hai. Pehla build ~20–30 minute, uske baad Gradle cache se kaafi jaldi. Roz ke UI kaam ke liye APK ki jagah <a href="EXPO-PHONE-GUIDE.html">EXPO-PHONE-GUIDE.html</a> wala tareeka use karo.</p></div></div>
+    </section>
+
+    <!-- 5 -->
+    <section id="debug">
+      <h2><span class="num">5</span>Debug build chalana <small style="font-size:.6em;color:var(--muted);font-weight:500">(code likhte waqt)</small></h2>
+      <p class="lead">Debug app khud mein JavaScript nahi rakhti — wo PC par chal rahe <b>Metro</b> server se code leti hai. Isliye code save karte hi phone par turant badlav dikh jaata hai.</p>
+      <div class="flow"><span class="box">Code file save</span><span class="arr">→</span><span class="box">Metro (PC, port 8081)</span><span class="arr">→</span><span class="box">USB (adb reverse)</span><span class="arr">→</span><span class="box">Phone par app reload</span></div>
+      <ol class="steps">
+        <li>
+          <b>Phone USB se lagao</b> (setup ka step 5 ho chuka ho).
+        </li>
+        <li>
+          <b>Metro start karo</b> — ye file double-click karo aur window <b>khuli rehne do</b>:
+          <div class="cmd">C:\rn\mobile\scripts\start-metro.cmd<button class="copy">Copy</button></div>
+          <div class="why"><b>Ye kya karta hai?</b> Pehle <code>adb reverse tcp:8081 tcp:8081</code> chalata hai (phone ka "localhost:8081" PC tak pahunch jaata hai), phir <code>npx expo start --dev-client</code> se Metro shuru karta hai. "Waiting on http://localhost:8081" dikhe to ready hai.</div>
+        </li>
+        <li>
+          <b>Build Variant "debug" chuno</b>
+          <span class="menu">Build Variants</span> panel → <code>:app</code> → <b>debug</b>.
+        </li>
+        <li>
+          <b>Run ▶ dabao</b>
+          Upar device dropdown mein apna phone chuno → hara <kbd>▶ Run</kbd> button (ya <kbd>Shift</kbd>+<kbd>F10</kbd>). Studio build karke phone par install aur launch kar dega.
+        </li>
+        <li>
+          <b>Code badlo, result dekho</b>
+          <code>C:\rn\mobile\src\…</code> mein koi bhi file save karo — phone par app 1–2 second mein update. Pura reload chahiye to Metro window mein <kbd>r</kbd> dabao.
+        </li>
+      </ol>
+      <div class="callout info"><span class="ci">💡</span><div><p>Debug app ek baar install ho gayi to har baar Studio se Run karne ki zaroorat nahi. Agle din bas <code>start-metro.cmd</code> chalao aur phone par app kholo — wo khud Metro se jud jaayegi. Studio se dobara Run tabhi karna hai jab native cheez badli ho (neeche table dekho).</p></div></div>
+    </section>
+
+    <!-- 6 -->
+    <section id="after-change">
+      <h2><span class="num">6</span>Code badalne ke baad kya karna hai?</h2>
+      <p class="lead">Badlav kis type ka hai, us hisaab se kaam alag hai.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Kya badla</th><th>Example</th><th>Debug ke liye</th><th>Release ke liye</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Sirf JS / screen / design</td>
+              <td><code>src/</code> ki koi <code>.tsx</code> / <code>.ts</code> file</td>
+              <td class="yes">Kuch nahi — apne-aap reload</td>
+              <td>Section 4 se dobara APK banao</td>
+            </tr>
+            <tr>
+              <td>Naya npm package (JS-only)</td>
+              <td>koi utility library</td>
+              <td><code>npm install</code>, phir Metro restart</td>
+              <td><code>npm install</code> → dobara APK</td>
+            </tr>
+            <tr>
+              <td>Web screens (Profile, Menu ke web pages, admin)</td>
+              <td>aaaacursor mein OG app ka naya <b>commit</b></td>
+              <td colspan="2"><code>npm run web:build</code> → <code>npx expo prebuild</code> → Studio mein <b>Sync Project with Gradle Files</b> → dobara Run / Generate APKs</td>
+            </tr>
+            <tr>
+              <td>Native cheez</td>
+              <td>naya native module, <code>app.json</code>, icon, permission, plugin</td>
+              <td colspan="2"><code>npm install</code> → <code>npx expo prebuild</code> → Studio mein <b>File → Sync Project with Gradle Files</b> → dobara Run / Generate APKs</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="label">Commands (C:\rn\mobile folder mein terminal kholkar):</p>
+      <div class="cmd">cd /d C:\rn\mobile<button class="copy">Copy</button></div>
+      <div class="cmd">npm install<button class="copy">Copy</button></div>
+      <div class="cmd">npx expo prebuild<button class="copy">Copy</button></div>
+      <div class="callout ok"><span class="ci">✅</span><div>
+        <p><b class="t">Web screens ka build: <code>npm run web:build</code></b>Jo screens abhi native nahi bani (Profile ke andar ka hissa, Menu ke Information/Donate/About wagera, admin panel), wo OG app ka hi web code hain, jo APK ke andar rakha jaata hai. Ye command aaaacursor ke <b>aakhri commit</b> ki copy <code>C:\rn\web-src</code> mein banati hai (aaaacursor mein kuch nahi likhti), aur nateeja <code>web-bundle</code> folder mein rakhti hai. Pehli baar 5-10 minute lagte hain, baad mein 1-2 minute. Agar aaaacursor mein bina commit wale badlav hon, to ye saaf warning dikhati hai ki wo bundle mein NAHI gaye. Iske baad <code>npx expo prebuild</code> zaroor chalao, tabhi naya web code APK mein jaata hai.</p>
+      </div></div>
+      <div class="cmd">npm run web:build<button class="copy">Copy</button></div>
+      <div class="callout ok"><span class="ci">✅</span><div>
+        <p><b class="t"><code>npx expo prebuild --clean</code> bhi safe hai</b>Ye <code>android</code> folder ko poora naya bana deta hai, lekin <code>plugins/withTestBuild.js</code> har baar ye sab dobara laga deta hai: alag package name (<code>.rntest</code>), app ka naam "Prem Bhakti RN", testing crashes asli app ki Crashlytics mein na jaayein, aur JDK 17 ka pin. <code>plugins/withLocalSdk.js</code> SDK ka path (<code>android/local.properties</code>) bhi apne-aap likh deta hai. Kuch haath se badalna nahi padta.</p>
+      </div></div>
+    </section>
+
+    <!-- 7 -->
+    <section id="phone">
+      <h2><span class="num">7</span>Phone par check karna</h2>
+      <h3>Phone PC se juda hai ya nahi?</h3>
+      <div class="cmd">"%LOCALAPPDATA%\Android\Sdk\platform-tools\adb.exe" devices<button class="copy">Copy</button></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Output</th><th>Matlab</th><th>Kya karein</th></tr></thead>
+          <tbody>
+            <tr><td><code>RZ8…&nbsp;&nbsp;device</code></td><td class="yes">Sab theek</td><td>Aage badho</td></tr>
+            <tr><td><code>unauthorized</code></td><td>Phone ne permission nahi di</td><td>Phone unlock karo, "Allow USB debugging" popup par Allow</td></tr>
+            <tr><td>Khali list</td><td>Phone dikh hi nahi raha</td><td>Data cable badlo, USB mode "File transfer" karo, USB debugging off-on karo</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3>Testing checklist</h3>
+      <div class="grid-2">
+        <div class="card"><h4>📜 Bhajans</h4><p>List scroll, A–Z slider, search (Hindi + English), filter sheet, bhajan kholna, font size, dark mode, playlist star, share.</p></div>
+        <div class="card"><h4>🎧 Audio</h4><p>Kirtans/Katha/Singers/Playlists tabs, play/pause, next/prev, seek, mini player, lock-screen controls, download aur offline play.</p></div>
+        <div class="card"><h4>📚 Books</h4><p>Book download (progress), offline badge, PDF app mein kholna, re-download, delete.</p></div>
+        <div class="card"><h4>🔁 Stability</h4><p>App background mein bhejkar wapas lao, phone rotate karo, internet band karke kholo — crash nahi hona chahiye.</p></div>
+      </div>
+    </section>
+
+    <!-- 8 -->
+    <section id="trouble">
+      <h2><span class="num">8</span>Error aaye to kya karein</h2>
+      <p class="lead">Error ka message dekho aur neeche match karo. Har ek par click karke solution kholo.</p>
+
+      <details>
+        <summary><span><code>restricted method in java.lang.System</code> / <code>Unsupported class file major version</code></span></summary>
+        <div class="det">
+          <p class="k">Wajah</p><p>Gradle galat Java (JDK 25 / Studio ka JBR) se chal raha hai.</p>
+          <p class="k">Solution</p><p>Section 3 ka step 4 — Gradle JDK ko <b>jdk-17</b> par set karo, phir <span class="menu">File → Sync Project with Gradle Files</span>. Agar <code>prebuild --clean</code> ke baad hua ho to ek baar dobara <code>npx expo prebuild</code> chala do (plugin JDK pin wapas laga dega).</p>
+        </div>
+      </details>
+
+      <details>
+        <summary><span><code>cmake_pch.hxx … missing</code> / <code>ninja: error</code> / C++ (CXX) build error</span></summary>
+        <div class="det">
+          <p class="k">Wajah</p><p>Purane C++ build ka adhoora cache.</p>
+          <p class="k">Solution</p><p>Studio band karo, ye folder delete karo, phir dobara build:</p>
+          <div class="cmd">C:\Users\damod\.rncxx<button class="copy">Copy</button></div>
+          <p>Fir bhi na chale to <code>C:\rn\mobile\android\app\.cxx</code> aur <code>C:\rn\mobile\android\app\build</code> bhi delete karke build karo.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary><span>Filename / path "too long" error, ya CMake path error</span></summary>
+        <div class="det">
+          <p class="k">Wajah</p><p>Galat (lamba) folder khula hai — shayad worktree wala.</p>
+          <p class="k">Solution</p><p>Studio ke title bar mein path dekho. Wo <code>C:\rn\mobile\android</code> hona chahiye. Nahi hai to <span class="menu">File → Close Project</span> karke sahi folder kholo.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary><span>Debug app khulte hi laal screen: <i>"Unable to load script"</i> / "Could not connect to development server"</span></summary>
+        <div class="det">
+          <p class="k">Wajah</p><p>Metro nahi chal raha, ya phone PC tak nahi pahunch pa raha.</p>
+          <p class="k">Solution</p><p><code>start-metro.cmd</code> chalao (window khuli rakho). Phone ka cable nikal kar dobara lagaya ho to script dobara chalao — <code>adb reverse</code> har baar cable lagane par chahiye. Phir app mein <b>Reload</b> dabao.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary><span><code>INSTALL_FAILED_UPDATE_INCOMPATIBLE</code> / "App not installed" / signatures do not match</span></summary>
+        <div class="det">
+          <p class="k">Wajah</p><p>Phone par pehle se "Prem Bhakti RN" kisi doosri key se sign hui padi hai.</p>
+          <p class="k">Solution</p><p>Sirf <b>test app</b> hatao (iska data hi jaayega, asli app ka nahi):</p>
+          <div class="cmd">"%LOCALAPPDATA%\Android\Sdk\platform-tools\adb.exe" uninstall com.cpbs.bhajans.rntest<button class="copy">Copy</button></div>
+          <div class="callout bad"><span class="ci">🚫</span><div><p>Command mein <code>.rntest</code> zaroor ho. <code>com.cpbs.bhajans</code> (bina .rntest) kabhi uninstall mat karna — wo asli Play Store app hai, uska poora data chala jaayega.</p></div></div>
+        </div>
+      </details>
+
+      <details>
+        <summary><span>Gradle sync / build bahut dheema, ya "Out of memory" / "Java heap space"</span></summary>
+        <div class="det">
+          <p class="k">Solution</p><p>Chrome, emulator aur doosre IDE (Antigravity / VS Code) band karo — Gradle ko RAM chahiye. Release ka pehla build 25 min tak le sakta hai, ye normal hai. Atak jaaye to <span class="menu">File → Invalidate Caches… → Invalidate and Restart</span>.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary><span>Phone device list mein nahi dikh raha</span></summary>
+        <div class="det">
+          <p class="k">Solution</p><p>Section 7 ki table dekho. Samsung par kabhi-kabhi USB mode "Charging only" ho jaata hai — notification bar se <b>File transfer</b> chuno. Phir bhi nahi to Developer options mein <b>Revoke USB debugging authorizations</b> → cable dobara lagao → Allow.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary><span>Studio ne galti se Gradle / AGP upgrade kar diya</span></summary>
+        <div class="det">
+          <p class="k">Solution</p><p>Kuch haath se theek karne ki zaroorat nahi. <code>C:\rn\mobile</code> mein terminal kholo aur chalao — <code>android</code> folder sahi versions ke saath naya ban jaayega:</p>
+          <div class="cmd">npx expo prebuild --clean<button class="copy">Copy</button></div>
+        </div>
+      </details>
+    </section>
+
+    <!-- 9 -->
+    <section id="playstore">
+      <h2><span class="num">9</span>Play Store release <small style="font-size:.6em;color:var(--muted);font-weight:500">(abhi nahi — baad mein)</small></h2>
+      <div class="callout warn"><span class="ci">⏳</span><div><p>Ye steps tabhi jab app asli <b>Prem Bhakti</b> ki jagah update ke roop mein jaane ke liye taiyaar ho. Usse pehle kuch mat badlo.</p></div></div>
+      <ol class="steps">
+        <li><b>Test plugin hatao</b><code>app.json</code> ki plugins list se <code>["./plugins/withTestBuild", …]</code> wali entry hatao. Isse package wapas <code>com.cpbs.bhajans</code>, naam "Prem Bhakti" aur Crashlytics ON ho jaayega.</li>
+        <li><b>Version badhao</b><code>app.json</code> mein <code>version</code> aur <code>android.versionCode</code> — versionCode Play Store par maujood version se bada hona chahiye.</li>
+        <li><b>Asli upload key lagao</b>Release ko Play Store wali upload key se sign karna hoga (abhi test key lagi hai), aur <span class="menu">Build → Generate Signed App Bundle</span> se <code>.aab</code> banana hoga.</li>
+        <li><b>Purane data ka migration</b>Purani app ka data (history, playlists, downloads) nayi app mein aaye — ye kaam release se pehle karna baaki hai.</li>
+      </ol>
+    </section>
+
+    <!-- 10 -->
+    <section id="files">
+      <h2><span class="num">10</span>Zaroori files &amp; paths</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Cheez</th><th>Path</th><th>Kaam</th></tr></thead>
+          <tbody>
+            <tr><td>Project</td><td><code>C:\rn\mobile</code></td><td>Saara code (<code>src/</code>), <code>app.json</code>, <code>package.json</code></td></tr>
+            <tr><td>Android project</td><td><code>C:\rn\mobile\android</code></td><td>Android Studio mein yahi kholna hai</td></tr>
+            <tr><td>Release APK</td><td><code>android\app\build\outputs\apk\release\app-release.apk</code></td><td>Build ke baad yahan milti hai</td></tr>
+            <tr><td>Debug APK</td><td><code>android\app\build\outputs\apk\debug\app-debug.apk</code></td><td>Metro ke saath chalti hai</td></tr>
+            <tr><td>Metro script</td><td><code>scripts\start-metro.cmd</code></td><td>Debug ke liye JS server + adb reverse</td></tr>
+            <tr><td>Install script</td><td><code>scripts\install-release-on-phone.cmd</code></td><td>Release APK USB se phone par</td></tr>
+            <tr><td>Test plugin</td><td><code>plugins\withTestBuild.js</code></td><td><code>.rntest</code> package, naam, Crashlytics off, JDK 17 pin</td></tr>
+            <tr><td>C++ fix script</td><td><code>scripts\fix-windows-cxx-paths.js</code></td><td><code>npm install</code> par apne-aap chalta hai; C++ cache ko <code>~/.rncxx</code> mein rakhta hai</td></tr>
+            <tr><td>JDK 17</td><td><code>C:\Program Files\Eclipse Adoptium\jdk-17.0.17.10-hotspot</code></td><td>Gradle isi se chalta hai — uninstall mat karna</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3>Versions (badalna mat)</h3>
+      <div class="grid-3">
+        <div class="card"><h4>Expo SDK 57</h4><p>React Native 0.86, New Architecture ON, Hermes</p></div>
+        <div class="card"><h4>Gradle 9.3.1</h4><p>RN 0.86 isi ke saath fixed hai</p></div>
+        <div class="card"><h4>JDK 17</h4><p>Build ke liye; JDK 25 sirf Firebase emulator ke liye rakha hai</p></div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<footer>Prem Bhakti RN · Android build guide · Last updated 3 Oct 2026</footer>
+
+<button class="theme-btn" id="themeBtn" type="button">🌓 Theme</button>
+
+<script>
+  document.querySelectorAll('.cmd .copy').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var text = btn.parentElement.firstChild.textContent.trim();
+      function done() {
+        btn.textContent = 'Copied ✓';
+        btn.classList.add('done');
+        setTimeout(function () { btn.textContent = 'Copy'; btn.classList.remove('done'); }, 1500);
+      }
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(done, fallback);
+      } else {
+        fallback();
+      }
+      function fallback() {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); done(); } catch (e) {}
+        document.body.removeChild(ta);
+      }
+    });
+  });
+
+  (function () {
+    var root = document.documentElement;
+    try {
+      var saved = localStorage.getItem('guide-theme');
+      if (saved) root.setAttribute('data-theme', saved);
+    } catch (e) {}
+    document.getElementById('themeBtn').addEventListener('click', function () {
+      var current = root.getAttribute('data-theme') ||
+        (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      var next = current === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try { localStorage.setItem('guide-theme', next); } catch (e) {}
+    });
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+name: Daily B2 Backup
+
+on:
+  schedule:
+    # Runs every day at 2:30 AM IST (21:00 UTC previous day)
+    - cron: '0 21 * * *'
+  workflow_dispatch: # Allows manual trigger from the Actions tab
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    if: false # Paused to conserve GitHub Action limits as requested
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Dependencies
+        run: |
+          # Use legacy-peer-deps in case of peer dependency conflicts in the repo
+          npm install @aws-sdk/client-s3 @aws-sdk/lib-storage dotenv --legacy-peer-deps
+          # also install typescript and tsx to run the script
+          npm install -g tsx
+
+      - name: Run Backup Script
+        env:
+          B2_KEY_ID: ${{ secrets.B2_KEY_ID }}
+          B2_APP_KEY: ${{ secrets.B2_APP_KEY }}
+          B2_ENDPOINT: ${{ secrets.B2_ENDPOINT }}
+          B2_BUCKET: ${{ secrets.B2_BUCKET }}
+          GITHUB_PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          tsx scripts/github-b2-backup.ts

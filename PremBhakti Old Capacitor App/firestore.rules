@@ -1,0 +1,442 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper function to check if the user is an admin by checking their email or phone
+    function isAdmin() {
+      return request.auth != null && (
+        (('email' in request.auth.token) && request.auth.token.email != null && (
+          request.auth.token.email.lower() in [
+            'damodar@cpbs.com',
+            'namanbgis@gmail.com',
+            'shriasati99@gmail.com',
+            'harekrishnadas.1001@gmail.com',
+            'damodardasshri@gmail.com',
+            'haricharcha.talksvlogs@gmail.com'
+          ] || 
+          exists(/databases/$(database)/documents/admin_roles/$(request.auth.token.email.lower()))
+        )) ||
+        (('phone_number' in request.auth.token) && request.auth.token.phone_number != null && (
+          request.auth.token.phone_number in [
+            '+919887880429',
+            '+919977240390',
+            '+919826154640',
+            '+919829845754',
+            '+917049304733',
+            '+919610502321'
+          ]
+        )) ||
+        (exists(/databases/$(database)/documents/users/$(request.auth.uid)) && 
+         'role' in get(/databases/$(database)/documents/users/$(request.auth.uid)).data &&
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['super_admin', 'admin'])
+      );
+    }
+
+    function protectedUserFields() {
+      return [
+        'role',
+        'mandalAdminFor',
+        'isApproved',
+        'approvalDate',
+        'isDeleted',
+        'deletedAt',
+        'scheduledDeletionDate',
+        'mergedIntoUid',
+        // Written by adminMergeProfiles only.
+        'mergedFrom',
+        'mergedLoginHint',
+        // Family links are made only by the link-request Cloud Functions and admins.
+        // A self-written entry would give that account read access to this profile
+        // and (via the syncFamilyLinkGroups trigger) a claim on the whole family.
+        'linkedFamilyMembers',
+        'linkedFamilyVia'
+      ];
+    }
+
+    function userCreateIsSafe(userId) {
+      return request.auth != null &&
+             request.auth.uid == userId &&
+             request.resource.data.uid == userId &&
+             request.resource.data.role == 'user' &&
+             request.resource.data.isApproved == false &&
+             !request.resource.data.keys().hasAny([
+               'mandalAdminFor',
+               'approvalDate',
+               'isDeleted',
+               'deletedAt',
+               'scheduledDeletionDate',
+               'mergedIntoUid',
+               'mergedFrom',
+               'mergedLoginHint',
+               'linkedFamilyMembers',
+               'linkedFamilyVia'
+             ]);
+    }
+
+    function userUpdateIsSafe(userId) {
+      return request.auth != null &&
+             request.auth.uid == userId &&
+             !request.resource.data.diff(resource.data).affectedKeys().hasAny(protectedUserFields());
+    }
+
+    function isMandalAdmin() {
+      // Mandal admin data lives in admin_roles/{email}, not users/{uid}
+      return request.auth != null &&
+             request.auth.token.email != null &&
+             get(/databases/$(database)/documents/admin_roles/$(request.auth.token.email.lower())).data.role == 'mandal';
+    }
+
+    function callerMandalId() {
+      // admin_roles doc uses 'mandalId' field (not 'mandalAdminFor')
+      return get(/databases/$(database)/documents/admin_roles/$(request.auth.token.email.lower())).data.mandalId;
+    }
+
+    function mandalAdminCanReadTarget() {
+      return isMandalAdmin() && resource.data.mandalId == callerMandalId();
+    }
+
+    function mandalAdminCanCreateTarget(userId) {
+      return isMandalAdmin() &&
+             request.resource.data.uid == userId &&
+             request.resource.data.mandalId == callerMandalId() &&
+             request.resource.data.role == 'user' &&
+             !request.resource.data.keys().hasAny([
+               'mandalAdminFor',
+               'isDeleted',
+               'deletedAt',
+               'scheduledDeletionDate',
+               'mergedIntoUid',
+               'fcmTokens'
+             ]);
+    }
+
+    function mandalAdminCanUpdateTarget() {
+      return isMandalAdmin() &&
+             resource.data.mandalId == callerMandalId() &&
+             request.resource.data.mandalId == callerMandalId() &&
+             !request.resource.data.diff(resource.data).affectedKeys().hasAny([
+               'uid',
+               'role',
+               'mandalAdminFor',
+               'mergedIntoUid',
+               'fcmTokens'
+             ]);
+    }
+
+    // ============ AUTH USERS ============
+    // Stores the list of admin email accounts (email IDs only, no passwords).
+    // Read is public — needed for the 3-tap admin panel (no Firebase Auth login required there).
+    // Write is restricted to logged-in admins only to prevent unauthorized user creation.
+    match /auth_users/{document=**} {
+      allow read: if true;                         // Public read (only org emails, not sensitive)
+      allow write: if isAdmin();                   // Only logged-in admins can add/delete users
+    }
+
+    // ============ DAMTOKEN ACCESS (Admin Only) ============
+    // Stores sensitive tokens — GitHub PAT, etc.
+    // DO NOT make this publicly readable — it contains secret API keys.
+    // Firebase Functions use the Admin SDK which BYPASSES these rules,
+    // so server-side code (getGithubToken fn) still works perfectly.
+    // Only logged-in admins can read this from the client side.
+    match /damtoken/github_public {
+      allow read: if true;                  // Public read for the restricted rate-limit token
+      allow write: if false;
+    }
+
+    match /damtoken/env {
+      allow read, write: if false;          // NO ONE CAN READ, NO ONE CAN WRITE (Only Admin SDK can access)
+    }
+
+    // Protects powerful GitHub PAT, but specifically excludes the locked 'env' doc
+    match /damtoken/github {
+      allow read: if isAdmin();             // Admin-only read (protects powerful GitHub PAT)
+      allow write: if false;                // No client writes ever
+    }
+
+    // ============ PUBLIC APP CONTENT ============
+    // Read by all users. Write restricted to admins via isAdmin().
+    // Events, Banners, Calendar, Quotes, Seva Centers, Temple Timings
+    // are managed from the admin panel — admins must be able to write.
+    match /events/{document=**}          { allow read: if true; allow write: if isAdmin(); }
+    match /banners/{document=**}         { allow read: if true; allow write: if isAdmin(); }
+    match /Calendar/{document=**}        { allow read: if true; allow write: if isAdmin(); }
+    match /mandals/{document=**}         { allow read: if true; allow write: if isAdmin(); }
+    match /quotes/{document=**}          { allow read: if true; allow write: if isAdmin(); }
+    match /seva_centers/{document=**}    { allow read: if true; allow write: if isAdmin(); }
+    match /temple_timings/{document=**}  { allow read: if true; allow write: if isAdmin(); }
+    match /video_folders/{document=**}   { allow read: if true; allow write: if isAdmin(); }
+    match /videos/{document=**}          { allow read: if true; allow write: if isAdmin(); }
+
+    // approvals — written by admin panel (MandalManager) for content approval workflows
+    match /approvals/{document=**}       { allow read: if true; allow write: if isAdmin(); }
+  
+    // admin_roles — read publicly needed to show email dropdown on login screen (BEFORE auth).
+    // Contains only email IDs + role type (mandal/custom/super). No passwords stored here.
+    // Write is admin-only to prevent unauthorized role changes.
+    match /admin_roles/{document=**}     { allow read: if true; allow write: if isAdmin(); }
+    // Admin → Duplicates & problems: issues marked "not a problem".
+    match /admin_cleanup/{document=**}   { allow read, write: if isAdmin(); }
+    // Written by adminMergeProfiles (Admin SDK) — what each merge changed.
+    match /admin_merge_log/{document=**} { allow read: if isAdmin(); allow write: if false; }
+
+    // ============ SCHEDULED NOTIFICATIONS ============
+    // Written client-side by scheduleMandalNotification() in the admin panel.
+    // Read client-side to check for duplicate pending docs before scheduling.
+    // Cloud Function (processScheduledNotifications) uses Admin SDK — bypasses these rules.
+    // Admins can create / read / update. No public access. No delete from client.
+    match /scheduled_notifications/{docId} {
+      allow read, write: if isAdmin();
+    }
+
+    // app_config — stores banners, social_media, information_screen, settings,
+    // version_control, darshan_folders, activity_folders, slideshow, youtube, etc.
+    // All regular app features read from here. Write = admin only.
+    match /app_config/{document=**}      { allow read: if true; allow write: if isAdmin(); }
+    match /ota_config/{document=**}      { allow read: if true; allow write: if isAdmin(); }
+
+    // ============ METRICS (Likes & Views — Public) ============
+    // Stores like/view counts for darshan, activities, videos.
+    // Anyone (including anonymous users) can read and increment counters.
+    // Dedup is enforced client-side via localStorage per device/user.
+    // Note: data is cosmetic only — no sensitive information stored here.
+    match /metrics/{document=**} { 
+      allow read: if true; 
+      allow create, update: if true; 
+      allow delete: if isAdmin(); 
+    }
+
+    // ============ VERSION ANALYTICS ============
+    // Tracks how many users are on each Android app version.
+    // Android app increments its version doc count on each session open.
+    // Write: any app user can report their version (no sensitive data).
+    // Read: only admins can view aggregated version stats.
+    match /app_version_stats/{document=**} {
+      allow create, update: if true; // Any app user can report their version
+      allow delete: if isAdmin();    // Prevent unauthorized deletion
+      allow read: if isAdmin();      // Only admins can see the stats
+    }
+
+    // ============ AAVIRBHAV MAHOTSAV GLORIFICATION ============ 
+    // Stores devotee glorification submissions from the home screen.
+    // Create requires login — users must be authenticated to submit.
+    // Optional `uid` field links the submission to the submitter for edit support.
+    match /hhbsm-2026-glorification/{submissionId} {
+      allow create: if request.auth != null &&
+        request.resource.data.name is string &&
+        request.resource.data.location is string &&
+        request.resource.data.glorification is string &&
+        request.resource.data.createdAt is number &&
+        request.resource.data.name.size() > 0 &&
+        request.resource.data.location.size() > 0 &&
+        request.resource.data.name.size() <= 100 &&
+        request.resource.data.location.size() <= 100 &&
+        request.resource.data.glorification.size() <= 1200 &&
+        (!('uid' in request.resource.data) || request.resource.data.uid == request.auth.uid);
+      // Owner can update only the glorification text (name/location fixed after submit)
+      allow update: if isAdmin() ||
+        (request.auth != null &&
+         resource.data.uid == request.auth.uid &&
+         request.resource.data.glorification is string &&
+         request.resource.data.name is string &&
+         request.resource.data.location is string &&
+         request.resource.data.glorification.size() <= 1200 &&
+         request.resource.data.name.size() > 0 &&
+         request.resource.data.name.size() <= 100 &&
+         request.resource.data.location.size() > 0 &&
+         request.resource.data.location.size() <= 100 &&
+         (!('phone' in request.resource.data) || request.resource.data.phone is string) &&
+         (!('email' in request.resource.data) || request.resource.data.email is string) &&
+         // Prevent owner from changing uid or createdAt
+         request.resource.data.uid == resource.data.uid &&
+         request.resource.data.createdAt == resource.data.createdAt);
+      allow read: if true; // Public read so GlorificationReaderScreen works for unauthenticated users
+      allow delete: if isAdmin();
+    }
+
+    // ============ APP SETTINGS — GLORIFICATION READER ============
+    // Controls whether the public reader button is visible and which
+    // glorifications are shown and in what order.
+    match /app-settings/{settingId} {
+      allow read: if true; // Public read so HomeScreen can check without auth
+      allow write: if isAdmin();
+    }
+
+
+    // ============ FCM TOKENS (Platform Separated) ============
+    // DO NOT CHANGE THIS STRUCTURE — tokens are intentionally separated by platform.
+    //
+    // Firestore path:  fcm_tokens/{platform}
+    //   fcm_tokens/android  → Android device FCM tokens
+    //   fcm_tokens/ios      → iOS device FCM tokens
+    //   fcm_tokens/web      → Web browser FCM tokens (Chrome, Edge, Firefox, iOS PWA)
+    //
+    // Each document stores: { [last20charsOfToken]: fullToken, updatedAt: timestamp }
+    // Write: any app user can register their own token (no auth needed — no sensitive data)
+    // Read:  only authenticated admins (covered by the admin rule below)
+    match /fcm_tokens/{platform} {
+      allow create, update: if true; // App writes token on registration (unauthenticated is fine)
+      allow delete: if isAdmin();    // Prevent unauthorized deletion
+      allow read: if isAdmin();  // Only admins can read token lists
+    }
+
+    function mandalAdminCanDeleteTarget() {
+      return isMandalAdmin() && resource.data.mandalId == callerMandalId();
+    }
+
+    // ============ USER PROFILES ============
+    match /users/{userId} {
+      // Profile documents contain private contact data and FCM tokens. Comments
+      // store their own display names, so profiles do not need to be public.
+      // Linked family members are not listed here: they would see the whole
+      // document, phone number included. The app reads them through the
+      // getLinkedFamilyProfiles function, which leaves the phone number out.
+      allow read: if request.auth != null && (
+        request.auth.uid == userId ||
+        isAdmin() ||
+        mandalAdminCanReadTarget()
+      );
+
+      allow create: if userCreateIsSafe(userId) || isAdmin() || mandalAdminCanCreateTarget(userId);
+      allow update: if userUpdateIsSafe(userId) || isAdmin() || mandalAdminCanUpdateTarget();
+      allow delete: if isAdmin() || mandalAdminCanDeleteTarget();
+    }
+
+    // ============ DIKSHA ANNIVERSARIES (Home screen card) ============
+    // diksha_anniversaries/{YYYY-MM-DD}: approved devotees whose diksha
+    // anniversary is that day — name, diksha name, photo, mandal, years only.
+    // Written daily by the publishDikshaAnniversaries function (Admin SDK).
+    match /diksha_anniversaries/{day} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // ============ LAST SEEN (when a devotee last opened the app) ============
+    // Kept out of users/{uid} for the same reason as user_prefs below (paid
+    // onWrite function). Written by components/LastSeenTracker.tsx, read in
+    // Admin → Devotee Management. Only a server timestamp can be stored.
+    match /user_last_seen/{uid} {
+      allow read: if isAdmin() || isMandalAdmin();
+      allow create, update: if request.auth != null && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['lastSeenAt'])
+        && request.resource.data.lastSeenAt == request.time;
+      allow delete: if isAdmin();
+    }
+
+    // ============ APP USAGE TIME (Admin → Usage) ============
+    // user_usage/{uid}: seconds per day / sessions / by hour, plus name, photo
+    // and mandal so the admin list needs no users/ reads. Written a few times a
+    // day by components/UsageTracker.tsx (increments, merge). Owner writes only
+    // these fields; admins read.
+    match /user_usage/{uid} {
+      allow read: if isAdmin();
+      allow create, update: if request.auth != null && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['d', 'h', 'nm', 'ph', 'md', 'updatedAt'])
+        && request.resource.data.updatedAt == request.time
+        && request.resource.data.d is map
+        && request.resource.data.d.size() <= 1500
+        && (!('h' in request.resource.data) || request.resource.data.h.size() <= 24)
+        && (!('nm' in request.resource.data) || (request.resource.data.nm is string && request.resource.data.nm.size() <= 120))
+        && (!('ph' in request.resource.data) || (request.resource.data.ph is string && request.resource.data.ph.size() <= 1000))
+        && (!('md' in request.resource.data) || (request.resource.data.md is string && request.resource.data.md.size() <= 80));
+      allow delete: if isAdmin();
+    }
+
+    // ============ USER PREFERENCES (guided tour progress) ============
+    // Kept out of users/{uid} on purpose: that document has an onWrite Cloud
+    // Function (syncFamilyLinkGroups), so every write there is a paid call.
+    // Document: { tourProgress: { [chapterId]: versionSeen }, updatedAt }.
+    // Only the owner can read or write it, and only these two fields.
+    match /user_prefs/{uid} {
+      function prefsWriteIsValid() {
+        return request.resource.data.keys().hasOnly(['tourProgress', 'updatedAt'])
+          && request.resource.data.tourProgress is map
+          && request.resource.data.tourProgress.size() <= 64
+          && (!('updatedAt' in request.resource.data)
+              || request.resource.data.updatedAt is timestamp);
+      }
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow create, update: if request.auth != null && request.auth.uid == uid
+        && prefsWriteIsValid();
+      allow delete: if request.auth != null && request.auth.uid == uid;
+    }
+
+    // ============ COMMENTS ============
+    // Comments are stored as arrays inside a single document per item (itemId).
+    // Because of this array-based storage:
+    //   - create: first comment on an item (document didn't exist yet)
+    //   - update: adding subsequent comments (arrayUnion) OR admin removing via arrayRemove
+    //   - delete: admin deletes entire comment document
+    // Note: per-comment delete enforcement is handled server-side by admin UI — not enforceable
+    // at the Firestore rule level since comments are stored in arrays, not individual documents.
+    match /comments_darshan/{docId} {
+      allow read: if true;
+      allow create, update: if request.auth != null;
+      allow delete: if isAdmin();
+    }
+    match /comments_activities/{docId} {
+      allow read: if true;
+      allow create, update: if request.auth != null;
+      allow delete: if isAdmin();
+    }
+    match /comments_videos/{docId} {
+      allow read: if true;
+      allow create, update: if request.auth != null;
+      allow delete: if isAdmin();
+    }
+    match /comments_information/{docId} {
+      allow read: if true;
+      allow create, update: if request.auth != null;
+      allow delete: if isAdmin();
+    }
+    match /comments_all/{docId} {
+      allow read: if true;
+      allow create, update: if request.auth != null;
+      allow delete: if isAdmin();
+    }
+
+    // ============ INFORMATION INTERACTIONS ============
+    match /information_interactions/{itemId} {
+      // Anyone can read counts
+      allow read: if true;
+      // Anyone can increment view/like/comment counts (dedup is client-side)
+      allow create, update: if true;
+      allow delete: if isAdmin();
+
+      match /comments/{commentId} {
+        allow read: if true;
+        allow create, update: if request.auth != null;
+        allow delete: if isAdmin();
+      }
+    }
+
+    // ============ FAMILY LINK REQUESTS ============
+    // Stores link requests between app users (fromUserId wants to link with toUserId).
+    // Document structure: { fromUserId, toUserId, fromUserName, fromUserPhoto, status, createdAt }
+    //
+    // - Read:   Only the sender, receiver, or an admin can see a request.
+    // - Create: Any authenticated user can send a request.
+    // - Update: Only the receiver (to accept/reject) or an admin can update.
+    // - Delete: Only the sender (to cancel) or an admin can delete.
+    //
+    // isAdmin() covers BOTH super admins and mandal admins (both are in admin_roles collection).
+    // Mandal admins already see only their own mandal's profiles in the UI, so no cross-mandal
+    // access issue exists at the data layer — the UI filtering handles that concern.
+    match /familyLinkRequests/{requestId} {
+      allow read: if request.auth != null && (
+        resource.data.fromUserId == request.auth.uid ||
+        resource.data.toUserId   == request.auth.uid ||
+        isAdmin()
+      );
+      allow create: if request.auth != null &&
+        request.resource.data.fromUserId == request.auth.uid;
+      allow update: if request.auth != null && (
+        resource.data.toUserId == request.auth.uid ||
+        isAdmin()
+      );
+      allow delete: if request.auth != null && (
+        resource.data.fromUserId == request.auth.uid ||
+        isAdmin()
+      );
+    }
+  }
+}

@@ -1,0 +1,34 @@
+# .ignore — Universal ignore file
+# Respected by: ripgrep, fd, many AI IDEs, Antigravity, and any tool
+# that follows the .gitignore-style ignore convention.
+#
+# These folders are AI agent infrastructure (Ruflo) and should NOT be
+# indexed, searched, or crawled by any IDE or AI assistant.
+
+# Ruflo agent harness (cloned source — not part of this app)
+ruflo/
+
+# Ruflo runtime data
+.swarm/
+.claude-flow/
+
+# Claude Code agent config
+.claude/
+
+# Universal agent config (skills, MCP, hooks)
+.agents/
+
+# Knowledge graph output
+graphify-out/
+
+# Other non-app directories
+dist/
+backup/
+reports/
+temp_video/
+temp_videos/
+test_dist/
+
+# Folder-local CLI logins (Cloudflare / gcloud tokens) — never index or read
+.wrangler-auth/
+.gcloud/

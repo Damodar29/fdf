@@ -1,0 +1,3 @@
+# Local Wrangler state and credentials
+.wrangler/
+.env

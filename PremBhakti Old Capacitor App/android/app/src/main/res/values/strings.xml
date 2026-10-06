@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Prem Bhakti</string>
+    <string name="title_activity_main">Prem Bhakti</string>
+    <string name="package_name">com.cpbs.bhajans</string>
+    <string name="custom_url_scheme">com.cpbs.bhajans</string>
+    <string name="google_client_id">33454825743-d4o8tq1tugoq51og8uhp3sh7tcdpis1r.apps.googleusercontent.com</string>
+</resources>

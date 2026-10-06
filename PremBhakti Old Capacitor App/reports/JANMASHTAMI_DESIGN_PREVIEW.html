@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CPBS — Janmashtami design preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Noto+Serif+Devanagari:wght@400;600&family=Noto+Sans+Devanagari:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    color-scheme: light;
+    --krishna-500:#103A8C; --krishna-600:#0B2E6B; --krishna-700:#092555;
+    --krishna-800:#071C40; --krishna-900:#05142E; --krishna-950:#030C1C;
+    --gold-100:#FFF3C9; --gold-200:#FFE79B; --gold-300:#FFD54F;
+    --gold-400:#F0BE33; --gold-500:#D4A017; --gold-700:#8A660F;
+    --cream-25:#FFFDF7; --cream-50:#FFF8E7; --cream-100:#FDF1D6;
+    --ink-100:#EEF2FA; --ink-200:#DCE4F1; --ink-300:#C0CDE4; --ink-400:#8B9CBF;
+    --ink-500:#5C6E93; --ink-600:#40527A; --ink-700:#16305C;
+    --ink-800:#0F2242; --ink-900:#071529;
+    --peacock-500:#157A6E; --edge-gold:#E8C878;
+    --ease-out:cubic-bezier(0.16,1,0.3,1);
+    --ease-spring:cubic-bezier(0.34,1.4,0.64,1);
+    --ease-drift:cubic-bezier(0.45,0,0.55,1);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:#F3F4F6; color:#1D2433;
+    font-family:"Comfortaa",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    padding:32px 20px 64px;
+  }
+  .wrap{max-width:1120px;margin:0 auto}
+  h1.page{
+    font-family:"Comfortaa",sans-serif; font-weight:600; font-size:26px;
+    letter-spacing:.01em; margin:0 0 6px; color:var(--krishna-700);
+  }
+  p.lede{margin:0 0 26px;font-size:14.5px;line-height:1.65;color:#5A6170;max-width:70ch}
+  .controls{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:26px}
+  .controls button{
+    font:600 12.5px/1 "Comfortaa",sans-serif; letter-spacing:.04em;
+    padding:10px 16px; border-radius:10px; cursor:pointer;
+    border:1px solid var(--edge-gold); background:#fff; color:var(--krishna-700);
+    transition:background .16s var(--ease-out), border-color .16s var(--ease-out);
+  }
+  .controls button:hover{background:var(--cream-50)}
+  .controls button[aria-pressed="true"]{background:var(--krishna-600);border-color:var(--krishna-600);color:var(--gold-300)}
+  .controls button:focus-visible{outline:3px solid var(--gold-300);outline-offset:2px}
+
+  .stage{display:flex;gap:40px;flex-wrap:wrap;align-items:flex-start}
+  .phone-col{flex:0 0 auto}
+  .phone-label{
+    font:600 10.5px/1 "Comfortaa",sans-serif;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--gold-700);margin:0 0 10px;text-align:center;
+  }
+  .phone{
+    width:340px;height:700px;border-radius:38px;overflow:hidden;position:relative;
+    border:9px solid #16181D; box-shadow:0 26px 60px -18px rgba(11,46,107,.45);
+    background:#000;
+  }
+  .screen{position:absolute;inset:0;overflow:hidden}
+  .screen[hidden]{display:none}
+
+  /* ══════════════ SPLASH ══════════════ */
+  .splash{
+    position:absolute;inset:0;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;overflow:hidden;
+    background:linear-gradient(180deg,var(--ink-900) 0%,var(--krishna-900) 60%,var(--krishna-950) 100%);
+  }
+  .splash-bloom{
+    position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(58% 42% at 50% 38%, rgba(255,213,79,.17) 0%, rgba(255,213,79,.06) 40%, transparent 72%);
+  }
+  .splash-sparkles{
+    position:absolute;left:50%;top:50%;width:max(340px,700px);height:max(340px,700px);
+    transform:translate(-50%,-50%);pointer-events:none;color:var(--gold-200);opacity:.45;
+  }
+  .splash-handi{
+    position:absolute;left:50%;top:0;transform:translateX(-50%);
+    color:var(--gold-300);opacity:.35;transform-origin:top center;pointer-events:none;
+  }
+  .handi-sway{animation:sway 13s var(--ease-drift) infinite;transform-origin:top center}
+  @keyframes sway{
+    0%{transform:translate3d(0,0,0) rotate(0)}
+    33%{transform:translate3d(6px,-10px,0) rotate(3deg)}
+    66%{transform:translate3d(-4px,-4px,0) rotate(-2deg)}
+    100%{transform:translate3d(0,0,0) rotate(0)}
+  }
+  .splash-stack{position:relative;z-index:10;display:flex;flex-direction:column;align-items:center;width:100%;padding:0 32px}
+  .halo-box{position:relative;display:flex;align-items:center;justify-content:center;width:258px;height:258px}
+  .halo{
+    position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    color:var(--gold-300);opacity:.30;pointer-events:none;
+  }
+  .halo svg{width:100%;height:100%}
+  .halo-drift{animation:drift 120s linear infinite;transform-origin:center}
+  @keyframes drift{to{transform:rotate(360deg)}}
+  .tilak{position:relative;z-index:10;height:104px;width:auto}
+
+  .splash h1{
+    margin:0;text-align:center;line-height:1.1;letter-spacing:.01em;
+    font-family:"Comfortaa",sans-serif;font-weight:600;font-size:34px;
+    background-image:linear-gradient(180deg,#FFE9A8 0%,#FFD54F 45%,#B08313 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .splash h1.hi{
+    font-family:"Noto Serif Devanagari",serif;background:none;color:var(--gold-300);
+    -webkit-text-fill-color:var(--gold-300);
+  }
+  .splash .divider{margin-top:12px;color:var(--gold-300);opacity:.7}
+  .splash h2{
+    margin:8px 0 0;text-align:center;color:rgba(255,248,231,.8);
+    font:600 11px/1.3 "Comfortaa",sans-serif;text-transform:uppercase;letter-spacing:.24em;
+  }
+  .splash h2.hi{font:400 15px/1.5 "Noto Sans Devanagari",sans-serif;text-transform:none;letter-spacing:0}
+  .invocation{margin-top:48px}
+  .invocation span{
+    font-family:"Comfortaa",sans-serif;font-size:15px;
+    letter-spacing:.14em;color:rgba(255,231,155,.85);animation:glow 2.8s var(--ease-drift) infinite;
+  }
+  .invocation span.hi{font-family:"Noto Sans Devanagari",sans-serif;font-style:normal;letter-spacing:0;font-size:14px}
+  @keyframes glow{0%,100%{opacity:.45}50%{opacity:1}}
+
+  /* entrance beats */
+  .b-halo{animation:scaleIn 320ms var(--ease-spring) both;animation-delay:120ms}
+  .b-title{animation:enter 240ms var(--ease-out) both;animation-delay:660ms}
+  .b-div{animation:draw 520ms var(--ease-out) both;animation-delay:840ms}
+  .b-sub{animation:enter 240ms var(--ease-out) both;animation-delay:980ms}
+  .b-inv{animation:fade 240ms var(--ease-out) both;animation-delay:1140ms}
+  @keyframes enter{from{opacity:0;transform:translate3d(0,8px,0)}to{opacity:1;transform:none}}
+  @keyframes fade{from{opacity:0}to{opacity:1}}
+  @keyframes scaleIn{from{opacity:0;transform:scale3d(.96,.96,1)}to{opacity:1;transform:none}}
+  @keyframes draw{from{opacity:0;transform:scale3d(.4,1,1)}to{opacity:1;transform:none}}
+  .t-stroke{stroke-dasharray:620;stroke-dashoffset:620;animation:sdraw 1400ms var(--ease-out) forwards;animation-delay:320ms}
+  .t-fill{fill-opacity:0;animation:sdraw 1400ms var(--ease-out) forwards,sink 700ms var(--ease-out) forwards;animation-delay:520ms,1220ms}
+  @keyframes sdraw{to{stroke-dashoffset:0}}
+  @keyframes sink{to{fill-opacity:1}}
+  .sparkle{animation:twinkle 4.2s var(--ease-drift) infinite;transform-box:fill-box;transform-origin:center}
+  @keyframes twinkle{0%,100%{opacity:.2;transform:scale3d(.7,.7,1)}50%{opacity:.9;transform:none}}
+
+  /* ══════════════ HOME ══════════════ */
+  .home{position:absolute;inset:0;overflow-y:auto;background:var(--cream-50)}
+  .home.dark{background:var(--ink-900)}
+  .dawn{
+    position:absolute;inset-inline:0;top:0;height:230px;pointer-events:none;z-index:0;
+    background:radial-gradient(125% 100% at 50% 0%, rgba(255,213,79,.20) 0%, rgba(255,213,79,.07) 45%, transparent 78%);
+  }
+  .appbar{
+    position:relative;z-index:20;height:62px;display:flex;align-items:center;
+    justify-content:space-between;padding:0 14px;
+    background:linear-gradient(160deg,var(--krishna-500) 0%,var(--krishna-600) 55%,var(--krishna-800) 100%);
+    box-shadow:0 4px 20px -6px rgba(7,21,41,.28);
+  }
+  .appbar .rule{position:absolute;inset-inline:0;bottom:0;height:1px;opacity:.7;
+    background:linear-gradient(90deg,transparent,var(--edge-gold) 25%,var(--gold-300) 50%,var(--edge-gold) 75%,transparent)}
+  .burger{display:flex;flex-direction:column;gap:5px;width:44px;height:44px;align-items:center;justify-content:center;background:none;border:0;cursor:pointer}
+  .burger i{display:block;width:22px;height:2px;border-radius:2px;background:var(--cream-50)}
+  .lockup{display:flex;align-items:center;gap:10px;position:relative}
+  .lockup .halo-sm{position:absolute;left:14px;top:50%;transform:translate(-50%,-50%);color:var(--gold-300);opacity:.2;pointer-events:none}
+  .lockup .tilak-sm{position:relative;height:30px;width:auto;color:var(--gold-300)}
+  .lockup .names{display:flex;flex-direction:column;align-items:center;line-height:1}
+  .lockup .n1{font:600 14px/1 "Comfortaa",sans-serif;letter-spacing:.03em;color:var(--gold-300)}
+  .lockup .hr{width:100%;height:1px;background:rgba(255,213,79,.5);margin:3px 0}
+  .lockup .n2{font:600 8.8px/1 "Comfortaa",sans-serif;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,248,231,.85)}
+  .icons{display:flex;gap:2px}
+  .icons button{width:40px;height:40px;display:grid;place-items:center;background:none;border:0;color:var(--cream-50);cursor:pointer}
+
+  .content{position:relative;z-index:10;padding:16px 12px 96px}
+  .sec-head{display:flex;flex-direction:column;align-items:center;text-align:center;gap:3px;margin-bottom:14px}
+  .eyebrow{font:600 10.5px/1.3 "Comfortaa",sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-700)}
+  .home.dark .eyebrow{color:var(--gold-300)}
+  .sec-title{font:600 21px/1.25 "Comfortaa",sans-serif;color:#0F2242;margin:0}
+  .home.dark .sec-title{color:var(--cream-50)}
+  .crown{color:var(--gold-400);margin-bottom:2px}
+  .home.dark .crown{color:var(--gold-300)}
+
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+  .tile{display:flex;flex-direction:column;align-items:center;gap:8px;background:none;border:0;padding:0;cursor:pointer;font:inherit}
+  .tile-surface{
+    position:relative;width:100%;aspect-ratio:4/3;border-radius:20px;overflow:hidden;
+    background:linear-gradient(to bottom right,var(--cream-25),var(--cream-100));
+    border:1px solid rgba(232,200,120,.7);
+    box-shadow:0 2px 8px -1px rgba(11,46,107,.08),0 1px 3px -1px rgba(11,46,107,.06);
+    display:flex;align-items:center;justify-content:center;
+    transition:box-shadow .2s var(--ease-out),border-color .2s var(--ease-out),transform .2s var(--ease-out);
+  }
+  .home.dark .tile-surface{
+    background:linear-gradient(to bottom right,var(--ink-800),var(--ink-900));
+    border-color:rgba(255,213,79,.2);
+    box-shadow:inset 0 1px 0 0 rgba(255,213,79,.10);
+  }
+  .tile:hover .tile-surface{transform:translateY(-3px) scale(1.03);box-shadow:0 0 12px -2px rgba(255,213,79,.45);border-color:var(--gold-400)}
+  .tile:active .tile-surface{transform:scale(.97)}
+  .tile:focus-visible .tile-surface{outline:3px solid var(--gold-300);outline-offset:2px}
+  .niche{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;color:var(--krishna-600);opacity:.7}
+  .home.dark .niche{color:var(--gold-300);opacity:.45}
+  .tile-bloom{
+    position:absolute;inset:0;z-index:1;pointer-events:none;
+    background:radial-gradient(40% 32% at 50% 47%, rgba(255,213,79,.28) 0%, rgba(255,213,79,.08) 55%, transparent 74%);
+  }
+  .keyline{position:absolute;inset:4px;border-radius:16px;border:1px solid rgba(255,213,79,.25);z-index:10;pointer-events:none}
+  .home.dark .keyline{border-color:rgba(255,213,79,.10)}
+  .tile-inner{position:relative;z-index:10;display:flex;flex-direction:column;align-items:center}
+  .tile-inner .ic{color:var(--krishna-600);transition:transform .5s var(--ease-out)}
+  .home.dark .tile-inner .ic{color:var(--gold-300)}
+  .tile:hover .tile-inner .ic{transform:scale(1.1)}
+  .threshold{
+    height:1px;width:32px;margin-top:8px;opacity:.8;
+    background:linear-gradient(90deg,transparent,var(--edge-gold) 20%,var(--gold-300) 50%,var(--edge-gold) 80%,transparent);
+  }
+  .tile-title{font:500 14px/1.25 "Comfortaa",sans-serif;letter-spacing:.01em;text-align:center;color:#0F2242;margin-top:2px}
+  .home.dark .tile-title{color:var(--cream-50)}
+  .flag{
+    position:absolute;top:8px;right:8px;z-index:20;display:inline-flex;align-items:center;gap:4px;
+    border-radius:999px;padding:2px 8px;font:700 9.5px/1.3 "Comfortaa",sans-serif;
+    letter-spacing:.05em;text-transform:uppercase;
+  }
+  .flag.live{background:#C0392B;color:#fff}
+  .flag.live i{width:6px;height:6px;border-radius:50%;background:#fff;animation:glow 2.8s var(--ease-drift) infinite}
+  .flag.new{background:rgba(11,46,107,.9);color:var(--gold-300);border:1px solid rgba(255,213,79,.6)}
+
+  /* bottom nav */
+  .nav-wrap{position:absolute;left:0;right:0;bottom:0;z-index:30;padding:14px;pointer-events:none}
+  .nav{
+    position:relative;max-width:100%;margin:0 auto;border-radius:24px;overflow:hidden;
+    background:linear-gradient(160deg,var(--krishna-500) 0%,var(--krishna-600) 55%,var(--krishna-800) 100%);
+    border:1px solid rgba(255,213,79,.25);box-shadow:0 -6px 24px -8px rgba(7,21,41,.26);
+    pointer-events:auto;
+  }
+  .nav .flute{position:absolute;top:-1px;left:50%;transform:translateX(-50%);color:var(--gold-300);opacity:.45;pointer-events:none}
+  .nav .rule{position:absolute;inset-inline:0;top:0;height:1px;opacity:.5;
+    background:linear-gradient(90deg,transparent,var(--edge-gold) 25%,var(--gold-300) 50%,var(--edge-gold) 75%,transparent)}
+  .tabs{position:relative;display:flex;align-items:center;justify-content:space-around;height:64px}
+  .tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;background:none;border:0;cursor:pointer;color:rgba(255,248,231,.55);transition:color .3s}
+  .tab.active{color:var(--gold-300)}
+  .tab .medal{position:relative;display:grid;place-items:center;padding:6px;border-radius:16px;transition:all .3s}
+  .tab.active .medal{box-shadow:0 0 12px -2px rgba(255,213,79,.45)}
+  .tab .arch{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);color:rgba(255,213,79,.8);pointer-events:none;animation:archRise 240ms var(--ease-spring) both}
+  @keyframes archRise{from{opacity:0;transform:translate(-50%,-50%) scale(.9)}to{opacity:1;transform:translate(-50%,-50%)}}
+  .tab .lift{display:grid;place-items:center;position:relative}
+  .tab .lbl{font:600 10px/1.2 "Comfortaa",sans-serif;margin-top:2px;color:var(--gold-300)}
+  .tab .th{height:1px;width:20px;margin-top:4px;opacity:.75;
+    background:linear-gradient(90deg,transparent,var(--edge-gold) 20%,var(--gold-300) 50%,var(--edge-gold) 80%,transparent);
+    animation:draw 520ms var(--ease-out) both}
+
+  .notes{flex:1 1 300px;min-width:280px;max-width:420px}
+  .notes h3{font:600 18px/1.3 "Comfortaa",sans-serif;margin:0 0 12px;color:var(--krishna-700)}
+  .notes dl{margin:0}
+  .notes dt{font:600 11px/1.3 "Comfortaa",sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-700);margin-top:18px}
+  .notes dd{margin:5px 0 0;font-size:13.5px;line-height:1.62;color:#4A5160}
+  /* Dark-mode mapping table. Each row shows the light utility as it renders
+     today beside the dark token now paired with it, and the contrast ratio is
+     computed at runtime rather than hand-asserted. */
+  .dmap{margin:14px 0 0;border-top:1px solid rgba(11,46,107,.12)}
+  .dmrow{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid rgba(11,46,107,.07)}
+  .dmchip{flex:0 0 92px;border-radius:7px;padding:6px 8px;font:500 11.5px/1.35 "Comfortaa",sans-serif;
+    text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .dmchip.l{border:1px solid rgba(11,46,107,.14)}
+  .dmarrow{flex:0 0 12px;color:var(--gold-700);font-size:12px;text-align:center}
+  .dmratio{flex:1 1 auto;text-align:right;font:600 11.5px/1.3 "Comfortaa",sans-serif;color:var(--krishna-700);
+    font-variant-numeric:tabular-nums}
+  .dmratio small{display:block;font-weight:400;font-size:10px;color:#6B7280;letter-spacing:.04em}
+  .dmnote{margin:12px 0 0;font-size:12.5px;line-height:1.6;color:#4A5160}
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{animation-duration:.01ms;animation-iteration-count:1;transition-duration:.01ms}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1 class="page">Janmashtami — the redesign</h1>
+  <p class="lede">
+    The splash is now the midnight of Krishna's birth rather than a logo on a stock photo, and every
+    icon tile has an illuminated temple alcove inside it. Press Replay to watch the opening sequence,
+    and switch the home screen between light and dark. This page loads the real typefaces from Google
+    Fonts, so it shows you the type as it will look once <code>npm run fonts:fetch</code> has run.
+  </p>
+
+  <div class="controls">
+    <button id="tabSplash" aria-pressed="true">Splash</button>
+    <button id="tabHome" aria-pressed="false">Home screen</button>
+    <button id="replay">↻ Replay opening</button>
+    <button id="lang">देवनागरी</button>
+    <button id="theme">Dark mode</button>
+  </div>
+
+  <div class="stage">
+    <div class="phone-col">
+      <p class="phone-label" id="phoneLabel">Splash — midnight</p>
+      <div class="phone">
+        <!-- ══ SPLASH ══ -->
+        <div class="screen" id="scrSplash">
+          <div class="splash" id="splashRoot">
+            <div class="splash-bloom"></div>
+            <div class="splash-sparkles" id="sparkleHost"></div>
+            <div class="splash-handi"><div class="handi-sway" id="handiHost"></div></div>
+
+            <div class="splash-stack">
+              <div class="halo-box">
+                <div class="halo b-halo"><div class="halo-drift" id="mandalaHost"></div></div>
+                <svg class="tilak" viewBox="0 0 100 220" aria-hidden="true">
+                  <defs>
+                    <linearGradient id="pvGold" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#FFE9A8"/><stop offset="45%" stop-color="#FFD54F"/><stop offset="100%" stop-color="#B08313"/>
+                    </linearGradient>
+                  </defs>
+                  <path class="t-stroke" d="M30 10v85q0 40 20 40t20-40V10" fill="transparent" stroke="url(#pvGold)" stroke-width="6" stroke-linecap="round"/>
+                  <path class="t-stroke t-fill" d="M50 135 C28 135, 20 165, 50 200 C80 165, 72 135, 50 135 Z" fill="url(#pvGold)" stroke="url(#pvGold)" stroke-width="4" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <h1 class="b-title" id="spTitle">Shree Chaitanya</h1>
+              <div class="divider b-div" id="dividerHost"></div>
+              <h2 class="b-sub" id="spSub">Prem Bhakti Sangh</h2>
+              <div class="invocation b-inv"><span id="spInv">Jai Shri Krishna</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══ HOME ══ -->
+        <div class="screen" id="scrHome" hidden>
+          <div class="home" id="homeRoot">
+            <div class="dawn"></div>
+            <div class="appbar">
+              <div class="rule"></div>
+              <button class="burger" aria-label="Open menu"><i></i><i></i><i></i></button>
+              <div class="lockup">
+                <div class="halo-sm" id="haloSmHost"></div>
+                <svg class="tilak-sm" viewBox="0 0 100 220" aria-hidden="true">
+                  <path d="M30 10v85q0 40 20 40t20-40V10" fill="transparent" stroke="currentColor" stroke-width="12" stroke-linecap="round"/>
+                  <path d="M50 135 C28 135, 20 165, 50 200 C80 165, 72 135, 50 135 Z" fill="currentColor" stroke="currentColor" stroke-width="8" stroke-linecap="round"/>
+                </svg>
+                <div class="names"><span class="n1">Shree Chaitanya</span><span class="hr"></span><span class="n2">Prem Bhakti Sangh</span></div>
+              </div>
+              <div class="icons">
+                <button aria-label="Profile"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></button>
+                <button aria-label="Settings"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06A1.65 1.65 0 0 0 15 19.4a1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6 1.65 1.65 0 0 0 10 3.09V3a2 2 0 0 1 4 0v.09A1.65 1.65 0 0 0 15 4.6a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9c.14.36.44.63.79.79"/></svg></button>
+              </div>
+            </div>
+
+            <div class="content">
+              <div class="sec-head">
+                <div class="crown" id="crownHost"></div>
+                <span class="eyebrow" id="hEyebrow">Jai Shri Krishna</span>
+                <h2 class="sec-title" id="hTitle">Darshan &amp; Seva</h2>
+              </div>
+              <div class="grid" id="tileGrid"></div>
+            </div>
+
+            <div class="nav-wrap">
+              <div class="nav">
+                <div class="rule"></div>
+                <div class="tabs" id="tabHost"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="notes">
+      <h3>What changed, and why</h3>
+      <dl>
+        <dt>Splash — the thesis</dt>
+        <dd>The stock photo, the two inset gold rectangles and the three bouncing dots are gone; those three
+          together were what made it read as a template. The sky is painted from the theme's own tokens, so
+          there's no image decode before first paint.</dd>
+        <dt>The signature</dt>
+        <dd>The gold mandala blooms open as a halo behind the tilak, which draws itself in like a lamp being
+          lit. The same halo persists, small and faint, behind the tilak in the app bar — that's the one thread
+          tying the opening screen to every screen after it.</dd>
+        <dt>The wait means something</dt>
+        <dd>The dot spinner is replaced by a breathing invocation. A bespoke screen shouldn't end in the same
+          loader every app ends in.</dd>
+        <dt>Inside the tiles</dt>
+        <dd>Each icon now stands in a pointed temple alcove on a small gold threshold, lit from within. This is
+          the third and last sanctioned use of the arch, alongside the active nav tab and the section crown —
+          its scarcity is what keeps it a signature.</dd>
+        <dt>One repeated device</dt>
+        <dd>That gold threshold under the tile icon reappears under the active nav tab. Repeating one small
+          detail in two places turns it into the app's vocabulary rather than a flourish.</dd>
+        <dt>Dawn wash</dt>
+        <dd>Home opens with warm lamplight spilling from under the header instead of starting on cold paper —
+          the morning counterpart to the splash's midnight. One gradient layer, no extra DOM.</dd>
+        <dt>Comfortaa, everywhere</dt>
+        <dd>Every Latin role — lockup, titles, headings, body, UI, verse — is now Comfortaa. Cinzel, Marcellus,
+          Inter and Cormorant Garamond are still declared in <code>fonts.css</code> but nothing references them,
+          so a revert is a one-file edit. Devanagari is untouched: it stays on Noto Sans / Noto Serif Devanagari,
+          and the Latin faces are clamped by <code>unicode-range</code> so Hindi can never fall into a font that
+          has no glyphs for it.</dd>
+        <dt>Two knock-on fixes</dt>
+        <dd>Comfortaa has no true italic, so every <code>italic</code> in the app is gone — synthesised oblique on
+          a rounded face looks broken. And hierarchy used to come from serif-vs-sans contrast; with one family
+          that signal disappears, so section titles now carry 600 and card titles 500. Tracking was pulled in
+          too (0.34em → 0.24em on the splash subtitle, 0.20em → 0.16em on eyebrows) because Comfortaa already
+          has wide sidebearings where Cinzel's capitals needed the air.</dd>
+      </dl>
+
+      <h3 style="margin-top:30px">Dark mode</h3>
+      <dl>
+        <dt>What was actually wrong</dt>
+        <dd>The plumbing was always fine — <code>darkMode:"class"</code>, the <code>.dark</code> toggle, the
+          <code>ink</code> tokens, the night-sky page floor. What was missing was coverage: several hundred
+          elements carried a light utility with no <code>dark:</code> counterpart, so they stayed light-on-light.
+          Grey body text became grey-on-navy; white cards stayed white. 731 pairings were added.</dd>
+        <dt>Why the substitution is safe</dt>
+        <dd>The <code>ink</code> ramp is luminance-matched step-for-step against Tailwind's slate — only the hue
+          moves toward Krishna blue. Swapping ink for slate at the same step therefore can't change a contrast
+          ratio, so even a mis-aimed substitution is visually neutral instead of a regression. The ratios below
+          are measured live in your browser, not asserted.</dd>
+      </dl>
+
+      <div class="dmap" id="dmap">
+        <div class="dmrow" data-lbg="#FFFFFF" data-lfg="#0F172A" data-dbg="#0F2242" data-dfg="#FFF8E7"
+             data-l="text-slate-900" data-d="cream-50"></div>
+        <div class="dmrow" data-lbg="#FFFFFF" data-lfg="#1E293B" data-dbg="#0F2242" data-dfg="#FDF1D6"
+             data-l="text-slate-800" data-d="cream-100"></div>
+        <div class="dmrow" data-lbg="#FFFFFF" data-lfg="#334155" data-dbg="#0F2242" data-dfg="#DCE4F1"
+             data-l="text-slate-700" data-d="ink-200"></div>
+        <div class="dmrow" data-lbg="#FFFFFF" data-lfg="#475569" data-dbg="#0F2242" data-dfg="#C0CDE4"
+             data-l="text-slate-600" data-d="ink-300"></div>
+        <div class="dmrow" data-lbg="#FFFFFF" data-lfg="#64748B" data-dbg="#0F2242" data-dfg="#C0CDE4"
+             data-l="text-slate-500" data-d="ink-300"></div>
+        <div class="dmrow" data-lbg="#FFFFFF" data-lfg="#94A3B8" data-dbg="#0F2242" data-dfg="#8B9CBF"
+             data-l="text-slate-400" data-d="ink-400"></div>
+      </div>
+
+      <p class="dmnote"><strong>The two judgment calls.</strong> <code>bg-white</code> could not be automated —
+        white is deliberate wherever it sits on something dark, coloured or photographic. Of 32 surfaces, 14 were
+        paired and 18 left white, including the donation QR plate (it must stay white to scan) and the PDF render
+        canvas (white is the paper; darkening it makes black ink unreadable). And hover states were a separate
+        sweep: a light hover tint on a dark card reads as a white flash, which matters here because the app runs
+        on Android TV with D-pad focus.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+(()=> {
+  const NS="http://www.w3.org/2000/svg";
+  const svg=(w,h,vb,extra)=>{const s=document.createElementNS(NS,"svg");
+    s.setAttribute("viewBox",vb);if(w)s.setAttribute("width",w);if(h)s.setAttribute("height",h);
+    s.setAttribute("fill","none");s.setAttribute("aria-hidden","true");
+    if(extra)Object.entries(extra).forEach(([k,v])=>s.setAttribute(k,v));return s;};
+  const path=(d,a={})=>{const p=document.createElementNS(NS,"path");p.setAttribute("d",d);
+    Object.entries(a).forEach(([k,v])=>p.setAttribute(k,v));return p;};
+
+  /* ── Golden mandala (generated exactly like the React ornament) ── */
+  const C=100;
+  function petal(rI,rO,w){const sp=rO-rI,yI=C-rI,yO=C-rO,c1=yI-sp*.35,c2=yO+sp*.25;
+    return `M${C} ${yI}C${C-w} ${c1} ${C-w} ${c2} ${C} ${yO}C${C+w} ${c2} ${C+w} ${c1} ${C} ${yI}Z`;}
+  function ring(g,n,d,op){for(let i=0;i<n;i++){const p=path(d,{transform:`rotate(${360/n*i} ${C} ${C})`});
+    if(op)p.setAttribute("opacity",op);g.appendChild(p);}}
+  function circ(cx,cy,r,op,sw){const c=document.createElementNS(NS,"circle");
+    c.setAttribute("cx",cx);c.setAttribute("cy",cy);c.setAttribute("r",r);
+    if(op)c.setAttribute("opacity",op);if(sw)c.setAttribute("stroke-width",sw);return c;}
+  function mandala(size){
+    const s=svg(size,size,"0 0 200 200");
+    const g=document.createElementNS(NS,"g");
+    g.setAttribute("fill","none");g.setAttribute("stroke","currentColor");
+    g.setAttribute("stroke-width","1");g.setAttribute("stroke-linejoin","round");
+    ring(g,16,petal(70,94,7),.8);
+    g.appendChild(circ(C,C,68,.5));g.appendChild(circ(C,C,64,.3,.6));
+    const mid=document.createElementNS(NS,"g");mid.setAttribute("transform",`rotate(22.5 ${C} ${C})`);
+    ring(mid,8,petal(34,62,15),.85);g.appendChild(mid);
+    g.appendChild(circ(C,C,31,.5));
+    ring(g,8,petal(12,28,7),.9);
+    g.appendChild(circ(C,C,10,.7));
+    s.appendChild(g);
+    const seed=circ(C,C,4.5,.85);seed.setAttribute("fill","currentColor");s.appendChild(seed);
+    return s;
+  }
+
+  /* ── Festival sparkles ── */
+  const SPK=[[18,26,4.5,0],[46,12,2.8,1400],[78,30,3.4,700],[120,16,2.4,2600],[156,34,4.2,1900],
+    [184,20,2.6,3300],[12,78,3.2,2100],[190,92,3.6,900],[30,128,2.6,3700],[172,140,3,1200],
+    [14,172,4,400],[58,186,2.8,2900],[104,176,3.4,1650],[148,190,2.5,3100],[186,166,3.2,2300]];
+  function spark(r){const w=r*.2;return `M0 ${-r}L${w} ${-w}L${r} 0L${w} ${w}L0 ${r}L${-w} ${w}L${-r} 0L${-w} ${-w}Z`;}
+  function sparkles(){
+    const s=svg(null,null,"0 0 200 200");s.setAttribute("width","100%");s.setAttribute("height","100%");
+    SPK.forEach(([cx,cy,r,d])=>{const g=document.createElementNS(NS,"g");
+      g.setAttribute("transform",`translate(${cx} ${cy})`);
+      const p=path(spark(r),{fill:"currentColor"});p.setAttribute("class","sparkle");
+      p.style.animationDelay=`${d}ms`;g.appendChild(p);s.appendChild(g);});
+    return s;
+  }
+
+  /* ── Makhan handi ── */
+  function handi(size){
+    const s=svg(size*64/80,size,"0 0 64 80");
+    const g=document.createElementNS(NS,"g");
+    g.setAttribute("fill","none");g.setAttribute("stroke","currentColor");
+    g.setAttribute("stroke-width","1.6");g.setAttribute("stroke-linecap","round");g.setAttribute("stroke-linejoin","round");
+    g.appendChild(path("M32 2v9",{"stroke-width":"1.8"}));
+    g.appendChild(path("M32 11C23 15 18 22 18 28",{opacity:".75"}));
+    g.appendChild(path("M32 11C41 15 46 22 46 28",{opacity:".75"}));
+    g.appendChild(path("M23 27C25 21 29 18.5 32 18.5S39 21 41 27Z",{fill:"currentColor",opacity:".55","stroke-width":"1.2"}));
+    g.appendChild(path("M16 28h32",{"stroke-width":"1.9"}));
+    const e=document.createElementNS(NS,"ellipse");
+    e.setAttribute("cx","32");e.setAttribute("cy","31.5");e.setAttribute("rx","14.5");e.setAttribute("ry","3.6");e.setAttribute("opacity",".6");
+    g.appendChild(e);
+    g.appendChild(path("M18 31C11.5 39 11.5 53 20 60.5 26 65.5 38 65.5 44 60.5 52.5 53 52.5 39 46 31"));
+    const net=document.createElementNS(NS,"g");net.setAttribute("opacity",".45");net.setAttribute("stroke-width","1.1");
+    ["M21 33C17 42 18 54 24 62","M43 33C47 42 46 54 40 62","M13.5 44Q32 50 50.5 44","M15.5 53Q32 59 48.5 53"]
+      .forEach(d=>net.appendChild(path(d)));
+    g.appendChild(net);
+    g.appendChild(path("M26 64.5h12",{opacity:".6","stroke-width":"1.3"}));
+    s.appendChild(g);return s;
+  }
+
+  /* ── Peacock feather divider ── */
+  function feather(size){
+    const s=svg(size,size/10,"0 0 240 24");
+    const defs=document.createElementNS(NS,"defs");
+    const lg=document.createElementNS(NS,"linearGradient");
+    lg.setAttribute("id","pvFade");lg.setAttribute("gradientUnits","userSpaceOnUse");
+    lg.setAttribute("x1","0");lg.setAttribute("y1","0");lg.setAttribute("x2","240");lg.setAttribute("y2","0");
+    [[0,0],[.35,.85],[.5,1],[.65,.85],[1,0]].forEach(([o,op])=>{
+      const st=document.createElementNS(NS,"stop");st.setAttribute("offset",o);
+      st.setAttribute("stop-color","currentColor");st.setAttribute("stop-opacity",op);lg.appendChild(st);});
+    defs.appendChild(lg);s.appendChild(defs);
+    s.appendChild(path("M4 12H97",{stroke:"url(#pvFade)","stroke-width":"1.25","stroke-linecap":"round"}));
+    s.appendChild(path("M143 12H236",{stroke:"url(#pvFade)","stroke-width":"1.25","stroke-linecap":"round"}));
+    s.appendChild(path("M100 12l2.5-2.5L105 12l-2.5 2.5z",{fill:"currentColor",opacity:".75"}));
+    s.appendChild(path("M135 12l2.5-2.5L140 12l-2.5 2.5z",{fill:"currentColor",opacity:".75"}));
+    s.appendChild(path("M106 7Q120 -0.5 134 7",{stroke:"currentColor","stroke-width":".9","stroke-linecap":"round",opacity:".45"}));
+    s.appendChild(path("M106 17Q120 24.5 134 17",{stroke:"currentColor","stroke-width":".9","stroke-linecap":"round",opacity:".45"}));
+    const ell=(rx,ry,a)=>{const e=document.createElementNS(NS,"ellipse");
+      e.setAttribute("cx","120");e.setAttribute("cy","12");e.setAttribute("rx",rx);e.setAttribute("ry",ry);
+      Object.entries(a).forEach(([k,v])=>e.setAttribute(k,v));return e;};
+    s.appendChild(ell(11,7.6,{fill:"currentColor",opacity:".16"}));
+    s.appendChild(ell(11,7.6,{fill:"none",stroke:"currentColor","stroke-width":".9",opacity:".6"}));
+    s.appendChild(ell(6.4,4.4,{fill:"currentColor",opacity:".38"}));
+    s.appendChild(ell(2.7,2.4,{fill:"currentColor"}));
+    return s;
+  }
+
+  /* ── Flute divider (kept for list/modal headers; NOT used in the nav, where
+        it collided with the centred alcove above the Home tab) ── */
+  function _flute(size){
+    const s=svg(size,size/6,"0 0 132 22");
+    s.appendChild(path("M6 11h120",{stroke:"currentColor","stroke-width":"2.4","stroke-linecap":"round",opacity:".8"}));
+    [30,46,62,78,94].forEach(x=>{const c=document.createElementNS(NS,"circle");
+      c.setAttribute("cx",x);c.setAttribute("cy","11");c.setAttribute("r","1.5");
+      c.setAttribute("fill","currentColor");c.setAttribute("opacity",".9");s.appendChild(c);});
+    s.appendChild(path("M6 11c-3 0-4 2-4 2",{stroke:"currentColor","stroke-width":"1.4","stroke-linecap":"round",opacity:".6"}));
+    return s;
+  }
+
+  /* ── Temple arch (nav crown) ── */
+  function arch(w,h){
+    const s=svg(w,h,"0 0 44 34");
+    s.setAttribute("stroke","currentColor");
+    s.appendChild(path("M5 34 5 20 C5 10 18.5 10 22 3 C25.5 10 39 10 39 20 L39 34",{"stroke-width":"1.4","stroke-linecap":"round"}));
+    s.appendChild(path("M10 34 10 20 C10 13 19 13 22 8 C25 13 34 13 34 20 L34 34",{"stroke-width":".9",opacity:".5"}));
+    s.appendChild(path("M22 2 C20.6 4 20.6 6 22 7 C23.4 6 23.4 4 22 2 Z",{fill:"currentColor",stroke:"none"}));
+    return s;
+  }
+
+  /* ── The alcove: behind a tile icon, and behind the active nav icon ── */
+  function nicheSvg(w,h,fillOp,strokeOp,sw,innerOp){
+    const s=svg(w,h,"0 0 100 92");
+    s.appendChild(path("M14 92 V40 C14 22 36 22 50 6 C64 22 86 22 86 40 V92 Z",
+      {fill:"currentColor","fill-opacity":fillOp,stroke:"currentColor","stroke-opacity":strokeOp,"stroke-width":sw,"stroke-linejoin":"round"}));
+    s.appendChild(path("M22 92 V41 C22 28 40 28 50 14 C60 28 78 28 78 41 V92",
+      {stroke:"currentColor","stroke-opacity":innerOp,"stroke-width":sw*.63,"stroke-linejoin":"round"}));
+    return s;
+  }
+  function niche(){
+    const s=nicheSvg(null,null,".055",".4",1.2,".22");
+    s.setAttribute("preserveAspectRatio","xMidYMax meet");
+    s.setAttribute("class","niche");
+    return s;
+  }
+  /* Nav alcove: never taller than the 36px medallion, or the bar's
+     overflow-hidden slices its apex flat. Opening is 72% of the width, so 42px
+     clears the 24px icon instead of straddling it. */
+  function navNiche(home){
+    const s=nicheSvg(home?48:42,home?36:34,".14",".55",1.6,".28");
+    s.setAttribute("class","arch");
+    return s;
+  }
+
+  /* ── Line icons ── */
+  const ICON={
+    heart:'<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>',
+    calendar:'<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
+    music:'<circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/><path d="M9 18V5l12-2v13"/>',
+    book:'<path d="M12 7v14M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3Z"/>',
+    video:'<path d="m16 13 5.22 3.48a.5.5 0 0 0 .78-.42V7.94a.5.5 0 0 0-.78-.42L16 11"/><rect x="2" y="6" width="14" height="12" rx="2"/>',
+    scroll:'<path d="M19 17V5a2 2 0 0 0-2-2H4"/><path d="M8 21h12a2 2 0 0 0 2-2v-1a1 1 0 0 0-1-1H11a1 1 0 0 0-1 1v1a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0v2a1 1 0 0 0 1 1h3"/>'
+  };
+  const icon=(n,size)=>`<svg class="ic" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON[n]}</svg>`;
+
+  /* ── Content ── */
+  const TILES=[
+    {en:"Donate",hi:"दान",icon:"heart"},
+    {en:"Calendar",hi:"पंचांग",icon:"calendar"},
+    {en:"Live Darshan",hi:"लाइव दर्शन",icon:"video",flag:"live"},
+    {en:"Bhajans",hi:"भजन",icon:"music",flag:"new"},
+    {en:"Granth",hi:"ग्रंथ",icon:"book"},
+    {en:"Our History",hi:"इतिहास",icon:"scroll"}
+  ];
+  const TABS=[
+    {en:"Books",hi:"ग्रंथ",icon:"book"},
+    {en:"Audio",hi:"ऑडियो",icon:"music"},
+    {en:"Home",hi:"होम",icon:"heart",home:true,active:true},
+    {en:"Bhajans",hi:"भजन",icon:"music"},
+    {en:"History",hi:"इतिहास",icon:"scroll"}
+  ];
+
+  let hi=false, dark=false;
+  const $=id=>document.getElementById(id);
+
+  function isDeva(s){return /[ऀ-ॿ]/.test(s);}
+
+  function buildTiles(){
+    $("tileGrid").innerHTML="";
+    TILES.forEach(t=>{
+      const label=hi?t.hi:t.en;
+      const b=document.createElement("button");
+      b.className="tile";
+      const flag=t.flag==="live"
+        ? '<span class="flag live"><i></i>Live</span>'
+        : t.flag==="new" ? '<span class="flag new">New</span>' : "";
+      b.innerHTML=`
+        <span class="tile-surface">
+          ${flag}
+          <span class="tile-bloom"></span>
+          <span class="tile-inner">${icon(t.icon,44)}<span class="threshold"></span></span>
+          <span class="keyline"></span>
+        </span>
+        <span class="tile-title" style="font-family:${isDeva(label)?'"Noto Sans Devanagari",sans-serif':'"Comfortaa",sans-serif'}">${label}</span>`;
+      b.querySelector(".tile-surface").insertBefore(niche(),b.querySelector(".tile-bloom"));
+      $("tileGrid").appendChild(b);
+    });
+  }
+
+  function buildTabs(){
+    $("tabHost").innerHTML="";
+    TABS.forEach(t=>{
+      const label=hi?t.hi:t.en;
+      const b=document.createElement("button");
+      b.className=`tab${t.active?" active":""}`;
+      b.innerHTML=`<span class="lift"><span class="medal">${icon(t.icon,24)}</span></span>`;
+      if(t.active){
+        const a=navNiche(t.home);
+        b.querySelector(".lift").appendChild(a);
+        const l=document.createElement("span");l.className="lbl";
+        l.style.fontFamily=isDeva(label)?'"Noto Sans Devanagari",sans-serif':'"Comfortaa",sans-serif';
+        l.textContent=label;b.appendChild(l);
+        const th=document.createElement("span");th.className="th";b.appendChild(th);
+      }
+      $("tabHost").appendChild(b);
+    });
+  }
+
+  function applyLang(){
+    $("spTitle").textContent = hi?"श्री चैतन्य":"Shree Chaitanya";
+    $("spTitle").className = `b-title${hi?" hi":""}`;
+    $("spSub").textContent = hi?"प्रेम भक्ति संघ":"Prem Bhakti Sangh";
+    $("spSub").className = `b-sub${hi?" hi":""}`;
+    $("spInv").textContent = hi?"जय श्री कृष्ण":"Jai Shri Krishna";
+    $("spInv").className = hi?"hi":"";
+    $("hEyebrow").textContent = hi?"जय श्री कृष्ण":"Jai Shri Krishna";
+    $("hEyebrow").style.fontFamily = hi?'"Noto Sans Devanagari",sans-serif':'"Comfortaa",sans-serif';
+    $("hTitle").textContent = hi?"दर्शन और सेवा":"Darshan & Seva";
+    $("hTitle").style.fontFamily = hi?'"Noto Serif Devanagari",serif':'"Comfortaa",sans-serif';
+    buildTiles(); buildTabs();
+  }
+
+  /* mount ornaments */
+  $("mandalaHost").appendChild(mandala(258));
+  $("sparkleHost").appendChild(sparkles());
+  $("handiHost").appendChild(handi(62));
+  $("dividerHost").appendChild(feather(210));
+  $("haloSmHost").appendChild(mandala(57));
+  $("crownHost").appendChild(arch(46,36));
+  applyLang();
+
+  /* controls */
+  function show(which){
+    const s=which==="splash";
+    $("scrSplash").hidden=!s; $("scrHome").hidden=s;
+    $("tabSplash").setAttribute("aria-pressed",String(s));
+    $("tabHome").setAttribute("aria-pressed",String(!s));
+    $("phoneLabel").textContent = s?"Splash — midnight":"Home — dawn darshan";
+    if(s) replay();
+  }
+  function replay(){
+    const r=$("splashRoot"), clone=r.cloneNode(true);
+    r.parentNode.replaceChild(clone,r);
+  }
+  $("tabSplash").onclick=()=>show("splash");
+  $("tabHome").onclick=()=>show("home");
+  $("replay").onclick=()=>{ if($("scrSplash").hidden) show("splash"); else replay(); };
+  $("lang").onclick=e=>{ hi=!hi; e.currentTarget.textContent=hi?"Latin":"देवनागरी"; applyLang();
+    if(!$("scrSplash").hidden) replay(); };
+  $("theme").onclick=e=>{ dark=!dark; $("homeRoot").classList.toggle("dark",dark);
+    e.currentTarget.textContent=dark?"Light mode":"Dark mode";
+    e.currentTarget.setAttribute("aria-pressed",String(dark)); };
+
+  /* Dark-mode mapping table.
+     The contrast ratios are computed here from the actual hex values rather
+     than typed in, so the panel can't drift out of agreement with the palette.
+     WCAG 2.x relative luminance, per the sRGB definition. */
+  (()=> {
+    const lin = c => c <= 0.03928 ? c/12.92 : ((c+0.055)/1.055) ** 2.4;
+    const lum = hex => {
+      const n = parseInt(hex.slice(1), 16);
+      return 0.2126*lin((n>>16&255)/255) + 0.7152*lin((n>>8&255)/255) + 0.0722*lin((n&255)/255);
+    };
+    const ratio = (a,b) => {
+      const x = lum(a), y = lum(b), hi = Math.max(x,y), lo = Math.min(x,y);
+      return (hi+0.05)/(lo+0.05);
+    };
+    document.querySelectorAll("#dmap .dmrow").forEach(row => {
+      const d = row.dataset;
+      const rLight = ratio(d.lbg, d.lfg), rDark = ratio(d.dbg, d.dfg);
+      row.innerHTML =
+        '<span class="dmchip l" style="background:'+d.lbg+';color:'+d.lfg+'">'+d.l.replace("text-","")+'</span>'+
+        '<span class="dmarrow" aria-hidden="true">&rarr;</span>'+
+        '<span class="dmchip" style="background:'+d.dbg+';color:'+d.dfg+'">'+d.d+'</span>'+
+        '<span class="dmratio">'+rDark.toFixed(1)+':1<small>light '+rLight.toFixed(1)+':1</small></span>';
+      row.setAttribute("title", d.l+" on white is "+rLight.toFixed(2)+":1; dark:text-"+d.d+
+        " on ink-800 is "+rDark.toFixed(2)+":1");
+    });
+  })();
+})();
+</script>
+</body>
+</html>

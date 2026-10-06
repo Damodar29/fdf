@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         API 35+ — Android 15 (Vanilla Ice Cream)
+         Android 15 ne edge-to-edge MANDATORY kar diya — matlab system
+         bars (status + nav) ke peeche content draw hota hai by default.
+         Hamare Capacitor WebApp mein abhi proper insets handling nahi
+         hai, toh ye opt-out se purana behavior restore hota hai:
+         content bars ke neeche nahi jaata, bars apna background rakhte hain.
+         ═══════════════════════════════════════════════════════════════ -->
+
+    <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:background">@null</item>
+        <item name="android:overScrollMode">never</item>
+        <!-- Status bar: cream, dark icons -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <!-- Navigation bar: cream, dark icons -->
+        <item name="android:navigationBarColor">@color/navigationBarColor</item>
+        <item name="android:windowLightNavigationBar">true</item>
+        <!-- Disable contrast scrim -->
+        <item name="android:enforceNavigationBarContrast">false</item>
+        <item name="android:enforceStatusBarContrast">false</item>
+        <!-- Android 15 specific: Opt out of forced edge-to-edge to prevent -->
+        <!-- layout recomposition flicker at launch on Pixel 9 / Samsung S25 -->
+        <item name="android:windowOptOutEdgeToEdgeEnforcement">true</item>
+    </style>
+
+    <style name="AppTheme.NoActionBarLaunch" parent="Theme.SplashScreen">
+        <item name="android:background">@drawable/splash_layer</item>
+        <item name="windowSplashScreenBackground">@color/splash_background</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+        <item name="postSplashScreenTheme">@style/AppTheme.NoActionBar</item>
+        <!-- Android 15 forced edge-to-edge se opt out -->
+        <item name="android:windowOptOutEdgeToEdgeEnforcement">true</item>
+    </style>
+
+</resources>

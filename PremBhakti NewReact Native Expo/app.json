@@ -1,0 +1,99 @@
+{
+  "expo": {
+    "name": "Prem Bhakti",
+    "slug": "prem-bhakti",
+    "version": "48.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "scheme": "prembhakti",
+    "backgroundColor": "#311B92",
+    "ios": {
+      "bundleIdentifier": "com.cpbs.bhajans",
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "com.cpbs.bhajans",
+      "googleServicesFile": "./google-services.json",
+      "adaptiveIcon": {
+        "backgroundColor": "#311B92",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png"
+      },
+      "predictiveBackGestureEnabled": false,
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "autoVerify": true,
+          "data": [
+            {
+              "scheme": "https",
+              "host": "chaitanyaprembhakti.org"
+            },
+            {
+              "scheme": "http",
+              "host": "chaitanyaprembhakti.org"
+            }
+          ],
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
+        }
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#311B92",
+          "dark": {
+            "image": "./assets/splash-icon.png",
+            "backgroundColor": "#311B92"
+          }
+        }
+      ],
+      "expo-image",
+      "expo-sharing",
+      "expo-web-browser",
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "enableMinifyInReleaseBuilds": true,
+            "enableShrinkResourcesInReleaseBuilds": true,
+            "extraProguardRules": "# Libraries that look classes up by name at run time.\n-keep class io.invertase.firebase.** { *; }\n-keep class com.google.firebase.** { *; }\n-keep class com.ReactNativeBlobUtil.** { *; }\n-keep class com.reactnativecommunity.webview.** { *; }\n-keep class org.wonday.pdf.** { *; }\n-keep class io.legere.pdfiumandroid.** { *; }\n-keep class com.shockwave.pdfium.** { *; }\n-keep class app.notifee.** { *; }\n-keep class com.eko.** { *; }\n-keep class expo.modules.** { *; }\n-keep class com.reactnativegooglesignin.** { *; }\n-keep class com.swmansion.** { *; }\n-keep class com.mrousavy.** { *; }\n-keep class com.margelo.** { *; }\n-keep class com.shopify.reactnative.** { *; }\n-keep class com.horcrux.svg.** { *; }\n-dontwarn org.slf4j.**\n-dontwarn javax.annotation.**"
+          }
+        }
+      ],
+      "@react-native-firebase/app",
+      "@react-native-firebase/auth",
+      "@react-native-firebase/messaging",
+      "@react-native-firebase/crashlytics",
+      "@react-native-firebase/app-check",
+      "@react-native-google-signin/google-signin",
+      "expo-audio",
+      "@kesha-antonov/react-native-background-downloader",
+      "react-native-blob-util",
+      "./plugins/withLocalSdk",
+      "./plugins/withBuildSettings",
+      "./plugins/withWebBundle",
+      "./plugins/withAppNotifications",
+      [
+        "./plugins/withTestBuild",
+        {
+          "applicationIdSuffix": ".rntest",
+          "appName": "Prem Bhakti RN"
+        }
+      ],
+      "expo-speech-recognition",
+      "expo-video"
+    ]
+  }
+}

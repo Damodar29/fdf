@@ -1,0 +1,113 @@
+# Dependencies
+node_modules/
+functions/node_modules/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+KEY
+*.key
+*.pem
+*.p12
+*.keystore
+*.jks
+google-services.json
+android/google-services.json
+android/app/google-services.json
+ios/App/App/GoogleService-Info.plist
+
+# IDE settings
+.idea/
+.vscode/
+*.iml
+
+# Build outputs
+dist/
+build/
+coverage/
+.artifacts/
+android/.gradle/
+android/app/build/
+android/build/
+android/local.properties
+android/app/release/
+android/app/src/main/assets/
+android/app/src/main/res/xml/config.xml
+ios/App/build/
+ios/App/Pods/
+ios/capacitor-cordova-ios-plugins/
+ios/App/App/public/
+ios/App/App/config.json
+ios/App/App/capacitor.config.json
+functions/lib/
+
+# Local tool state
+.firebase/
+firebase-debug.log*
+*.log
+functions/logs.txt
+
+# Apple/Xcode user data
+*.xcuserstate
+xcuserdata/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Mobile App (Expo)
+mobile-app/
+functions/analyze_storage.js
+functions/analyze_db.js
+analyze_db.cjs
+analyze_storage.cjs
+check_videos.cjs
+
+tools/youtube-uploader/client_secret.json
+tools/youtube-uploader/youtube_tokens.json
+tools/youtube-uploader/youtube_mapping_export.jsonl
+temp_video/Geeta_Jayanti_2011.mp4
+
+# Knowledge graph (auto-generated)
+graphify-out/
+feature-guide-audio-glorification.html
+
+# Scratch / work-in-progress copies kept next to the real file. These live at the
+# repo root, where their relative imports don't resolve, so tsc fails on them and
+# `npm run build` (tsc && vite build) stops — keep them out of the tree.
+scratch_*.ts
+scratch_*.tsx
+scratch/
+*.scratch.ts
+*.scratch.tsx
+
+# Temp/scratch data files
+temp_video/
+test_dist/
+
+# Ruflo local secrets and runtime data
+.env.local
+.env.*.local
+.claude-flow/
+.claude/
+skills-lock.json
+
+# Ruflo cloned source (not part of this project)
+ruflo/
+!.agents/skills/ruflo/
+
+# Ruflo memory database
+.swarm/
+# Agent skills in .agents/skills/ are shared with the team; omni-route is a personal AI-gateway tool, not part of this app
+.agents/skills/omni-route/
+
+# Folder-local gcloud login (CLOUDSDK_CONFIG)
+.gcloud/
+
+# Firebase backup script staging area (scripts/backup-firebase-data.mjs)
+data/.backup-tmp/
+
+
+# Repo-only Wrangler login (share-preview-worker/wr.mjs, workers/wr.mjs)
+.wrangler-auth/

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         NIGHT MODE — Safety fallback colors
+         AppCompatDelegate.MODE_NIGHT_NO se app hamesha light mode mein
+         run karta hai. Lekin agar kisi device par koi corner case ho
+         to yeh file ensure karti hai ki status bar / nav bar colors
+         galat (dark) nahi ho jaate.
+         Same cream colors as day mode = seamless on all devices.
+         ═══════════════════════════════════════════════════════════════ -->
+
+    <color name="colorPrimary">#FFF8F0</color>
+    <color name="colorPrimaryDark">#FFF8F0</color>
+    <color name="colorAccent">#bc8d31</color>
+    <color name="navigationBarColor">@android:color/transparent</color>
+
+    <!-- Splash screen stays deep purple even in "night" mode -->
+    <color name="splash_background">#311B92</color>
+
+</resources>

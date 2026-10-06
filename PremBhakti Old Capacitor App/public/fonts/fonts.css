@@ -1,0 +1,92 @@
+/**
+ * Janmashtami Typography — self-hosted @font-face declarations
+ * ==========================================================
+ *
+ * Loaded two ways: as a `<link>` in `index.html` (so faces start resolving
+ * before the JS bundle parses) and via `@import` from `index.css`. This file
+ * lives in `public/` and is served verbatim — it is NOT processed by Vite, so
+ * all paths must be absolute (`/fonts/…`).
+ *
+ * ── Why self-hosted ────────────────────────────────────────────────────────
+ * This is an offline-first Capacitor Android app. `fonts.googleapis.com` is
+ * unreachable inside the WebView when the device has no connection, so a remote
+ * stylesheet would leave every screen in a system fallback. Every face must ship
+ * inside the bundle.
+ *
+ * ── Getting the binaries ───────────────────────────────────────────────────
+ * The .woff2/.ttf files are NOT committed (they are large binaries). Run this
+ * once, on a machine with internet:
+ *
+ *     node scripts/fetch-janmashtami-fonts.mjs
+ *
+ * Until it is run, every `src` below fails to load and the browser falls back
+ * down the stacks defined in `src/theme/typography.ts` — Georgia for the serif
+ * roles, the platform UI face (Roboto on Android) for body, Nirmala UI / Mangal
+ * for Devanagari. The app looks deliberate either way; it just isn't yet
+ * wearing its own typefaces.
+ *
+ * Each `src` lists woff2 first and ttf second so the script can deliver either
+ * format depending on what upstream offers for that family.
+ *
+ * ── Why every face carries a unicode-range ─────────────────────────────────
+ * Comfortaa — like Cinzel, Marcellus, Inter and Cormorant Garamond before it —
+ * has NO Devanagari coverage. Without a range, the browser would try to render
+ * देवनागरी from Comfortaa, fail per-glyph, and produce tofu or a ransom-note mix
+ * of faces. Restricting the Latin faces to Latin + punctuation + the rupee sign,
+ * and the Devanagari faces to the Devanagari block, means the browser always
+ * picks a face that can actually draw the character — even if a component
+ * applies the wrong class.
+ *
+ * `U+20B9` (₹) is included in the Latin range deliberately: the donation and
+ * seva screens set amounts in rupees, and it must not fall through to a
+ * different face mid-number.
+ *
+ * ── font-display ───────────────────────────────────────────────────────────
+ * `swap` everywhere. `block` would give a flash of invisible text on cold start
+ * — unacceptable on a low-end device where font decode can take 300ms+. `swap`
+ * shows the fallback immediately and repaints when the real face is ready.
+ */
+
+/* Latin: Basic Latin, Latin-1, Latin Extended-A/B, IPA, general punctuation,
+   currency symbols (incl. ₹), arrows, and the ellipsis/quote range. */
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   NOTO SANS DEVANAGARI — all Hindi body text, bhajan lyrics, book pages.
+   The single most-read face in this app: most content is Devanagari.
+   Variable weight axis 100–900.
+
+   The Devanagari range below is the canonical one:
+     U+0900-097F   Devanagari block
+     U+1CD0-1CF9   Vedic Extensions (used in some bhajan notation)
+     U+200C-200D   ZWNJ / ZWJ — REQUIRED for correct conjunct rendering
+     U+20A8, 20B9  ₨ and ₹
+     U+25CC        dotted circle, shown for an orphaned matra
+     U+A830-A839   North Indic fraction marks
+   ══════════════════════════════════════════════════════════════════════════ */
+@font-face {
+	font-family: "Noto Sans Devanagari";
+	src:
+		url("/fonts/NotoSansDevanagari-Variable.woff2") format("woff2"),
+		url("/fonts/NotoSansDevanagari-Variable.ttf") format("truetype");
+	font-weight: 100 900;
+	font-style: normal;
+	font-display: swap;
+	unicode-range:
+		U+0900-097F, U+1CD0-1CF9, U+200C-200D, U+20A8, U+20B9, U+25CC, U+A830-A839;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   NOTO SERIF DEVANAGARI — Devanagari headings and ceremonial text. The serif
+   cut carries the same weight in Devanagari that Marcellus carries in Latin.
+   ══════════════════════════════════════════════════════════════════════════ */
+@font-face {
+	font-family: "Noto Serif Devanagari";
+	src:
+		url("/fonts/NotoSerifDevanagari-Variable.woff2") format("woff2"),
+		url("/fonts/NotoSerifDevanagari-Variable.ttf") format("truetype");
+	font-weight: 100 900;
+	font-style: normal;
+	font-display: swap;
+	unicode-range:
+		U+0900-097F, U+1CD0-1CF9, U+200C-200D, U+20A8, U+20B9, U+25CC, U+A830-A839;
+}

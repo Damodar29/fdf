@@ -1,0 +1,29 @@
+{
+	"name": "Prem Bhakti",
+	"short_name": "Prem Bhakti",
+	"start_url": ".",
+	"display": "standalone",
+	"background_color": "#5D1B1B",
+	"theme_color": "#5D1B1B",
+	"description": "Native-style Official App of Prem Bhakti.",
+	"icons": [
+		{
+			"src": "icon.webp",
+			"sizes": "192x192",
+			"type": "image/webp"
+		},
+		{
+			"src": "icon.webp",
+			"sizes": "512x512",
+			"type": "image/webp"
+		}
+	],
+	"prefer_related_applications": true,
+	"related_applications": [
+		{
+			"platform": "play",
+			"url": "https://play.google.com/store/apps/details?id=com.cpbs.bhajans",
+			"id": "com.cpbs.bhajans"
+		}
+	]
+}

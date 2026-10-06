@@ -1,0 +1,44 @@
+{
+  "id": "002",
+  "title": "श्रील गुरुदेव \"भक्ति शास्त्री\" जी महाराज - झाँसी भागवत कथा",
+  "description": "श्रील गुरुदेव \"भक्ति शास्त्री\" जी महाराज द्वारा झाँसी में आयोजित श्रीमद्भागवत कथा।",
+  "date": "",
+  "audio": [
+    {
+      "id": "d1",
+      "singer": "प्रथम दिवस",
+      "url": "https://audios.chaitanyaprembhakti.org/Jhansi%20Bhagvat%20katha_6/Day-1_Pratham_Divas.m4a"
+    },
+    {
+      "id": "d2",
+      "singer": "द्वितीय दिवस",
+      "url": "https://audios.chaitanyaprembhakti.org/Jhansi%20Bhagvat%20katha_6/Day-2_Dwitiya_Divas.m4a"
+    },
+    {
+      "id": "d3",
+      "singer": "तृतीय दिवस",
+      "url": "https://audios.chaitanyaprembhakti.org/Jhansi%20Bhagvat%20katha_6/Day-3_Tritiya_Divas.m4a"
+    },
+    {
+      "id": "d4",
+      "singer": "चतुर्थ दिवस",
+      "url": "https://audios.chaitanyaprembhakti.org/Jhansi%20Bhagvat%20katha_6/Day-4_Chaturth_Divas.m4a"
+    },
+    {
+      "id": "d5",
+      "singer": "पंचम दिवस",
+      "url": "https://audios.chaitanyaprembhakti.org/Jhansi%20Bhagvat%20katha_6/Day-5_Pancham_Divas.m4a"
+    },
+    {
+      "id": "d6",
+      "singer": "षष्ठम दिवस",
+      "url": "https://audios.chaitanyaprembhakti.org/Jhansi%20Bhagvat%20katha_6/Day-6_Shashtham_Divas.m4a"
+    },
+    {
+      "id": "d7",
+      "singer": "सप्तम दिवस",
+      "url": "https://audios.chaitanyaprembhakti.org/Jhansi%20Bhagvat%20katha_6/Day-7_Saptam_Divas.m4a"
+    }
+  ],
+  "isHidden": false
+}

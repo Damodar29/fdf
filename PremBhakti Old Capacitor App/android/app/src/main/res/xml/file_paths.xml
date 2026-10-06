@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <external-path name="my_images" path="." />
+    <cache-path name="my_cache_images" path="." />
+    <!-- Public Downloads: needed for openPdf ACTION_VIEW intent -->
+    <external-path name="public_downloads" path="Download/" />
+    <!-- App-specific books dir (Android/data/<pkg>/files/Books): needed for openBookFile -->
+    <external-files-path name="books" path="Books/" />
+</paths>

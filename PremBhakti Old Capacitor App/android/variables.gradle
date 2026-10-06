@@ -1,0 +1,21 @@
+ext {
+    // Android 8.0 (Oreo) minimum — allows removing all SDK_INT >= O and >= M guards.
+    // Covers 99%+ of active Android devices as of 2025.
+    minSdkVersion = 26
+    compileSdkVersion = 36
+    targetSdkVersion = 36
+    kotlin_version = '1.9.24'
+    androidxActivityVersion = '1.10.1'
+    androidxAppCompatVersion = '1.7.1'
+    androidxCoordinatorLayoutVersion = '1.2.0'
+    androidxCoreVersion = '1.15.0'
+    androidxFragmentVersion = '1.8.4'
+    coreSplashScreenVersion = '1.2.0'
+    androidxWebkitVersion = '1.12.1'
+    junitVersion = '4.13.2'
+    androidxJunitVersion = '1.3.0'
+    androidxEspressoCoreVersion = '3.7.0'
+    androidxCredentialsVersion = '1.5.0'
+    androidxCredentialsPlayServicesAuthVersion = '1.5.0'
+    librariesIdentityGoogleidVersion = '1.1.1'
+}

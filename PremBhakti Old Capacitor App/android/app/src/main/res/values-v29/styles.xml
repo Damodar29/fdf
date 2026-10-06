@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         API 29+ — Android 10 (Q)
+         Changes in this version:
+         1. Gesture navigation introduced — pill bar replaces 3 buttons
+            on many devices. NavigationBarColor still works for 3-button.
+         2. android:enforceNavigationBarContrast — Android auto-applies
+            a scrim (semi-transparent overlay) on nav bar if it detects
+            poor contrast. We disable this to keep our theme clean.
+         3. android:enforceStatusBarContrast — Same for status bar.
+         Note: windowOptOutEdgeToEdgeEnforcement is NOT needed here —
+               that's only required for Android 15 (API 35).
+         ═══════════════════════════════════════════════════════════════ -->
+
+    <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:background">@null</item>
+        <item name="android:overScrollMode">never</item>
+        <!-- Status bar: cream, dark icons -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <!-- Navigation bar: cream, dark icons -->
+        <item name="android:navigationBarColor">@color/navigationBarColor</item>
+        <item name="android:windowLightNavigationBar">true</item>
+        <!-- Disable Android's automatic contrast scrim overlay on bars -->
+        <item name="android:enforceNavigationBarContrast">false</item>
+        <item name="android:enforceStatusBarContrast">false</item>
+    </style>
+
+</resources>

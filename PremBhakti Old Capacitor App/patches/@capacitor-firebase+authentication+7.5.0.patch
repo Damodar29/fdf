@@ -1,0 +1,18 @@
+﻿diff --git a/node_modules/@capacitor-firebase/authentication/android/build.gradle b/node_modules/@capacitor-firebase/authentication/android/build.gradle
+index 9a85613..7681b05 100644
+--- a/node_modules/@capacitor-firebase/authentication/android/build.gradle
++++ b/node_modules/@capacitor-firebase/authentication/android/build.gradle
+@@ -8,9 +8,10 @@ ext {
+     firebaseAuthVersion = project.hasProperty('firebaseAuthVersion') ? rootProject.ext.firebaseAuthVersion : '23.1.0'
+     playServicesAuthVersion = project.hasProperty('playServicesAuthVersion') ? rootProject.ext.playServicesAuthVersion : '20.7.0'
+     facebookLoginVersion = project.hasProperty('facebookLoginVersion') ? rootProject.ext.facebookLoginVersion : '18.0.0'
+-    androidxCredentialsVersion = project.hasProperty('androidxCredentialsVersion') ? rootProject.ext.androidxCredentialsVersion : '1.2.0-rc01'
+-    androidxCredentialsPlayServicesAuthVersion = project.hasProperty('androidxCredentialsPlayServicesAuthVersion') ? rootProject.ext.androidxCredentialsPlayServicesAuthVersion : '1.2.0-rc01'
+-    librariesIdentityGoogleidVersion = project.hasProperty('librariesIdentityGoogleidVersion') ? rootProject.ext.librariesIdentityGoogleidVersion : '1.1.0'
++    // Patched: defaults updated to stable 1.5.0 to fix atomic-group version conflict
++    androidxCredentialsVersion = project.hasProperty('androidxCredentialsVersion') ? rootProject.ext.androidxCredentialsVersion : '1.5.0'
++    androidxCredentialsPlayServicesAuthVersion = project.hasProperty('androidxCredentialsPlayServicesAuthVersion') ? rootProject.ext.androidxCredentialsPlayServicesAuthVersion : '1.5.0'
++    librariesIdentityGoogleidVersion = project.hasProperty('librariesIdentityGoogleidVersion') ? rootProject.ext.librariesIdentityGoogleidVersion : '1.1.1'
+ }
+ 
+ buildscript {

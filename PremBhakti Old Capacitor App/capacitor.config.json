@@ -1,0 +1,57 @@
+{
+	"appId": "com.cpbs.bhajans",
+	"appName": "Prem Bhakti",
+	"webDir": "dist",
+	"bundledWebRuntime": false,
+	"loggingBehavior": "none",
+	"server": {
+		"androidScheme": "https",
+		"iosScheme": "capacitor",
+		"allowNavigation": [
+			"chaitanyaprembhakti.org",
+			"*.chaitanyaprembhakti.org",
+			"cpbs-admin.web.app"
+		]
+	},
+	"android": {
+		"backgroundColor": "#311B92",
+		"allowMixedContent": false,
+		"appendUserAgent": "PremBhaktiApp"
+	},
+	"plugins": {
+		"FirebaseAuthentication": {
+			"skipNativeAuth": true,
+			"providers": ["google.com", "phone"]
+		},
+		"CapacitorHttp": {
+			"enabled": false
+		},
+		"PushNotifications": {
+			"presentationOptions": ["badge", "sound", "alert"]
+		},
+		"LocalNotifications": {
+			"sound": "notisound3.m4a"
+		},
+		"SplashScreen": {
+			"launchShowDuration": 0,
+			"launchAutoHide": false,
+			"fadeOutDuration": 250,
+			"backgroundColor": "#311B92"
+		},
+		"MediaSession": {},
+		"StatusBar": {
+			"overlaysWebView": true
+		},
+		"CapacitorUpdater": {
+			"appId": "com.cpbs.bhajans",
+			"updateUrl": "https://asia-south1-cpbs-admin.cloudfunctions.net/otaCheckUpdate",
+			"statsUrl": "https://asia-south1-cpbs-admin.cloudfunctions.net/otaStats",
+			"channelUrl": "https://asia-south1-cpbs-admin.cloudfunctions.net/otaChannel",
+			"autoUpdate": false,
+			"resetWhenUpdate": false,
+			"directUpdate": false,
+			"autoDeletePrevious": true,
+			"autoDeleteFailed": true
+		}
+	}
+}

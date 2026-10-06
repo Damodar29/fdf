@@ -1,0 +1,25 @@
+# Cursor rules for this repo (Prem Bhakti app)
+
+Read AGENTS.md at the repo root before any task — it has all project rules:
+directories to skip, working rules (no commit/deploy unless asked, never print secrets),
+Cloudflare Workers deploy (`node wr.mjs deploy`, never `wrangler logout`),
+Firebase cost rules, Hindi/UTF-8 file safety, and the B2 upload patterns.
+
+For codebase questions, run `graphify query "<question>"` first (graphify-out/graph.json).
+
+Skills live in .agents/skills/ (Cursor, Codex, Antigravity and Gemini read them; Claude Code gets links
+in .claude/skills/). AGENTS.md → "Agent Skills" says which to use for which task; start UI work with
+prem-bhakti-ui and finish with verification-before-completion / prem-bhakti-ship.
+
+## Design System Generator skill
+When the user asks to create a design system, generate a color palette, build a theme,
+create UI tokens, or set up brand styles, follow:
+  .cursor/skills/design-system-generator/SKILL.md
+(references/ and templates/ are next to that file)
+
+5 phases in order — confirm with the user between phases:
+1. Brand input  2. OKLCH color palettes  3. W3C tokens + CSS custom properties
+4. Component CSS  5. Preview HTML page
+
+Key rules: OKLCH colors only; components use only var(--token); Light + Dark via
+light-dark() + [data-theme]; WCAG 2.2 AA contrast; output to design-system/.

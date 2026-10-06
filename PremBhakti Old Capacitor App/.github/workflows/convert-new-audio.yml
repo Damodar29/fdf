@@ -1,0 +1,98 @@
+name: Convert New Audio (Webhook)
+
+on:
+  repository_dispatch:
+    types: [convert-audio]
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+    if: false # Paused to conserve GitHub Action limits as requested
+    steps:
+      - name: Install Dependencies
+        run: |
+          pip install b2
+          sudo apt-get update && sudo apt-get install -y ffmpeg
+
+      - name: Convert and Optimize Audio
+        id: convert_step
+        env:
+          B2_KEY_ID: ${{ secrets.B2_KEY_ID }}
+          B2_APP_KEY: ${{ secrets.B2_APP_KEY }}
+          B2_BUCKET: ${{ secrets.B2_BUCKET }}
+          OBJECT_KEY: ${{ github.event.client_payload.object_key }}
+        run: |
+          echo "Authorizing B2..."
+          b2 account authorize $B2_KEY_ID $B2_APP_KEY
+          
+          if [[ "$OBJECT_KEY" == *"hhbsm-2026-glorification-audios"* ]]; then
+              echo "Ignoring glorification audio folder."
+              exit 0
+          fi
+          
+          echo "Checking if already converted..."
+          INFO_JSON=$(b2 file info "b2://$B2_BUCKET/$OBJECT_KEY" 2>/dev/null || echo "{}")
+          if echo "$INFO_JSON" | grep -q '"converted": "true"'; then
+              echo "Already converted (converted=true). Skipping to prevent infinite webhook loops."
+              exit 0
+          fi
+
+          # Generate the new filename (replace extension with .m4a)
+          NEW_OBJECT_KEY="${OBJECT_KEY%.*}.m4a"
+
+          echo "Downloading $OBJECT_KEY via Cloudflare CDN (Zero Egress Fees)..."
+          ENCODED_URL=$(python3 -c "import urllib.parse; print(urllib.parse.quote('''$OBJECT_KEY''', safe='/'))")
+          HTTP_STATUS=$(curl -sL "https://audios.chaitanyaprembhakti.org/$ENCODED_URL" -o unoptimized_input_audio --write-out "%{http_code}")
+
+          if [ "$HTTP_STATUS" != "200" ]; then
+              echo "ERROR: Failed to download file (HTTP $HTTP_STATUS). Aborting."
+              exit 1
+          fi
+          
+          echo "Running FFmpeg to convert to m4a (AAC) + faststart..."
+          ffmpeg -y -nostdin -i unoptimized_input_audio -movflags +faststart -c:a aac -b:a 128k converted_output_audio.m4a
+
+          echo "Uploading converted m4a to B2..."
+          if b2 file upload --info converted=true $B2_BUCKET converted_output_audio.m4a "$NEW_OBJECT_KEY"; then
+              echo "Successfully uploaded $NEW_OBJECT_KEY"
+              rm -f unoptimized_input_audio converted_output_audio.m4a
+              
+              # Delete the original non-M4A file to keep bucket clean
+              echo "Deleting original file: $OBJECT_KEY"
+              b2 rm "b2://$B2_BUCKET/$OBJECT_KEY" || echo "Warning: Could not delete original. Manual cleanup may be needed."
+              
+              echo "did_convert=true" >> $GITHUB_OUTPUT
+          else
+              echo "Failed to upload converted version."
+              rm -f unoptimized_input_audio converted_output_audio.m4a
+              exit 1
+          fi
+
+          echo "Conversion complete!"
+
+      - name: Send Telegram Notification
+        if: steps.convert_step.outputs.did_convert == 'true'
+        env:
+          BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          FILE_NAME: ${{ github.event.client_payload.object_key }}
+        run: |
+          NEW_FILE_NAME="${FILE_NAME%.*}.m4a"
+          MESSAGE="🔊 *Audio Conversion Complete*%0AOriginal: \`$FILE_NAME\`%0ANew File: \`$NEW_FILE_NAME\`"
+          curl -s -X POST "https://api.telegram.org/bot${BOT_TOKEN}/sendMessage" \
+            -d chat_id="${CHAT_ID}" \
+            -d parse_mode=Markdown \
+            -d text="$MESSAGE"
+
+      - name: Send Failure Notification
+        if: failure()
+        env:
+          BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          FILE_NAME: ${{ github.event.client_payload.object_key }}
+        run: |
+          MESSAGE="❌ *Audio Conversion Failed*%0AFile: \`${FILE_NAME}\`%0ACheck GitHub Actions logs for details."
+          curl -s -X POST "https://api.telegram.org/bot${BOT_TOKEN}/sendMessage" \
+            -d chat_id="${CHAT_ID}" \
+            -d parse_mode=Markdown \
+            -d text="$MESSAGE"
